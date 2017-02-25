@@ -34,16 +34,16 @@ PokeChainLink::PokeChainLink() {}
 PokeChainLink::PokeChainLink(Poke&& p, std::unique_ptr<PokeChainLink> next_) : poke(p), next(next_) {}
 PokeChainLink::PokeChainLink~() {}
 
-void VramBatcher::Poke(int line, uint8_t val, hwPtr addr) {
+void VramBatcher::Poke(int line, uint8_t val, volatile uint8_t *addr) {
 	Poke(Poke(val,addr));
 }
-void VramBatcher::Poke(int line, uint16_t val, hwPtr addr){
+void VramBatcher::Poke(int line, uint16_t val, volatile uint16_t *addr){
 	Poke(Poke(val,addr));
 }
-void VramBatcher::Poke(int line, uint32_t val, hwPtr addr){
+void VramBatcher::Poke(int line, uint32_t val, volatile uint32_t *addr){
 	Poke(Poke(val,addr));
 }
-void VramBatcher::Poke(int line, std::unique_ptr<data> data, size_t dataSize, hwPre addr){
+void VramBatcher::Poke(int line, std::unique_ptr<data> data, size_t dataSize, hwPtr addr){
 	Poke(Poke(data,dataSize,addr));
 }
 void VramBatcher::Poke(int line, Poke&& p) {
