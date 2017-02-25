@@ -10,7 +10,17 @@ Poke::Poke(uint32_t val, volatile uint32_t *addr) : size(sizeof(uint32_t)), addr
 Poke::Poke(std::unique_ptr<data> dataPtr, size_t dataSize, hwPre addr_) : size(dataSize), addr(addr_), valuePtr(dataPtr) {
 }
 
-Poke::Poke~() {}
+Poke::Poke~() {
+	switch(size) {
+		case 0:
+		case sizeof(uint8_t):
+		case sizeof(uint16_t):
+		case sizeof(uint32_t):
+			break;
+		default:
+		valuePtr.std::unique_ptr<void>~();
+	}
+}
 
 Pole::Perform() {
 	switch(size) {
