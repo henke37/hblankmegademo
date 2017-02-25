@@ -76,15 +76,14 @@ class VramBatcher {
 	public:
 		VramBatcher();
 		
-		void Poke(int line, uint8_t val, volatile uint8_t *addr);
-		void Poke(int line, uint16_t val, volatile uint16_t *addr);
-		void Poke(int line, uint32_t val, volatile uint32_t *addr);
-		void Poke(int line, std::unique_ptr<data>, size_t dataSize, hwPre addr);
+		void AddPoke(int line, uint8_t val, volatile uint8_t *addr);
+		void AddPoke(int line, uint16_t val, volatile uint16_t *addr);
+		void AddPoke(int line, uint32_t val, volatile uint32_t *addr);
+		void AddPoke(int line, std::unique_ptr<data>, size_t dataSize, hwPre addr);
 		
 		void Clear();
 	private:
 		std::unique_ptr<PokeChainLink> lineEntries[SCREEN_HEIGHT];
 		void ApplyPokesForLine(int line);
-		void VramBatcher::Poke(int line, Poke&& p);
-		void Poke(int line, Poke *);
+		void AddPoke(int line, Poke&& p);
 };

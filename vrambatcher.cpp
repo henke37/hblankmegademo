@@ -44,19 +44,19 @@ PokeChainLink::PokeChainLink() {}
 PokeChainLink::PokeChainLink(Poke&& p, std::unique_ptr<PokeChainLink> next_) : poke(p), next(next_) {}
 PokeChainLink::PokeChainLink~() {}
 
-void VramBatcher::Poke(int line, uint8_t val, volatile uint8_t *addr) {
-	Poke(Poke(val,addr));
+void VramBatcher::AddPoke(int line, uint8_t val, volatile uint8_t *addr) {
+	AddPoke(Poke(val,addr));
 }
-void VramBatcher::Poke(int line, uint16_t val, volatile uint16_t *addr){
-	Poke(Poke(val,addr));
+void VramBatcher::AddPoke(int line, uint16_t val, volatile uint16_t *addr){
+	AddPoke(Poke(val,addr));
 }
-void VramBatcher::Poke(int line, uint32_t val, volatile uint32_t *addr){
-	Poke(Poke(val,addr));
+void VramBatcher::AddPoke(int line, uint32_t val, volatile uint32_t *addr){
+	AddPoke(Poke(val,addr));
 }
-void VramBatcher::Poke(int line, std::unique_ptr<data> data, size_t dataSize, hwPtr addr){
-	Poke(Poke(data,dataSize,addr));
+void VramBatcher::AddPoke(int line, std::unique_ptr<data> data, size_t dataSize, hwPtr addr){
+	AddPoke(Poke(data,dataSize,addr));
 }
-void VramBatcher::Poke(int line, Poke&& p) {
+void VramBatcher::AddPoke(int line, Poke&& p) {
 	lineEntries[line]=std::unique_ptr<PokeChainLink>(new PokeChainLink(p,lineEntries[line]));
 }
 
