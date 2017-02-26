@@ -18,7 +18,9 @@ Poke::~Poke() {
 			valuePtr.~unique_ptr<uint8_t[]>();
 		break;
 		case PM_BITFIELD:
+		break;
 		default:
+		break;
 	}
 }
 
