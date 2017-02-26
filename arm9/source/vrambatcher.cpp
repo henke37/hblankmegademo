@@ -76,7 +76,7 @@ void VramBatcher::AddPoke(int line, std::unique_ptr<uint8_t[]> &&data, size_t da
 	AddPoke(line,Poke(data,dataSize,addr));
 }
 void VramBatcher::AddPoke(int line, Poke&& p) {
-	lineEntries[line]=std::unique_ptr<PokeChainLink>(new PokeChainLink(p,lineEntries[line]));
+	lineEntries[line]=std::make_unique<PokeChainLink>(p,lineEntries[line]);
 }
 
 void VramBatcher::Clear() {
