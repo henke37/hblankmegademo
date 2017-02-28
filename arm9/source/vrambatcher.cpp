@@ -1,27 +1,13 @@
-
 #include <cstring>
 #include "vrambatcher.h"
 Poke::Poke() : size(0), mode(PM_NOOP) {}
 Poke::Poke(uint8_t val, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_INT), addr(addr_), value8(val) {
 }
-Poke::Poke(uint16_t val, volatile uint16_t *addr_) : size(sizeof(uint16_t)), mode(PM_INT), addr((hwPtr)addr_), value16(val) {
+Poke::Poke(uint16_t val, volatile uint16_t *addr_) : size(sizeof(uint16_t)), mode(PM_INT), addr(addr_), value16(val) {
 }
-Poke::Poke(uint32_t val, volatile uint32_t *addr_) : size(sizeof(uint32_t)), mode(PM_INT), addr((hwPtr)addr_), value32(val) {
+Poke::Poke(uint32_t val, volatile uint32_t *addr_) : size(sizeof(uint32_t)), mode(PM_INT), addr(addr_), value32(val) {
 }
-Poke::Poke(std::unique_ptr<uint8_t[]> &&dataPtr, size_t dataSize, hwPtr addr_) : size(dataSize), mode(PM_MEMCPY), addr(addr_), valuePtr(dataPtr) {
-}
-
 Poke::~Poke() {
-	switch(mode) {
-		case PM_MEMCPY:
-		case PM_DMA:
-			valuePtr.~unique_ptr<uint8_t[]>();
-		break;
-		case PM_BITFIELD:
-		break;
-		default:
-		break;
-	}
 }
 
 void Poke::Perform() {
@@ -41,21 +27,6 @@ void Poke::Perform() {
 				break;
 			}
 		break;
-		case PM_MEMCPY:
-			doMemCopy();
-		break;
-		case PM_BITFIELD:
-		break;
-		case PM_DMA:
-		break;
-	}
-}
-
-void Poke::doMemCopy() {
-	uint8_t *src=valuePtr.get();
-	hwPtr dst=addr;
-	for(size_t i=0;i<size;++i,++src,++dst) {
-		*dst=*src;
 	}
 }
 
@@ -71,9 +42,6 @@ void VramBatcher::AddPoke(int line, uint16_t val, volatile uint16_t *addr){
 }
 void VramBatcher::AddPoke(int line, uint32_t val, volatile uint32_t *addr){
 	AddPoke(line,Poke(val,addr));
-}
-void VramBatcher::AddPoke(int line, std::unique_ptr<uint8_t[]> &&data, size_t dataSize, hwPtr addr){
-	AddPoke(line,Poke(data,dataSize,addr));
 }
 void VramBatcher::AddPoke(int line, Poke&& p) {
 	lineEntries[line]=std::make_unique<PokeChainLink>(p,lineEntries[line]);
