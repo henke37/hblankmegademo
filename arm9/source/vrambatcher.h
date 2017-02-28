@@ -1,3 +1,6 @@
+#ifndef VRAMBATCHER_H
+#define VRAMBATCHER_H
+
 #include <memory>
 #include <nds/arm9/video.h>
 
@@ -65,3 +68,5 @@ class VramBatcher {
 		void ApplyPokesForLine(int line);
 		void AddPoke(int line, Poke&& p);
 };
+
+#endif
