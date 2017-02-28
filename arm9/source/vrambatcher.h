@@ -22,6 +22,7 @@ class Poke {
 	
 	public:
 	Poke();
+	Poke(Poke &&);
 	Poke(uint8_t val, volatile uint8_t *addr);
 	Poke(uint16_t val, volatile uint16_t *addr);
 	Poke(uint32_t val, volatile uint32_t *addr);
@@ -37,7 +38,9 @@ struct PokeChainLink {
 	Poke poke;
 	
 	PokeChainLink();
-	PokeChainLink(Poke&&, std::unique_ptr<PokeChainLink> next);
+	PokeChainLink(PokeChainLink &&);
+	PokeChainLink(Poke&&, std::unique_ptr<PokeChainLink> &&next);
+	PokeChainLink(Poke&&);
 	~PokeChainLink();
 };
 

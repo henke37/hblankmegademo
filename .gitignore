@@ -30,3 +30,5 @@
 *.elf
 *.d
 arm7/build/.map
+*.map
+*.nds
