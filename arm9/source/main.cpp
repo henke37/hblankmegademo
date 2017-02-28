@@ -1,4 +1,5 @@
 #include <nds.h>
+#include "demo.h"
 
 int main(void) {
 
