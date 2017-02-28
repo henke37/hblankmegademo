@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstring>
 #include "vrambatcher.h"
 Poke::Poke() : size(0), mode(PM_NOOP) {}
@@ -41,8 +42,10 @@ void Poke::Perform() {
 		break;
 		case PM_DMA:
 		break;
-		case PM_MEMCPY:
-		break;
+		case PM_MEMCPY: {
+			volatile uint8_t *dst=valuePtr.get();
+			std::copy(dst,dst+size,(uint8_t *)addr);
+		} break;
 		
 	}
 }
