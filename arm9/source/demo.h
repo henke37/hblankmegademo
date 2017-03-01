@@ -6,7 +6,7 @@ class VramBatcher;
 class Demo {
 public:
 	virtual ~Demo();
-	virtual void PrepareFrame(VramBatcher *)=0;
+	virtual void PrepareFrame(VramBatcher &)=0;
 	virtual void Load()=0;
 };
 

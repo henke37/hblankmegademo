@@ -3,6 +3,8 @@
 #include <nds/interrupts.h>
 #include <nds/system.h>
 
+#include "demo.h"
+
 DemoRunner runner;
 
 DemoRunner::DemoRunner() {
@@ -11,7 +13,9 @@ void DemoRunner::start() {
 	irqSet(IRQ_HBLANK, hBlankHandler);
 	irqEnable(IRQ_HBLANK);
 }
-DemoRunner::~DemoRunner() {}
+DemoRunner::~DemoRunner() {
+	irqDisable(IRQ_HBLANK);
+}
 
 void DemoRunner::hBlankHandler() {
 	runner.runCurrentLineFromBatch();
@@ -19,6 +23,22 @@ void DemoRunner::hBlankHandler() {
 
 void DemoRunner::runCurrentLineFromBatch() {
 	int nextLine=REG_VCOUNT+1;
-	if(nextLine>=256) return;
-	batchers[currentlyRunningBatcher].ApplyPokesForLine(nextLine);
+	if(nextLine>=SCREEN_HEIGHT) return;
+	batcher.ApplyPokesForLine(nextLine);
+}
+
+void DemoRunner::tick() {
+	batcher.Clear();
+	demoPtr->PrepareFrame(batcher);
+	batcher.ApplyPokesForLine(0);
+}
+
+void DemoRunner::operator=(std::shared_ptr<Demo> d) {
+	RunDemo(d);
+}
+
+
+void DemoRunner::RunDemo(std::shared_ptr<Demo> d) {
+	demoPtr=d;
+	d->Load();
 }
