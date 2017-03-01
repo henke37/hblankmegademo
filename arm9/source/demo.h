@@ -5,9 +5,11 @@ class VramBatcher;
 
 class Demo {
 public:
+	Demo();
 	virtual ~Demo();
 	virtual void PrepareFrame(VramBatcher &)=0;
 	virtual void Load()=0;
+	virtual void Unload()=0;
 };
 
 

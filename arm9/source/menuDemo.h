@@ -9,6 +9,7 @@ public:
 	virtual ~MenuDemo();
 	virtual void PrepareFrame(VramBatcher &);
 	virtual void Load();
+	virtual void Unload();
 };
 
 #endif
