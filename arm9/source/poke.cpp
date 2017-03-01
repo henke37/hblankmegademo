@@ -8,6 +8,39 @@ Poke::Poke(uint32_t val, volatile uint32_t *addr_) : size(sizeof(uint32_t)), mod
 }
 Poke::Poke(std::unique_ptr<uint8_t[]> &&dataPtr, size_t dataSize, hwPtr addr_) : size(dataSize), mode(PM_MEMCPY), addr(addr_), valuePtr(std::move(dataPtr)) {
 }
+
+Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
+	
+	switch(p2.mode) {
+		case PM_NOOP:
+		break;
+		case PM_INT:
+			switch(p2.size) {
+				case sizeof(uint8_t):
+					value8=p2.value8;
+				break;
+				case sizeof(uint16_t):
+					value16=p2.value16;
+				break;
+				case sizeof(uint32_t):
+					value32=p2.value32;
+				break;
+			}
+		break;
+		
+		case PM_BITFIELD:
+		break;
+		
+		case PM_DMA:
+		case PM_MEMCPY:
+			valuePtr=std::move(p2.valuePtr);
+		break;
+	}
+	p2.mode=PM_NOOP;
+	p2.size=0;
+}
+
+
 Poke::~Poke() {
 	switch(mode) {
 		case PM_DMA:
