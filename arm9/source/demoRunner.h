@@ -11,6 +11,7 @@ public:
 	DemoRunner();
 	~DemoRunner();
 	void start();
+	void stop();
 
 	void RunDemo(std::shared_ptr<Demo>);
 	

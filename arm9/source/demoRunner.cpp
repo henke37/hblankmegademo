@@ -13,8 +13,14 @@ void DemoRunner::start() {
 	irqSet(IRQ_HBLANK, hBlankHandler);
 	irqEnable(IRQ_HBLANK);
 }
-DemoRunner::~DemoRunner() {
+void DemoRunner::stop() {
 	irqDisable(IRQ_HBLANK);
+}
+DemoRunner::~DemoRunner() {
+	if(demoPtr) {
+		demoPtr->Unload();
+	}
+	stop();
 }
 
 void DemoRunner::hBlankHandler() {
@@ -39,6 +45,13 @@ void DemoRunner::operator=(std::shared_ptr<Demo> d) {
 
 
 void DemoRunner::RunDemo(std::shared_ptr<Demo> d) {
+	if(demoPtr) {
+		demoPtr->Unload();
+		if(!d) stop();
+	}
 	demoPtr=d;
-	d->Load();
+	if(!d) return;
+	
+	demoPtr->Load();
+	start();
 }
