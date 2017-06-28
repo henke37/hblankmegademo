@@ -21,7 +21,8 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 
 	//start generating the hole
 	for (; scanline < yPos + height && scanline < SCREEN_HEIGHT; ++scanline) {
-		int width;
+		float angle = asin((radius - (scanline - yPos)) / radius);
+		int width=cos(angle)*radius*2;
 		int left=xPos+width/2;
 		int right=left+width;
 		batcher.AddPoke(scanline, left, WIN0_X0);
