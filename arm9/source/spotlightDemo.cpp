@@ -23,11 +23,15 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 
 		float leftD = scanline / sinLeft;
 		float leftXLen = sqrt(leftD*leftD - yLen*yLen);
-		float leftX = leftXLen + lightX;
+		float leftXF = leftXLen + lightX;
+
+		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH ? SCREEN_WIDTH : leftXF));
 
 		float rightD = scanline / sinRight;
 		float rightXLen = sqrt(rightD*rightD - yLen*yLen);
-		float rightX = rightXLen + lightX;
+		float rightXF = rightXLen + lightX;
+
+		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH ? SCREEN_WIDTH : rightXF));
 
 		if (leftAngle <= 0 && rightAngle >= 0) {
 			//left up, right down (right)
