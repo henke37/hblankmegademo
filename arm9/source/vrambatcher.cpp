@@ -21,6 +21,15 @@ void VramBatcher::AddPoke(int line, Poke&& p) {
 	PokeChainLink *l=new PokeChainLink(std::move(p),std::move(lineEntries[line]));
 	lineEntries[line]=std::unique_ptr<PokeChainLink>(l);
 }
+void VramBatcher::AddPoke(int line, uint8_t val, uint8_t mask, volatile uint8_t *addr) {
+	AddPoke(line, Poke(val, mask, addr));
+}
+void VramBatcher::AddPoke(int line, uint16_t val, uint16_t mask, volatile uint16_t *addr) {
+	AddPoke(line, Poke(val, mask, addr));
+}
+void VramBatcher::AddPoke(int line, uint32_t val, uint32_t mask, volatile uint32_t *addr) {
+	AddPoke(line, Poke(val, mask, addr));
+}
 
 void VramBatcher::Clear() {
 	for(int line=0;line<SCREEN_HEIGHT;++line) {

@@ -2,6 +2,7 @@
 #define POKE_H
 
 #include <memory>
+#include "bitFieldPoke.h"
 
 typedef volatile void *hwPtr;
 
@@ -24,6 +25,9 @@ class Poke {
 		uint16_t value16;
 		uint32_t value32;
 		std::unique_ptr<uint8_t[]> valuePtr;
+		BitFieldPoke<uint8_t> bitField8;
+		BitFieldPoke<uint16_t> bitField16;
+		BitFieldPoke<uint32_t> bitField32;
 	};
 	
 	public:
@@ -33,6 +37,9 @@ class Poke {
 	Poke(uint16_t val, volatile uint16_t *addr);
 	Poke(uint32_t val, volatile uint32_t *addr);
 	Poke(std::unique_ptr<uint8_t[]> &&, size_t dataSize, hwPtr addr);
+	Poke(uint8_t val, uint8_t mask, volatile uint8_t *addr);
+	Poke(uint16_t val, uint16_t mask, volatile uint16_t *addr);
+	Poke(uint32_t val, uint32_t mask, volatile uint32_t *addr);
 	
 	~Poke();
 	
