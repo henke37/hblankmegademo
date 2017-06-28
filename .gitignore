@@ -32,3 +32,6 @@
 arm7/build/.map
 *.map
 *.nds
+*.db
+*.suo
+*.opendb
