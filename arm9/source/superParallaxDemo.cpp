@@ -30,7 +30,7 @@ void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
 			//determinate the background layer to use
 			BgPointerRecord bgPtrs;
 			//ensure that the map pointer is set
-
+			batcher.AddPoke(scanline, region.mapBase << 8, 0x1F00, bgPtrs.bgcnt);
 			//ensure that the palette is set
 			//compute the scroll Y position for the line
 			int layerYOffset = region.top - (scanline - yPos);
