@@ -11,6 +11,21 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 	float leftAngle = angle - spread;
 	float rightAngle = angle + spread;
 
+	if (leftAngle == 0 && rightAngle == 0) {
+		//180 degree light, degenerate case
+		if (angle < 0) {
+			//light on the bottom side
+			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH, lightY, SCREEN_HEIGHT);
+		} else {
+			//light on the top side
+			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH, 0, lightY);
+		}
+		return;
+	}
+
+	batcher.AddPoke(0, 0, WIN0_Y0);
+	batcher.AddPoke(0, SCREEN_HEIGHT, WIN0_Y1);
+
 	float cosLeft = cos(leftAngle);
 	float sinLeft = sin(leftAngle);
 
@@ -67,13 +82,6 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 			//left is on the right side of the screen and right is on the left side of the screen
 			batcher.AddPoke(scanline, rightX, WIN0_X0);
 			batcher.AddPoke(scanline, leftX, WIN0_X1);
-		} if (leftAngle == 0 && rightAngle == 0) {
-			//180 degree light, degenerate case
-			if (angle < 0) {
-				//light on the bottom side
-			} else {
-				//light on the top side
-			}
-		}
+		} 
 	}
 }
