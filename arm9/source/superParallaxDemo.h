@@ -12,6 +12,9 @@ public:
 	virtual void Load();
 	virtual void Unload();
 
+	int yPos;
+	int xPos;
+
 	class ParallaxRegion {
 	public:
 		ParallaxRegion();
@@ -19,6 +22,11 @@ public:
 
 		int top;
 		int bottom;
+
+		int depth;
+
+		int mapBase;
+
 		float scrollRate;
 		float wobbleRate;
 		float wobbleAmplitude;
