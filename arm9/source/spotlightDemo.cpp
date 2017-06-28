@@ -1,5 +1,7 @@
 #include "spotlightDemo.h"
 #include "vrambatcher.h"
+#include <nds/arm9/window.h>
+#include <cmath>
 
 SpotLightDemo::SpotLightDemo() {}
 SpotLightDemo::~SpotLightDemo() {}
@@ -23,27 +25,24 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 		return;
 	}
 
-	batcher.AddPoke(0, 0, WIN0_Y0);
-	batcher.AddPoke(0, SCREEN_HEIGHT, WIN0_Y1);
+	batcher.AddPoke(0, 0, &WIN0_Y0);
+	batcher.AddPoke(0, SCREEN_HEIGHT, &WIN0_Y1);
 
-	float cosLeft = cos(leftAngle);
-	float sinLeft = sin(leftAngle);
-
-	float cosRight = cos(rightAngle);
-	float sinRight = sin(rightAngle);
+	float sinLeft = std::sin(leftAngle);
+	float sinRight = std::sin(rightAngle);
 
 	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
 
 		float yLen = scanline - lightY;
 
 		float leftD = scanline / sinLeft;
-		float leftXLen = sqrt(leftD*leftD - yLen*yLen);
+		float leftXLen = std::sqrt(leftD*leftD - yLen*yLen);
 		float leftXF = leftXLen + lightX;
 
 		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH ? SCREEN_WIDTH : leftXF));
 
 		float rightD = scanline / sinRight;
-		float rightXLen = sqrt(rightD*rightD - yLen*yLen);
+		float rightXLen = std::sqrt(rightD*rightD - yLen*yLen);
 		float rightXF = rightXLen + lightX;
 
 		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH ? SCREEN_WIDTH : rightXF));
@@ -53,35 +52,35 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 			//left is above, right is bellow
 			//right side of the window is the right screen border
 			if (scanline < lightY) {
-				batcher.AddPoke(scanline, leftX, WIN0_X0);
+				batcher.AddPoke(scanline, leftX, &WIN0_X0);
 			} else if (scanline > lightY) {
-				batcher.AddPoke(scanline, rightX, WIN0_X0);
+				batcher.AddPoke(scanline, rightX, &WIN0_X0);
 			} else {
-				batcher.AddPoke(scanline, lightX, WIN0_X0);
+				batcher.AddPoke(scanline, lightX, &WIN0_X0);
 			}
-			batcher.AddPoke(scanline, SCREEN_WIDTH, WIN0_X1);
+			batcher.AddPoke(scanline, SCREEN_WIDTH, &WIN0_X1);
 		} else if (leftAngle >=0 && rightAngle <=0) {
 			//left down, right up (left)
 			//left is bellow, right is above
 			//left side of the window is the left screen border
-			batcher.AddPoke(scanline, 0, WIN0_X0);
+			batcher.AddPoke(scanline, 0, &WIN0_X0);
 			if (scanline < lightY) {
-				batcher.AddPoke(scanline, rightX, WIN0_X1);
+				batcher.AddPoke(scanline, rightX, &WIN0_X1);
 			} else if (scanline > lightY) {
-				batcher.AddPoke(scanline, leftX, WIN0_X1);
+				batcher.AddPoke(scanline, leftX, &WIN0_X1);
 			} else {
-				batcher.AddPoke(scanline, lightX, WIN0_X1);
+				batcher.AddPoke(scanline, lightX, &WIN0_X1);
 			}
 		} else if (leftAngle < 0 && rightAngle < 0) {
 			//both pointing up (up)
 			//left is on the left side of the screen and right is on the right side of the screen
-			batcher.AddPoke(scanline, leftX, WIN0_X0);
-			batcher.AddPoke(scanline, rightX, WIN0_X1);
+			batcher.AddPoke(scanline, leftX, &WIN0_X0);
+			batcher.AddPoke(scanline, rightX, &WIN0_X1);
 		} else if( leftAngle >0 && rightAngle>0) {
 			//left down, right down (down)
 			//left is on the right side of the screen and right is on the left side of the screen
-			batcher.AddPoke(scanline, rightX, WIN0_X0);
-			batcher.AddPoke(scanline, leftX, WIN0_X1);
+			batcher.AddPoke(scanline, rightX, &WIN0_X0);
+			batcher.AddPoke(scanline, leftX, &WIN0_X1);
 		} 
 	}
 }

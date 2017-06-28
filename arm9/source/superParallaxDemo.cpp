@@ -1,5 +1,7 @@
 #include "superParallaxDemo.h"
 #include "vrambatcher.h"
+#include <nds/arm9/background.h>
+#include <cmath>
 
 SuperParallaxDemo::SuperParallaxDemo() {}
 SuperParallaxDemo::~SuperParallaxDemo() {}
@@ -11,10 +13,10 @@ struct BgPointerRecord {
 	vu16* vOffset;
 	vu16* bgcnt;
 } BgPointers[4] = {
-	{ REG_BG0HOFS, REG_BG0VOFS, REG_BG0CNT },
-	{ REG_BG1HOFS, REG_BG1VOFS, REG_BG1CNT },
-	{ REG_BG2HOFS, REG_BG2VOFS, REG_BG2CNT },
-	{ REG_BG3HOFS, REG_BG3VOFS, REG_BG3CNT }
+	{ &REG_BG0HOFS, &REG_BG0VOFS, &REG_BG0CNT },
+	{ &REG_BG1HOFS, &REG_BG1VOFS, &REG_BG1CNT },
+	{ &REG_BG2HOFS, &REG_BG2VOFS, &REG_BG2CNT },
+	{ &REG_BG3HOFS, &REG_BG3VOFS, &REG_BG3CNT }
 };
 
 void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
@@ -38,7 +40,7 @@ void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
 			//compute the base scroll X position for the region
 			int layerXOffset = xPos*region.scrollRate;
 			//add in the modulation
-			layerXOffset += sin(region.wobblePhase+layerYOffset*region.wobbleLinePhase)*region.wobbleAmplitude;
+			layerXOffset += std::sin(region.wobblePhase+layerYOffset*region.wobbleLinePhase)*region.wobbleAmplitude;
 			batcher.AddPoke(scanline, layerXOffset, bgPtrs.hOffset);
 		}
 	}
