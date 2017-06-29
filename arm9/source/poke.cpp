@@ -119,5 +119,7 @@ void Poke::Perform() {
 }
 
 PokeChainLink::PokeChainLink() {}
+PokeChainLink::PokeChainLink(PokeChainLink &&pch2) : next(std::move(pch2.next)), poke(std::move(pch2.poke)) {}
+PokeChainLink::PokeChainLink(Poke &&p) : next(nullptr), poke(std::move(p)) {}
 PokeChainLink::PokeChainLink(Poke &&p, std::unique_ptr<PokeChainLink> &&next_) : next(std::move(next_)), poke(std::move(p)) {}
 PokeChainLink::~PokeChainLink() {}
