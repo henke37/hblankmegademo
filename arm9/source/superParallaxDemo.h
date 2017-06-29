@@ -57,4 +57,4 @@ public:
 private:
 };
 
-#endif#pragma once
+#endif

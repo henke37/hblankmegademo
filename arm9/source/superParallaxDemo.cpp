@@ -1,16 +1,19 @@
 #include "superParallaxDemo.h"
 #include "vrambatcher.h"
+#include <nds/arm9/background.h>
+#include <cmath>
 
 SuperParallaxDemo::SuperParallaxDemo() {}
 SuperParallaxDemo::~SuperParallaxDemo() {}
 void SuperParallaxDemo::Load() {}
 void SuperParallaxDemo::Unload() {}
 
+
 BgPointerRecord BgPointers[4] = {
-	{ REG_BG0HOFS, REG_BG0VOFS, REG_BG0CNT, {0} },
-	{ REG_BG1HOFS, REG_BG1VOFS, REG_BG1CNT, {0} },
-	{ REG_BG2HOFS, REG_BG2VOFS, REG_BG2CNT, { REG_BG2PA, REG_BG2PB, REG_BG2PC, REG_BG2PD, REG_BG2X, REG_BG2Y } },
-	{ REG_BG3HOFS, REG_BG3VOFS, REG_BG3CNT, { REG_BG3PA, REG_BG3PB, REG_BG3PC, REG_BG3PD, REG_BG3X, REG_BG3Y } }
+	{ &REG_BG0HOFS, &REG_BG0VOFS, &REG_BG0CNT, {0} },
+	{ &REG_BG1HOFS, &REG_BG1VOFS, &REG_BG1CNT, {0} },
+	{ &REG_BG2HOFS, &REG_BG2VOFS, &REG_BG2CNT, { &REG_BG2PA, &REG_BG2PB, &REG_BG2PC, &REG_BG2PD, &REG_BG2X, &REG_BG2Y } },
+	{ &REG_BG3HOFS, &REG_BG3VOFS, &REG_BG3CNT, { &REG_BG3PA, &REG_BG3PB, &REG_BG3PC, &REG_BG3PD, &REG_BG3X, &REG_BG3Y } }
 };
 
 void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {

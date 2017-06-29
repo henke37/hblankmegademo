@@ -2,6 +2,7 @@
 #define SINXSCROLLDEMO_H
 
 #include "demo.h"
+#include <nds/arm9/background.h>
 
 class SinXScrollDemo : public Demo {
 public:
