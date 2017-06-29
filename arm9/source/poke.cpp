@@ -89,6 +89,17 @@ void Poke::Perform() {
 			}
 		break;
 		case PM_BITFIELD:
+			switch (size) {
+			case sizeof(uint8_t) :
+				bitField8.Poke((volatile uint8_t*)addr);
+				break;
+			case sizeof(uint16_t) :
+				bitField16.Poke((volatile uint16_t*)addr);
+				break;
+			case sizeof(uint32_t) :
+				bitField32.Poke((volatile uint32_t*)addr);
+				break;
+			}
 		break;
 		case PM_DMA:
 		break;
