@@ -1,4 +1,5 @@
 #include "poke.h"
+#include <nds/dma.h>
 Poke::Poke() : size(0), mode(PM_NOOP) {}
 Poke::Poke(uint8_t val, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_INT), addr(addr_), value8(val) {
 }
