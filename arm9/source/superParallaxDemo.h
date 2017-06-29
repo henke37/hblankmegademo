@@ -34,6 +34,8 @@ public:
 		float wobbleLinePhase;
 
 		void tick();
+
+		void applyForScanline(int scanline);
 	};
 
 	std::vector<ParallaxRegion> regions;
