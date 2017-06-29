@@ -27,7 +27,7 @@ void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
 
 	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
 		//find topmost two regions that have the lowest depth
-		ParallaxRegion *low, *lower;
+		ParallaxRegion *low=nullptr, *lower=nullptr;
 		for (auto itr = regions.begin(); itr < regions.end(); ++itr) {
 			if (!low) {
 				low = &*itr;
