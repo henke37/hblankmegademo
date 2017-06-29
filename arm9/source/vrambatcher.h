@@ -4,6 +4,10 @@
 #include <memory>
 #include <nds/arm9/video.h>
 
+typedef volatile unsigned char vu8;
+typedef volatile unsigned short vu16;
+typedef volatile unsigned long vu32;
+
 #include "poke.h"
 
 class VramBatcher {

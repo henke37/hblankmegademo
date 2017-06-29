@@ -4,6 +4,20 @@
 #include "demo.h"
 #include <vector>
 
+typedef volatile signed long vs32;
+typedef volatile signed short vs16;
+
+struct BgPointerRecord {
+	vu16* hOffset;
+	vu16* vOffset;
+	vu16* bgcnt;
+	struct AffinePtrs {
+		vs16 *A, *B, *C, *D;
+		vs32 *X, *Y;
+	} affine;
+};
+extern BgPointerRecord BgPointers[4];
+
 class SuperParallaxDemo : public Demo {
 public:
 	SuperParallaxDemo();
@@ -35,7 +49,7 @@ public:
 
 		void tick();
 
-		void applyForScanline(int scanline);
+		void applyForScanline(int scanline, BgPointerRecord &bgPtrs, int xPos, int yPos, VramBatcher &);
 	};
 
 	std::vector<ParallaxRegion> regions;

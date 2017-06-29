@@ -6,15 +6,11 @@ SuperParallaxDemo::~SuperParallaxDemo() {}
 void SuperParallaxDemo::Load() {}
 void SuperParallaxDemo::Unload() {}
 
-struct BgPointerRecord {
-	vu16* hOffset;
-	vu16* vOffset;
-	vu16* bgcnt;
-} BgPointers[4] = {
-	{ REG_BG0HOFS, REG_BG0VOFS, REG_BG0CNT },
-	{ REG_BG1HOFS, REG_BG1VOFS, REG_BG1CNT },
-	{ REG_BG2HOFS, REG_BG2VOFS, REG_BG2CNT },
-	{ REG_BG3HOFS, REG_BG3VOFS, REG_BG3CNT }
+BgPointerRecord BgPointers[4] = {
+	{ REG_BG0HOFS, REG_BG0VOFS, REG_BG0CNT, {0} },
+	{ REG_BG1HOFS, REG_BG1VOFS, REG_BG1CNT, {0} },
+	{ REG_BG2HOFS, REG_BG2VOFS, REG_BG2CNT, { REG_BG2PA, REG_BG2PB, REG_BG2PC, REG_BG2PD, REG_BG2X, REG_BG2Y } },
+	{ REG_BG3HOFS, REG_BG3VOFS, REG_BG3CNT, { REG_BG3PA, REG_BG3PB, REG_BG3PC, REG_BG3PD, REG_BG3X, REG_BG3Y } }
 };
 
 void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
@@ -48,8 +44,16 @@ void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
 			}
 		}
 
-		if (lower) lower->applyForScanline(scanline,xPos,yPos,batcher);
-		if (low) low->applyForScanline(scanline, xPos, yPos, batcher);
+		//ensure that used layers, and only used layers, are visible
+		batcher.AddPoke(
+			scanline,
+			(lower?DISPLAY_BG0_ACTIVE:0)|(low? DISPLAY_BG1_ACTIVE :0),
+			0x30,
+			&DISPCNT
+		);
+
+		if (lower) lower->applyForScanline(scanline, BgPointers[0], xPos, yPos, batcher);
+		if (low) low->applyForScanline(scanline, BgPointers[1], xPos, yPos, batcher);
 	}
 	 
 }
@@ -64,9 +68,7 @@ void SuperParallaxDemo::ParallaxRegion::tick() {
 	wobblePhase += wobbleRate;
 }
 
-void SuperParallaxDemo::ParallaxRegion::applyForScanline(int scanline, int xPos, int yPos, VramBatcher &batcher) {
-	//determinate the background layer to use
-	BgPointerRecord bgPtrs;
+void SuperParallaxDemo::ParallaxRegion::applyForScanline(int scanline, BgPointerRecord &bgPtrs, int xPos, int yPos, VramBatcher &batcher) {
 	//ensure that the map pointer is set
 	batcher.AddPoke(scanline, mapBase << 8, 0x1F00, bgPtrs.bgcnt);
 	//ensure that the palette is set
