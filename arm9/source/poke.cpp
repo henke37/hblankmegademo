@@ -49,7 +49,8 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 			}
 		break;
 		
-		case PM_DMA:
+		case PM_DMA_16:
+		case PM_DMA_32:
 		case PM_MEMCPY:
 			valuePtr=std::move(p2.valuePtr);
 		break;
@@ -61,11 +62,12 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 
 Poke::~Poke() {
 	switch(mode) {
-		case PM_DMA:
+		case PM_DMA_16:
+		case PM_DMA_32:
 		case PM_MEMCPY:
 			valuePtr.~unique_ptr();
 		break;
-		case PM_BITFIELD:
+		case PM_BITFIELD://no destructor to call
 		default:
 		break;
 	}
@@ -101,8 +103,12 @@ void Poke::Perform() {
 				break;
 			}
 		break;
-		case PM_DMA:
+		case PM_DMA_16:
+			dmaCopyHalfWords(3, valuePtr.get(), addr, size);
 		break;
+		case PM_DMA_32:
+			dmaCopyWords(3, valuePtr.get(), addr, size);
+			break;
 		case PM_MEMCPY: {
 			volatile uint8_t *dst=valuePtr.get();
 			std::copy(dst,dst+size,(uint8_t *)addr);

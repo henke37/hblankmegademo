@@ -7,11 +7,12 @@
 typedef volatile void *hwPtr;
 
 enum PokeMode {
-	PM_NOOP=0,
-	PM_INT=1,
-	PM_BITFIELD=2,
-	PM_DMA=3,
-	PM_MEMCPY=4
+	PM_NOOP    = 0,
+	PM_INT     = 1,
+	PM_BITFIELD= 2,
+	PM_MEMCPY  = 3,
+	PM_DMA_16  = 4,
+	PM_DMA_32  = 5
 };
 
 class Poke {
