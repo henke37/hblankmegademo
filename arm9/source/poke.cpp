@@ -105,10 +105,10 @@ void Poke::Perform() {
 			}
 		break;
 		case PM_DMA_16:
-			dmaCopyHalfWords(3, valuePtr.get(), addr, size);
+			dmaCopyHalfWords(3, valuePtr.get(), (void*)addr, size);
 		break;
 		case PM_DMA_32:
-			dmaCopyWords(3, valuePtr.get(), addr, size);
+			dmaCopyWords(3, valuePtr.get(), (void*)addr, size);
 			break;
 		case PM_MEMCPY: {
 			volatile uint8_t *dst=valuePtr.get();

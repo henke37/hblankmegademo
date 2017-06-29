@@ -6,6 +6,8 @@
 
 typedef volatile signed long vs32;
 typedef volatile signed short vs16;
+typedef volatile unsigned short vu16;
+typedef volatile unsigned long vu32;
 
 struct BgPointerRecord {
 	vu16* hOffset;

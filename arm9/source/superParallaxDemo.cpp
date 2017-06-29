@@ -1,6 +1,7 @@
 #include "superParallaxDemo.h"
 #include "vrambatcher.h"
 #include <nds/arm9/background.h>
+#include <nds/arm9/video.h>
 #include <cmath>
 
 SuperParallaxDemo::SuperParallaxDemo() {}
@@ -29,7 +30,7 @@ void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
 		ParallaxRegion *low, *lower;
 		for (auto itr = regions.begin(); itr < regions.end(); ++itr) {
 			if (!low) {
-				low = itr._Ptr;
+				low = &*itr;
 			} else if (!lower) {
 				if (low->depth >= itr->depth) {
 					lower = &*itr;
@@ -52,7 +53,7 @@ void SuperParallaxDemo::PrepareFrame(VramBatcher &batcher) {
 			scanline,
 			(lower?DISPLAY_BG0_ACTIVE:0)|(low? DISPLAY_BG1_ACTIVE :0),
 			0x30,
-			&DISPCNT
+			&REG_DISPCNT
 		);
 
 		if (lower) lower->applyForScanline(scanline, BgPointers[0], xPos, yPos, batcher);
