@@ -2,6 +2,7 @@
 #define VRAMBATCHER_H
 
 #include <memory>
+#include <cstdint>
 #include <nds/arm9/video.h>
 
 typedef volatile unsigned char vu8;

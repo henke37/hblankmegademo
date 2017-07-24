@@ -1,4 +1,5 @@
-
+#ifndef BITFIELDPOKE_H
+#define BITFIELDPOKE_H
 template <class T> struct BitFieldPoke {
 	T value;
 	T mask;
@@ -36,3 +37,4 @@ template <class T> struct BitFieldPoke {
 		return (mask & p2.mask)==0;
 	}
 };
+#endif

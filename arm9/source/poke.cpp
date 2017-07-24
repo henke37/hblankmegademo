@@ -1,5 +1,7 @@
 #include "poke.h"
 #include <nds/dma.h>
+#include <nds/arm9/video.h>
+
 Poke::Poke() : size(0), mode(PM_NOOP) {}
 Poke::Poke(uint8_t val, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_INT), addr(addr_), value8(val) {
 }
@@ -53,6 +55,7 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 		case PM_DMA_16:
 		case PM_DMA_32:
 		case PM_MEMCPY:
+		case PM_EXTPAL:
 			valuePtr=std::move(p2.valuePtr);
 		break;
 	}
@@ -66,6 +69,7 @@ Poke::~Poke() {
 		case PM_DMA_16:
 		case PM_DMA_32:
 		case PM_MEMCPY:
+		case PM_EXTPAL:
 			valuePtr.~unique_ptr();
 		break;
 		case PM_BITFIELD://no destructor to call
@@ -114,6 +118,17 @@ void Poke::Perform() {
 			volatile uint8_t *dst=valuePtr.get();
 			std::copy(dst,dst+size,(uint8_t *)addr);
 		} break;
+		case PM_EXTPAL: {
+			uintptr_t intAddr = (uintptr_t)addr;
+			if (intAddr >= (uintptr_t)VRAM_F && intAddr<((uintptr_t)VRAM_F + 16*1024)) {
+				uint8_t oldMode = VRAM_F_CR;
+
+				VRAM_F_CR = oldMode;
+			} else if (intAddr >= (uintptr_t)VRAM_G && intAddr < ((uintptr_t)VRAM_G + 16 * 1024) {
+
+			}
+		} break;
+
 		
 	}
 }
