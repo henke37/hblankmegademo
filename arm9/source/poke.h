@@ -13,8 +13,7 @@ enum PokeMode {
 	PM_BITFIELD= 2,
 	PM_MEMCPY  = 3,
 	PM_DMA_16  = 4,
-	PM_DMA_32  = 5,
-	PM_EXTPAL  = 6
+	PM_DMA_32  = 5
 };
 
 class Poke {

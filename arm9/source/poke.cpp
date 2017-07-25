@@ -63,7 +63,6 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 		case PM_DMA_16:
 		case PM_DMA_32:
 		case PM_MEMCPY:
-		case PM_EXTPAL:
 			valuePtr=std::move(p2.valuePtr);
 		break;
 	}
@@ -77,7 +76,6 @@ Poke::~Poke() {
 		case PM_DMA_16:
 		case PM_DMA_32:
 		case PM_MEMCPY:
-		case PM_EXTPAL:
 			valuePtr.~unique_ptr();
 		break;
 		case PM_BITFIELD://no destructor to call
@@ -87,6 +85,22 @@ Poke::~Poke() {
 }
 
 void Poke::Perform() {
+	uint8_t oldMode;
+
+	if (pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
+		oldMode = VRAM_F_CR;
+		vramSetBankF(VRAM_F_LCD);
+	} else if (pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
+		oldMode = VRAM_G_CR;
+		vramSetBankG(VRAM_G_LCD);
+	} else if (pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
+		oldMode = VRAM_H_CR;
+		vramSetBankH(VRAM_H_LCD);
+	} else if (pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
+		oldMode = VRAM_I_CR;
+		vramSetBankI(VRAM_I_LCD);
+	}
+
 	switch(mode) {
 		case PM_NOOP:
 		break;
@@ -126,29 +140,16 @@ void Poke::Perform() {
 			volatile uint8_t *dst=valuePtr.get();
 			std::copy(dst,dst+size,(uint8_t *)addr);
 		} break;
-		case PM_EXTPAL: {
-			if(pointerInRange(addr,VRAM_F,VRAM_F_SIZE)) {
-				uint8_t oldMode = VRAM_F_CR;
+	}
 
-				VRAM_F_CR = oldMode;
-			} else if (pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
-				uint8_t oldMode = VRAM_G_CR;
-
-				VRAM_G_CR = oldMode;
-			}
-			else if (pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
-				uint8_t oldMode = VRAM_H_CR;
-
-				VRAM_H_CR = oldMode;
-			}
-			else if (pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
-				uint8_t oldMode = VRAM_I_CR;
-
-				VRAM_I_CR = oldMode;
-			}
-		} break;
-
-		
+	if(pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
+		VRAM_F_CR = oldMode;
+	} else if(pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
+		VRAM_G_CR = oldMode;
+	} else if(pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
+		VRAM_H_CR = oldMode;
+	} else if(pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
+		VRAM_I_CR = oldMode;
 	}
 }
 

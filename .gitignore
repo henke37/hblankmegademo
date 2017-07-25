@@ -35,3 +35,4 @@ arm7/build/.map
 *.db
 *.suo
 *.opendb
+*.ipch
