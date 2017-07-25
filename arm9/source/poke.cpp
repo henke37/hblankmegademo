@@ -2,10 +2,10 @@
 #include <nds/dma.h>
 #include <nds/arm9/video.h>
 
-#define VRAM_F_SIZE 16*1024
-#define VRAM_G_SIZE 16*1024
-#define VRAM_H_SIZE 32*1024
-#define VRAM_I_SIZE 16*1024
+#define VRAM_F_SIZE (16*1024)
+#define VRAM_G_SIZE (16*1024)
+#define VRAM_H_SIZE (32*1024)
+#define VRAM_I_SIZE (16*1024)
 
 static bool pointerInRange(void *needle, void *base, size_t size);
 static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
