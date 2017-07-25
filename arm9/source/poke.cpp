@@ -2,6 +2,14 @@
 #include <nds/dma.h>
 #include <nds/arm9/video.h>
 
+#define VRAM_F_SIZE 16*1024
+#define VRAM_G_SIZE 16*1024
+#define VRAM_H_SIZE 32*1024
+#define VRAM_I_SIZE 16*1024
+
+static bool pointerInRange(void *needle, void *base, size_t size);
+static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
+
 Poke::Poke() : size(0), mode(PM_NOOP) {}
 Poke::Poke(uint8_t val, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_INT), addr(addr_), value8(val) {
 }
@@ -119,13 +127,24 @@ void Poke::Perform() {
 			std::copy(dst,dst+size,(uint8_t *)addr);
 		} break;
 		case PM_EXTPAL: {
-			uintptr_t intAddr = (uintptr_t)addr;
-			if (intAddr >= (uintptr_t)VRAM_F && intAddr<((uintptr_t)VRAM_F + 16*1024)) {
+			if(pointerInRange(addr,VRAM_F,VRAM_F_SIZE)) {
 				uint8_t oldMode = VRAM_F_CR;
 
 				VRAM_F_CR = oldMode;
-			} else if (intAddr >= (uintptr_t)VRAM_G && intAddr < ((uintptr_t)VRAM_G + 16 * 1024) {
+			} else if (pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
+				uint8_t oldMode = VRAM_G_CR;
 
+				VRAM_G_CR = oldMode;
+			}
+			else if (pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
+				uint8_t oldMode = VRAM_H_CR;
+
+				VRAM_H_CR = oldMode;
+			}
+			else if (pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
+				uint8_t oldMode = VRAM_I_CR;
+
+				VRAM_I_CR = oldMode;
 			}
 		} break;
 
@@ -138,3 +157,13 @@ PokeChainLink::PokeChainLink(PokeChainLink &&pch2) : next(std::move(pch2.next)),
 PokeChainLink::PokeChainLink(Poke &&p) : next(nullptr), poke(std::move(p)) {}
 PokeChainLink::PokeChainLink(Poke &&p, std::unique_ptr<PokeChainLink> &&next_) : next(std::move(next_)), poke(std::move(p)) {}
 PokeChainLink::~PokeChainLink() {}
+
+static bool pointerInRange(uintptr_t needle, uintptr_t base, size_t size) {
+	return needle >= base && needle < (base + size);
+}
+static bool pointerInRange(volatile void *needle, volatile void *base, size_t size) {
+	return pointerInRange((uintptr_t)needle, (uintptr_t)base, size);
+}
+static bool pointerInRange(void *needle, void *base, size_t size) {
+	return pointerInRange((uintptr_t)needle, (uintptr_t)base, size);
+}
