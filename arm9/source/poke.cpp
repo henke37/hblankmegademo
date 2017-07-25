@@ -49,13 +49,13 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 		case PM_BITFIELD:
 			switch (p2.size) {
 				case sizeof(uint8_t) :
-					bitField8 = p2.bitField8;
+					bitField8 = std::move(p2.bitField8);
 					break;
 				case sizeof(uint16_t) :
-					bitField16 = p2.bitField16;
+					bitField16 = std::move(p2.bitField16);
 					break;
 				case sizeof(uint32_t) :
-					bitField32 = p2.bitField32;
+					bitField32 = std::move(p2.bitField32);
 					break;
 			}
 		break;
