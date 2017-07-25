@@ -85,19 +85,19 @@ Poke::~Poke() {
 }
 
 void Poke::Perform() {
-	uint8_t oldMode;
+	uint8_t oldVRamMode;
 
 	if (pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
-		oldMode = VRAM_F_CR;
+		oldVRamMode = VRAM_F_CR;
 		vramSetBankF(VRAM_F_LCD);
 	} else if (pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
-		oldMode = VRAM_G_CR;
+		oldVRamMode = VRAM_G_CR;
 		vramSetBankG(VRAM_G_LCD);
 	} else if (pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
-		oldMode = VRAM_H_CR;
+		oldVRamMode = VRAM_H_CR;
 		vramSetBankH(VRAM_H_LCD);
 	} else if (pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
-		oldMode = VRAM_I_CR;
+		oldVRamMode = VRAM_I_CR;
 		vramSetBankI(VRAM_I_LCD);
 	}
 
@@ -143,13 +143,13 @@ void Poke::Perform() {
 	}
 
 	if(pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
-		VRAM_F_CR = oldMode;
+		VRAM_F_CR = oldVRamMode;
 	} else if(pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
-		VRAM_G_CR = oldMode;
+		VRAM_G_CR = oldVRamMode;
 	} else if(pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
-		VRAM_H_CR = oldMode;
+		VRAM_H_CR = oldVRamMode;
 	} else if(pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
-		VRAM_I_CR = oldMode;
+		VRAM_I_CR = oldVRamMode;
 	}
 }
 
