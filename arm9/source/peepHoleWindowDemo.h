@@ -3,13 +3,18 @@
 
 #include "demo.h"
 
+#define MIN_HOLE_SIZE 5
+#define MAX_HOLE_SIZE 200
+
 class PeepHoleWindowDemo : public Demo {
 public:
 	PeepHoleWindowDemo();
 	virtual ~PeepHoleWindowDemo();
-	virtual void PrepareFrame(VramBatcher &);
 	virtual void Load();
 	virtual void Unload();
+protected:
+	virtual void PrepareFrame(VramBatcher &);
+	void AcceptInput();
 
 private:
 	/** top of the hole */

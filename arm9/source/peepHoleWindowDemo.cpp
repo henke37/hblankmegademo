@@ -1,6 +1,7 @@
 #include "peepHoleWindowDemo.h"
 #include "vrambatcher.h"
 #include <cmath>
+#include <nds/arm9/input.h>
 
 PeepHoleWindowDemo::PeepHoleWindowDemo() {}
 PeepHoleWindowDemo::~PeepHoleWindowDemo() {}
@@ -10,6 +11,27 @@ void PeepHoleWindowDemo::Load() {
 }
 void PeepHoleWindowDemo::Unload() {
 	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
+}
+
+void PeepHoleWindowDemo::AcceptInput() {
+	auto keys = keysCurrent();
+	if(keys & KEY_X && this->radius > MIN_HOLE_SIZE) {
+		radius -= 0.01;
+	} else if(keys & KEY_Y && radius < MAX_HOLE_SIZE) {
+		radius += 0.01;
+	}
+
+	if(keys & KEY_LEFT && xPos > 0) {
+		xPos--;
+	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH) {
+		xPos++;
+	}
+
+	if(keys & KEY_UP && yPos > 0) {
+		yPos--;
+	} else if(keys& KEY_DOWN && yPos < SCREEN_HEIGHT) {
+		yPos++;
+	}
 }
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
