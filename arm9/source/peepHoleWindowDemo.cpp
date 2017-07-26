@@ -52,8 +52,12 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	for (; scanline < yPos + height && scanline < SCREEN_HEIGHT; ++scanline) {
 		float angle = std::asin((radius - (scanline - yPos)) / radius);
 		int width=std::cos(angle)*radius*2;
-		int left=xPos+width/2;
+		int left=xPos-width/2;
 		int right=left+width;
+
+		if(left < 0) left = 0;
+		if(right > SCREEN_WIDTH) right = SCREEN_WIDTH;
+
 		batcher.AddPoke(scanline, left, &WIN0_X0);
 		batcher.AddPoke(scanline, right, &WIN0_X1);
 	}
