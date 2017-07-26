@@ -35,7 +35,7 @@ void DemoRunner::runCurrentLineFromBatch() {
 
 void DemoRunner::tick() {
 	batcher.Clear();
-	demoPtr->PrepareFrame(batcher);
+	demoPtr->tick();
 	batcher.ApplyPokesForLine(0);
 }
 

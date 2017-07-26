@@ -4,7 +4,9 @@
 
 SinXScrollDemo::SinXScrollDemo() : offset(0), amplitude(1) {}
 
-void SinXScrollDemo::Load() {}
+void SinXScrollDemo::Load() {
+	setupDefaultBG();
+}
 void SinXScrollDemo::Unload() {}
 void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 	offset += speed;

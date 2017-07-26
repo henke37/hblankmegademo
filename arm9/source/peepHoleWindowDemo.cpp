@@ -4,14 +4,19 @@
 
 PeepHoleWindowDemo::PeepHoleWindowDemo() {}
 PeepHoleWindowDemo::~PeepHoleWindowDemo() {}
-void PeepHoleWindowDemo::Load() {}
-void PeepHoleWindowDemo::Unload() {}
+
+void PeepHoleWindowDemo::Load() {
+	setupDefaultBG();
+}
+void PeepHoleWindowDemo::Unload() {
+	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
+}
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int scanline = 0;
 	//turn everything off until the first line of the hole
 	if (yPos > 0) {
-
+		batcher.AddPoke(scanline, 0, DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
 	}
 
 	int height = radius * 2;
@@ -19,6 +24,7 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	//jump to the top of the hole
 	scanline = yPos;
 	//turn on windowing and set windowing
+	batcher.AddPoke(scanline, DISPLAY_WIN0_ON| DISPLAY_BG0_ACTIVE, DISPLAY_WIN0_ON| DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
 
 	//start generating the hole
 	for (; scanline < yPos + height && scanline < SCREEN_HEIGHT; ++scanline) {
@@ -32,6 +38,6 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 
 	//turn everything off again
 	if (scanline < SCREEN_HEIGHT) {
-
+		batcher.AddPoke(scanline, 0, DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
 	}
 }

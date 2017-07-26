@@ -18,9 +18,10 @@ public:
 	void operator=(std::shared_ptr<Demo>);
 	
 	void tick();
+
+	VramBatcher batcher;
 private:
 	std::shared_ptr<Demo> demoPtr;
-	VramBatcher batcher;
 	int currentlyRunningBatcher;
 	
 	static void hBlankHandler();
