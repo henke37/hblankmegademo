@@ -7,9 +7,11 @@ class MenuDemo : public Demo {
 public:
 	MenuDemo();
 	virtual ~MenuDemo();
-	virtual void PrepareFrame(VramBatcher &);
 	virtual void Load();
 	virtual void Unload();
+protected:
+	virtual void PrepareFrame(VramBatcher &);
+	void AcceptInput();
 };
 
 #endif

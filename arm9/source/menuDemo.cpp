@@ -8,3 +8,6 @@ void MenuDemo::PrepareFrame(VramBatcher &) {
 
 
 }
+void MenuDemo::AcceptInput() {
+
+}
