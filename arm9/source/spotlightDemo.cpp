@@ -22,16 +22,16 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 		//180 degree light, degenerate case
 		if (angle < 0) {
 			//light on the bottom side
-			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH, lightY, SCREEN_HEIGHT);
+			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, lightY, SCREEN_HEIGHT-1);
 		} else {
 			//light on the top side
-			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH, 0, lightY);
+			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, 0, lightY);
 		}
 		return;
 	}
 
 	batcher.AddPoke(0, 0, &WIN0_Y0);
-	batcher.AddPoke(0, SCREEN_HEIGHT, &WIN0_Y1);
+	batcher.AddPoke(0, SCREEN_HEIGHT-1, &WIN0_Y1);
 
 	float sinLeft = std::sin(leftAngle);
 	float sinRight = std::sin(rightAngle);
@@ -44,13 +44,13 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 		float leftXLen = std::sqrt(leftD*leftD - yLen*yLen);
 		float leftXF = leftXLen + lightX;
 
-		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH ? SCREEN_WIDTH : leftXF));
+		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : leftXF));
 
 		float rightD = scanline / sinRight;
 		float rightXLen = std::sqrt(rightD*rightD - yLen*yLen);
 		float rightXF = rightXLen + lightX;
 
-		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH ? SCREEN_WIDTH : rightXF));
+		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : rightXF));
 
 		if (leftAngle <= 0 && rightAngle >= 0) {
 			//left up, right down (right)
@@ -63,7 +63,7 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 			} else {
 				batcher.AddPoke(scanline, lightX, &WIN0_X0);
 			}
-			batcher.AddPoke(scanline, SCREEN_WIDTH, &WIN0_X1);
+			batcher.AddPoke(scanline, SCREEN_WIDTH-1, &WIN0_X1);
 		} else if (leftAngle >=0 && rightAngle <=0) {
 			//left down, right up (left)
 			//left is bellow, right is above
