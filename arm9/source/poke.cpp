@@ -1,6 +1,7 @@
 #include "poke.h"
 #include <nds/dma.h>
 #include <nds/arm9/video.h>
+#include <cassert>
 
 #define VRAM_F_SIZE (16*1024)
 #define VRAM_G_SIZE (16*1024)
@@ -42,6 +43,8 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 				case sizeof(uint32_t):
 					value32=p2.value32;
 				break;
+				default:
+					assert(0);
 			}
 		break;
 		
@@ -56,6 +59,8 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 				case sizeof(uint32_t) :
 					bitField32 = std::move(p2.bitField32);
 					break;
+				default:
+					assert(0);
 			}
 		break;
 		
@@ -114,6 +119,8 @@ void Poke::Perform() {
 				case sizeof(uint32_t):
 					*((volatile uint32_t*)addr)=value32;
 				break;
+				default:
+					assert(0);
 			}
 		break;
 		case PM_BITFIELD:
@@ -127,6 +134,8 @@ void Poke::Perform() {
 			case sizeof(uint32_t) :
 				bitField32.Poke((volatile uint32_t*)addr);
 				break;
+			default:
+				assert(0);
 			}
 		break;
 		case PM_DMA_16:
