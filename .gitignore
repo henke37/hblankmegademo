@@ -36,3 +36,4 @@ arm7/build/.map
 *.suo
 *.opendb
 *.ipch
+*.log

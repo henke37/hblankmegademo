@@ -7,7 +7,6 @@
 #define VRAM_H_SIZE (32*1024)
 #define VRAM_I_SIZE (16*1024)
 
-static bool pointerInRange(void *needle, void *base, size_t size);
 static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
 
 Poke::Poke() : size(0), mode(PM_NOOP) {}
@@ -163,8 +162,5 @@ static bool pointerInRange(uintptr_t needle, uintptr_t base, size_t size) {
 	return needle >= base && needle < (base + size);
 }
 static bool pointerInRange(volatile void *needle, volatile void *base, size_t size) {
-	return pointerInRange((uintptr_t)needle, (uintptr_t)base, size);
-}
-static bool pointerInRange(void *needle, void *base, size_t size) {
 	return pointerInRange((uintptr_t)needle, (uintptr_t)base, size);
 }
