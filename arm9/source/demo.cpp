@@ -2,3 +2,6 @@
 
 Demo::Demo() {}
 Demo::~Demo() {}
+
+void Demo::setupDefaultBG() {
+}

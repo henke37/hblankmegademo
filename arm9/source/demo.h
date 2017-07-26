@@ -10,6 +10,9 @@ public:
 	virtual void PrepareFrame(VramBatcher &)=0;
 	virtual void Load()=0;
 	virtual void Unload()=0;
+
+protected:
+	void setupDefaultBG();
 };
 
 

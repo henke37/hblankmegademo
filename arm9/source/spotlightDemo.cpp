@@ -6,8 +6,13 @@
 SpotLightDemo::SpotLightDemo() {}
 SpotLightDemo::~SpotLightDemo() {}
 
-void SpotLightDemo::Load() {}
-void SpotLightDemo::Unload() {}
+void SpotLightDemo::Load() {
+	setupDefaultBG();
+	REG_DISPCNT |= DISPLAY_WIN0_ON;
+}
+void SpotLightDemo::Unload() {
+	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
+}
 
 void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 	float leftAngle = angle - spread;
