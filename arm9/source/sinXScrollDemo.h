@@ -8,9 +8,11 @@ class SinXScrollDemo : public Demo {
 public:
 	SinXScrollDemo();
 	virtual ~SinXScrollDemo();
-	virtual void PrepareFrame(VramBatcher &);
 	virtual void Load();
 	virtual void Unload();
+protected:
+	void AcceptInput();
+	virtual void PrepareFrame(VramBatcher &);
 
 private:
 	/** Current scroll base*/
