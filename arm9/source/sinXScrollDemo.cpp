@@ -3,6 +3,13 @@
 #include <cmath>
 #include <nds/arm9/input.h>
 
+#define MIN_AMPLITUDE 0
+#define MAX_AMPLITUDE 256
+#define MAX_SPEED 0.2
+#define MIN_SPEED 0
+#define MAX_LINESPEED 0.2
+#define MIN_LINESPEED 0
+
 SinXScrollDemo::SinXScrollDemo() : offset(0), amplitude(1) {}
 
 void SinXScrollDemo::AcceptInput() {
