@@ -1,4 +1,5 @@
 #include "poke.h"
+#include "registerOverride.h"
 #include <nds/dma.h>
 #include <nds/arm9/video.h>
 #include <cassert>
@@ -89,20 +90,16 @@ Poke::~Poke() {
 }
 
 void Poke::Perform() {
-	uint8_t oldVRamMode;
+	registerOverride<uint8_t> oldVRamMode;
 
 	if (pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
-		oldVRamMode = VRAM_F_CR;
-		vramSetBankF(VRAM_F_LCD);
+		oldVRamMode.set(&VRAM_F_CR,VRAM_F_LCD);
 	} else if (pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
-		oldVRamMode = VRAM_G_CR;
-		vramSetBankG(VRAM_G_LCD);
+		oldVRamMode.set(&VRAM_G_CR, VRAM_G_LCD);
 	} else if (pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
-		oldVRamMode = VRAM_H_CR;
-		vramSetBankH(VRAM_H_LCD);
+		oldVRamMode.set(&VRAM_H_CR, VRAM_H_LCD);
 	} else if (pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
-		oldVRamMode = VRAM_I_CR;
-		vramSetBankI(VRAM_I_LCD);
+		oldVRamMode.set(&VRAM_I_CR, VRAM_I_LCD);
 	}
 
 	switch(mode) {
@@ -148,16 +145,6 @@ void Poke::Perform() {
 			volatile uint8_t *dst=valuePtr.get();
 			std::copy(dst,dst+size,(uint8_t *)addr);
 		} break;
-	}
-
-	if(pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
-		VRAM_F_CR = oldVRamMode;
-	} else if(pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
-		VRAM_G_CR = oldVRamMode;
-	} else if(pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
-		VRAM_H_CR = oldVRamMode;
-	} else if(pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
-		VRAM_I_CR = oldVRamMode;
 	}
 }
 
