@@ -2,8 +2,10 @@
 #include <nds/arm9/video.h>
 #include <nds/interrupts.h>
 #include <nds/system.h>
+#include <nds/arm9/input.h>
 
 #include "demo.h"
+#include "menuDemo.h"
 
 DemoRunner runner;
 
@@ -34,7 +36,11 @@ void DemoRunner::runCurrentLineFromBatch() {
 }
 
 void DemoRunner::tick() {
+	auto keys = keysDown();
 	batcher.Clear();
+	if(keys & KEY_SELECT) {
+		RunDemo(std::make_shared<MenuDemo>());
+	}
 	demoPtr->tick();
 	batcher.ApplyPokesForLine(0);
 }
