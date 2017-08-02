@@ -48,6 +48,9 @@
     <ClInclude Include="..\source\registerOverride.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\particleDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\demo.cpp">
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\vrambatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\particleDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
