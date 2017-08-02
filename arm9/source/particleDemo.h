@@ -24,6 +24,7 @@ private:
 	};
 
 	std::vector<Particle> particles;
+	void PrepareLine(int scanline);
 };
 
 #endif
