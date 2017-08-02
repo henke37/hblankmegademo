@@ -5,23 +5,23 @@
 
 #include <vector>
 
-class ParticleDemo : Demo {
+class BaseParticleDemo : Demo {
 
 public:
-	ParticleDemo();
-	virtual ~ParticleDemo();
+	BaseParticleDemo();
+	virtual ~BaseParticleDemo();
 	virtual void Load();
 	virtual void Unload();
 protected:
 	virtual void PrepareFrame(VramBatcher &);
-	void AcceptInput();
 
-private:
 	struct Particle {
 		int x, y;
 		int width, height;
 		Particle();
 	};
+
+private:
 
 	std::vector<Particle> particles;
 	void PrepareLine(int scanline);
