@@ -45,7 +45,7 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 
 	//jump to the top of the hole
 	scanline = yPos;
-	//turn on windowing and set windowing
+	//turn on display and windowing
 	batcher.AddPoke(scanline, DISPLAY_WIN0_ON| DISPLAY_BG0_ACTIVE, DISPLAY_WIN0_ON| DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
 
 	//start generating the hole
