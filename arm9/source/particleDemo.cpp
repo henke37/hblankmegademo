@@ -2,6 +2,9 @@
 #include "vrambatcher.h"
 #include <nds/arm9/video.h>
 #include <nds/arm9/sprite.h>
+#include <cassert>
+
+static SpriteSize spriteSizeToEnum(int width, int height);
 
 BaseParticleDemo::BaseParticleDemo() {}
 BaseParticleDemo::~BaseParticleDemo() {}
@@ -39,3 +42,7 @@ void BaseParticleDemo::PrepareLine(int scanline) {
 		slot.isRotateScale = 0;
 	}
 }
+
+BaseParticleDemo::Particle::Particle() {}
+BaseParticleDemo::Particle::Particle(int _x, int _y) : x(_x), y(_y), width(1), height(1) {}
+

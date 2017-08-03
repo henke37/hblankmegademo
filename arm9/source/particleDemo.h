@@ -19,6 +19,7 @@ protected:
 		int x, y;
 		int width, height;
 		Particle();
+		Particle(int x, int y);
 	};
 
 private:
