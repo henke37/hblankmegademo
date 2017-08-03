@@ -6,7 +6,7 @@
 int main(void) {
 
 	runner=std::make_shared<MenuDemo>();
-	
+	runner.start();
 	for(;;) {
 		swiWaitForVBlank();
 		runner.tick();
