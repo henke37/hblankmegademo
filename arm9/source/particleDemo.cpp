@@ -46,3 +46,32 @@ void BaseParticleDemo::PrepareLine(int scanline) {
 BaseParticleDemo::Particle::Particle() {}
 BaseParticleDemo::Particle::Particle(int _x, int _y) : x(_x), y(_y), width(1), height(1) {}
 
+SpriteSize spriteSizeToEnum(int width, int height) {
+	//round the width and height upwards to a multipiel of 8
+	width +=7;//offset
+	height +=7;
+	width &= ~7;//and then round down
+	width &= ~7;
+
+	if(width == 8) {
+		if(height == 8) return SpriteSize_8x8;
+		if(height == 16) return SpriteSize_8x16;
+		if(height == 32) return SpriteSize_8x32;
+	}
+	if(width == 16) {
+		if(height == 8) return SpriteSize_16x8;
+		if(height == 16) return SpriteSize_16x16;
+		if(height == 32) return SpriteSize_16x32;
+	}
+	if(width == 32) {
+		if(height == 8) return SpriteSize_32x8;
+		if(height == 16) return SpriteSize_32x16;
+		if(height == 32) return SpriteSize_32x32;
+		if(height == 64) return SpriteSize_32x64;
+	}
+	if(width == 64) {
+		if(height == 32) return SpriteSize_64x32;
+		if(height == 64) return SpriteSize_64x64;
+	}
+	assert(0);
+}
