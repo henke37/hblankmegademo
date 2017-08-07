@@ -12,8 +12,12 @@ public:
 	void tick();
 protected:
 	void setupDefaultBG();
+	void setupTilemapBG(const char *paletteFile, const char * tileSetFile, const char * tileMapFile);
 	virtual void AcceptInput()=0;
 	virtual void PrepareFrame(VramBatcher &) = 0;
+private:
+	void compressedFile2Vram(const char * filename, void * dst);
+	void loadBGPalette(const char * paletteFile);
 };
 
 
