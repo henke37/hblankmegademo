@@ -22,10 +22,10 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 		//180 degree light, degenerate case
 		if (angle < 0) {
 			//light on the bottom side
-			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, lightY, SCREEN_HEIGHT-1);
+			//windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, lightY, SCREEN_HEIGHT-1);
 		} else {
 			//light on the top side
-			windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, 0, lightY);
+			//windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, 0, lightY);
 		}
 		return;
 	}
@@ -88,4 +88,7 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 			batcher.AddPoke(scanline, leftX, &WIN0_X1);
 		} 
 	}
+}
+
+void SpotLightDemo::AcceptInput() {
 }

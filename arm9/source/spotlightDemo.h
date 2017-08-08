@@ -7,9 +7,11 @@ class SpotLightDemo : public Demo {
 public:
 	SpotLightDemo();
 	virtual ~SpotLightDemo();
-	virtual void PrepareFrame(VramBatcher &);
 	virtual void Load();
 	virtual void Unload();
+protected:
+	virtual void PrepareFrame(VramBatcher &);
+	virtual void AcceptInput();
 
 private:
 	/** The x position of the light */
