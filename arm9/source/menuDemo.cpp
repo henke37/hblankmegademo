@@ -2,6 +2,8 @@
 #include "sinXScrollDemo.h"
 #include "peepHoleWindowDemo.h"
 #include "spotlightDemo.h"
+#include "demoRunner.h"
+
 #include <cassert>
 #include <nds/arm9/input.h>
 
@@ -22,6 +24,10 @@ void MenuDemo::AcceptInput() {
 		selection--;
 	} else if(keys & KEY_DOWN && selection+1 < demoCount) {
 		selection++;
+	}
+
+	if(keys & KEY_START) {
+		runner.RunDemo(makeDemo());
 	}
 }
 
