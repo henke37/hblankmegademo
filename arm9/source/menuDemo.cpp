@@ -3,6 +3,7 @@
 #include "peepHoleWindowDemo.h"
 #include "spotlightDemo.h"
 #include <cassert>
+#include <nds/arm9/input.h>
 
 MenuDemo::MenuDemo() {}
 MenuDemo::~MenuDemo() {}
@@ -15,7 +16,13 @@ void MenuDemo::PrepareFrame(VramBatcher &) {
 
 }
 void MenuDemo::AcceptInput() {
+	auto keys = keysDown();
 
+	if(keys & KEY_UP && selection > 0) {
+		selection--;
+	} else if(keys & KEY_DOWN && selection+1 < demoCount) {
+		selection++;
+	}
 }
 
 std::shared_ptr<Demo> MenuDemo::makeDemo() {
