@@ -11,6 +11,7 @@
 #define MIN_LINESPEED 0
 
 SinXScrollDemo::SinXScrollDemo() : offset(0), amplitude(1) {}
+SinXScrollDemo::~SinXScrollDemo() {}
 
 void SinXScrollDemo::AcceptInput() {
 	auto keys = keysCurrent();
