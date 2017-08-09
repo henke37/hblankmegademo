@@ -3,11 +3,15 @@
 #include <cmath>
 #include <nds/arm9/input.h>
 
-PeepHoleWindowDemo::PeepHoleWindowDemo() {}
+PeepHoleWindowDemo::PeepHoleWindowDemo() : xPos(128), yPos(64), radius(MIN_HOLE_SIZE) {}
 PeepHoleWindowDemo::~PeepHoleWindowDemo() {}
 
 void PeepHoleWindowDemo::Load() {
 	setupDefaultBG();
+	WIN_IN = BIT(1);
+	WIN_OUT = 0;
+
+	REG_DISPCNT |= DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE;
 }
 void PeepHoleWindowDemo::Unload() {
 	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
@@ -35,13 +39,16 @@ void PeepHoleWindowDemo::AcceptInput() {
 }
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
+	int height = radius * 2;
+
+	WIN0_Y0 = yPos;
+	WIN0_Y1 = yPos + height;
+
 	int scanline = 0;
 	//turn everything off until the first line of the hole
 	if (yPos > 0) {
 		batcher.AddPoke(scanline, 0, DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
 	}
-
-	int height = radius * 2;
 
 	//jump to the top of the hole
 	scanline = yPos;
