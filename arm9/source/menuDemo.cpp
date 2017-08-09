@@ -7,7 +7,7 @@
 #include <cassert>
 #include <nds/arm9/input.h>
 
-MenuDemo::MenuDemo() {}
+MenuDemo::MenuDemo() : selection(0) {}
 MenuDemo::~MenuDemo() {}
 void MenuDemo::Load() {
 	setupDefaultBG();
