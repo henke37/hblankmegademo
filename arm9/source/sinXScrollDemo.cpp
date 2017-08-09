@@ -9,8 +9,9 @@
 #define MIN_SPEED 0
 #define MAX_LINESPEED 0.2
 #define MIN_LINESPEED 0
+#define M_PI       3.14159265358979323846
 
-SinXScrollDemo::SinXScrollDemo() : offset(0), amplitude(1) {}
+SinXScrollDemo::SinXScrollDemo() : offset(0), speed(0.1), amplitude(10), lineSpeed(0.01) {}
 SinXScrollDemo::~SinXScrollDemo() {}
 
 void SinXScrollDemo::AcceptInput() {
@@ -40,6 +41,7 @@ void SinXScrollDemo::Load() {
 void SinXScrollDemo::Unload() {}
 void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 	offset += speed;
+	if(offset > M_PI*2) offset -= M_PI*2;
 
 	float lineOffset = offset;
 	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
