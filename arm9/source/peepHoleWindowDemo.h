@@ -17,10 +17,10 @@ protected:
 	void AcceptInput();
 
 private:
-	/** top of the hole */
-	int yPos;
 	/** leftmost edge of the hole */
 	int xPos;
+	/** top of the hole */
+	int yPos;
 	/** radius of the hole*/
 	float radius;
 };

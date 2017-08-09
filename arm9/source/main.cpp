@@ -3,7 +3,7 @@
 #include "demo.h"
 #include "demoRunner.h"
 #include "menuDemo.h"
-#include "sinXScrollDemo.h"
+#include "peepHoleWindowDemo.h"
 
 int main(void) {
 
@@ -12,7 +12,7 @@ int main(void) {
 	nitroFSInit(basePath);
 
 
-	runner=std::make_shared<SinXScrollDemo>();
+	runner=std::make_shared<PeepHoleWindowDemo>();
 	runner.start();
 
 	irqEnable(IRQ_VBLANK);
