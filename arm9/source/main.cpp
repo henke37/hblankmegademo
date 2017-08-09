@@ -19,6 +19,7 @@ int main(void) {
 
 	for(;;) {
 		swiWaitForVBlank();
+		scanKeys();
 		runner.tick();
 	}
 }
