@@ -3,12 +3,12 @@
 #include <cmath>
 #include <nds/arm9/input.h>
 
-PeepHoleWindowDemo::PeepHoleWindowDemo() : xPos(128), yPos(64), radius(MIN_HOLE_SIZE) {}
+PeepHoleWindowDemo::PeepHoleWindowDemo() : xPos(128), yPos(64-25), radius(50) {}
 PeepHoleWindowDemo::~PeepHoleWindowDemo() {}
 
 void PeepHoleWindowDemo::Load() {
 	setupDefaultBG();
-	WIN_IN = BIT(1);
+	WIN_IN = BIT(0);
 	WIN_OUT = 0;
 
 	REG_DISPCNT |= DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE;
@@ -44,16 +44,8 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	WIN0_Y0 = yPos;
 	WIN0_Y1 = yPos + height;
 
-	int scanline = 0;
-	//turn everything off until the first line of the hole
-	if (yPos > 0) {
-		batcher.AddPoke(scanline, 0, DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
-	}
-
 	//jump to the top of the hole
-	scanline = yPos;
-	//turn on display and windowing
-	batcher.AddPoke(scanline, DISPLAY_WIN0_ON| DISPLAY_BG0_ACTIVE, DISPLAY_WIN0_ON| DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
+	 int scanline = yPos;
 
 	//start generating the hole
 	for (; scanline < yPos + height && scanline < SCREEN_HEIGHT; ++scanline) {
@@ -67,10 +59,5 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 
 		batcher.AddPoke(scanline, left, &WIN0_X0);
 		batcher.AddPoke(scanline, right, &WIN0_X1);
-	}
-
-	//turn everything off again
-	if (scanline < SCREEN_HEIGHT) {
-		batcher.AddPoke(scanline, 0, DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE, &REG_DISPCNT);
 	}
 }
