@@ -3,12 +3,17 @@
 #include <nds/arm9/window.h>
 #include <cmath>
 
-SpotLightDemo::SpotLightDemo() {}
+#define M_PI       3.14159265358979323846
+
+SpotLightDemo::SpotLightDemo() : lightX(128), lightY(0), angle(M_PI/2), spread(M_PI/8) {}
 SpotLightDemo::~SpotLightDemo() {}
 
 void SpotLightDemo::Load() {
 	setupDefaultBG();
 	REG_DISPCNT |= DISPLAY_WIN0_ON;
+
+	WIN_IN = BIT(0);
+	WIN_OUT = 0;
 }
 void SpotLightDemo::Unload() {
 	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
@@ -27,11 +32,11 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 			//light on the top side
 			//windowSetBounds(WINDOW_0, 0, SCREEN_WIDTH-1, 0, lightY);
 		}
-		return;
+		//return;
 	}
 
-	batcher.AddPoke(0, 0, &WIN0_Y0);
-	batcher.AddPoke(0, SCREEN_HEIGHT-1, &WIN0_Y1);
+	WIN0_Y0=0;
+	WIN0_Y1=SCREEN_HEIGHT-1;
 
 	float sinLeft = std::sin(leftAngle);
 	float sinRight = std::sin(rightAngle);
@@ -42,12 +47,14 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 
 		float leftD = scanline / sinLeft;
 		float leftXLen = std::sqrt(leftD*leftD - yLen*yLen);
+		leftXLen = 20;
 		float leftXF = leftXLen + lightX;
 
 		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : leftXF));
 
 		float rightD = scanline / sinRight;
 		float rightXLen = std::sqrt(rightD*rightD - yLen*yLen);
+		rightXLen = 20;
 		float rightXF = rightXLen + lightX;
 
 		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : rightXF));
