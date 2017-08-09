@@ -20,5 +20,10 @@ private:
 	void loadBGPalette(const char * paletteFile);
 };
 
+class HBlankDemo : Demo {
+	HBlankDemo();
+	virtual ~HBlankDemo();
+};
+
 
 #endif

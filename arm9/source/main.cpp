@@ -3,6 +3,7 @@
 #include "demo.h"
 #include "demoRunner.h"
 #include "menuDemo.h"
+#include "sinXScrollDemo.h"
 
 int main(void) {
 
@@ -10,8 +11,12 @@ int main(void) {
 
 	nitroFSInit(basePath);
 
-	runner=std::make_shared<MenuDemo>();
+
+	runner=std::make_shared<SinXScrollDemo>();
 	runner.start();
+
+	irqEnable(IRQ_VBLANK);
+
 	for(;;) {
 		swiWaitForVBlank();
 		runner.tick();
