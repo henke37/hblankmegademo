@@ -36,12 +36,17 @@ void DemoRunner::runCurrentLineFromBatch() {
 }
 
 void DemoRunner::tick() {
+	//get an extra refrence to avoid pulling the rug from underneath
+	//the current demo when switching demo
+	auto demoToRun = demoPtr;
+
 	auto keys = keysDown();
 	batcher.Clear();
 	if(keys & KEY_SELECT) {
 		RunDemo(std::make_shared<MenuDemo>());
 	}
-	demoPtr->tick();
+	demoToRun->tick();
+
 	batcher.ApplyPokesForLine(0);
 }
 
@@ -53,11 +58,15 @@ void DemoRunner::operator=(std::shared_ptr<Demo> d) {
 void DemoRunner::RunDemo(std::shared_ptr<Demo> d) {
 	if(demoPtr) {
 		demoPtr->Unload();
-		if(!d) stop();
 	}
-	demoPtr=d;
-	if(!d) return;
+	if(!d) {
+		stop();
+		demoPtr = d;
+		return;
+	}
+	if(!demoPtr) start();
 	
-	demoPtr->Load();
-	start();
+	d->Load();
+
+	demoPtr = d;
 }

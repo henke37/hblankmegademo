@@ -1,5 +1,7 @@
 #include <nds.h>
 #include <filesystem.h>
+#include <nds/arm9/console.h>
+
 #include "demo.h"
 #include "demoRunner.h"
 #include "menuDemo.h"
@@ -12,8 +14,9 @@ int main(void) {
 	nitroFSInit(basePath);
 
 
-	runner=std::make_shared<SpotLightDemo>();
-	runner.start();
+	consoleDemoInit();
+
+	runner=std::make_shared<MenuDemo>();
 
 	irqEnable(IRQ_VBLANK);
 
