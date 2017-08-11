@@ -40,15 +40,17 @@ void PeepHoleWindowDemo::AcceptInput() {
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int height = radius * 2;
+	int bottom = yPos + height;
+	if(bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
 
 	WIN0_Y0 = yPos;
-	WIN0_Y1 = yPos + height;
+	WIN0_Y1 = bottom;
 
 	//jump to the top of the hole
 	 int scanline = yPos;
 
 	//start generating the hole
-	for (; scanline < yPos + height && scanline < SCREEN_HEIGHT; ++scanline) {
+	for (; scanline < bottom; ++scanline) {
 		float angle = std::asin((radius - (scanline - yPos)) / radius);
 		int width=std::cos(angle)*radius*2;
 		int left=xPos-width/2;
