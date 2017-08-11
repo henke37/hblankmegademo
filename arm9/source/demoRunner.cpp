@@ -27,6 +27,9 @@ DemoRunner::~DemoRunner() {
 
 void DemoRunner::hBlankHandler() {
 	runner.runCurrentLineFromBatch();
+	if(!(REG_DISPSTAT & DISP_IN_HBLANK)) {
+		fprintf(stderr, "HBlank handler overshot for line %d!", REG_VCOUNT);
+	}
 }
 
 void DemoRunner::runCurrentLineFromBatch() {
