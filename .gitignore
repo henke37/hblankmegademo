@@ -7,6 +7,7 @@
 # Precompiled Headers
 *.gch
 *.pch
+*.ipch
 
 # Compiled Dynamic libraries
 *.so
@@ -28,14 +29,20 @@
 *.out
 *.app
 *.elf
-*.d
-arm7/build/.map
-*.map
 *.nds
+
+# Build cruff
+*.d
+arm7/build/*
+arm9/build/*
+*.map
 *.db
 *.suo
 *.opendb
-*.ipch
 *.log
+*.id0
+*.id1
+*.nam
+*.til
 
 FileSystem/build
