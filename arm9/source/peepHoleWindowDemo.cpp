@@ -40,18 +40,27 @@ void PeepHoleWindowDemo::AcceptInput() {
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int height = radius * 2;
+
+	//basic top and bottom
 	int bottom = yPos + height;
 	int top = yPos;
-	if(bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
 
-	if(xPos - radius < 0) {
+	//cap top and bottom to visible part if mostly off the left side of the screen
+	if(xPos < 0) {
+		int halfVisibleHeight = std::sqrt(radius*radius - xPos*xPos);
+		top = yPos+ radius - halfVisibleHeight;
+		bottom = top + 2 * halfVisibleHeight;
 	}
 
-	batcher.AddPoke(0, yPos, &WIN0_Y0);
+	//cap top and bottom to the screen area
+	if(top < 0) top = 0;
+	if(bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
+
+	batcher.AddPoke(0, top, &WIN0_Y0);
 	batcher.AddPoke(0, bottom, &WIN0_Y1);
 
 	//jump to the top of the hole, or top of the screen if the hole starts above the screen
-	int scanline = ((yPos>=0)?yPos:0);
+	int scanline = top;
 
 	//start generating the hole
 	for (; scanline < bottom; ++scanline) {
