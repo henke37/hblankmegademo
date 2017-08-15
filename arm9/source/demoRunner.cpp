@@ -50,14 +50,14 @@ void DemoRunner::tick() {
 	currentlyRunningBatcher = (currentlyRunningBatcher + 1) % NUM_BATCHERS;
 	auto &frontBatcher = batchers[currentlyRunningBatcher];
 
+	frontBatcher.ApplyPokesForLine(0);
+
 	auto keys = keysDown();
 	backBatcher.Clear();
 	if(keys & KEY_SELECT) {
 		RunDemo(std::make_shared<MenuDemo>());
 	}
 	demoToRun->tick(backBatcher);
-
-	frontBatcher.ApplyPokesForLine(0);
 }
 
 void DemoRunner::operator=(std::shared_ptr<Demo> d) {
