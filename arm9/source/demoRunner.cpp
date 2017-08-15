@@ -9,7 +9,7 @@
 
 DemoRunner runner;
 
-DemoRunner::DemoRunner() {
+DemoRunner::DemoRunner() : currentlyRunningBatcher(0) {
 }
 void DemoRunner::start() {
 	irqSet(IRQ_HBLANK, hBlankHandler);
@@ -35,7 +35,7 @@ void DemoRunner::hBlankHandler() {
 void DemoRunner::runCurrentLineFromBatch() {
 	int nextLine=REG_VCOUNT+1;
 	if(nextLine>=SCREEN_HEIGHT) return;
-	batcher.ApplyPokesForLine(nextLine);
+	batchers[currentlyRunningBatcher].ApplyPokesForLine(nextLine);
 }
 
 void DemoRunner::tick() {
@@ -43,14 +43,18 @@ void DemoRunner::tick() {
 	//the current demo when switching demo
 	auto demoToRun = demoPtr;
 
+	auto &backBatcher = batchers[currentlyRunningBatcher];
+	currentlyRunningBatcher = (currentlyRunningBatcher + 1) % NUM_BATCHERS;
+	auto &frontBatcher = batchers[currentlyRunningBatcher];
+
 	auto keys = keysDown();
-	batcher.Clear();
+	backBatcher.Clear();
 	if(keys & KEY_SELECT) {
 		RunDemo(std::make_shared<MenuDemo>());
 	}
-	demoToRun->tick();
+	demoToRun->tick(backBatcher);
 
-	batcher.ApplyPokesForLine(0);
+	frontBatcher.ApplyPokesForLine(0);
 }
 
 void DemoRunner::operator=(std::shared_ptr<Demo> d) {
