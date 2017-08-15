@@ -67,11 +67,8 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	batcher.AddPoke(0, top, &WIN0_Y0);
 	batcher.AddPoke(0, bottom, &WIN0_Y1);
 
-	//jump to the top of the hole, or top of the screen if the hole starts above the screen
-	int scanline = top;
-
 	//start generating the hole
-	for (; scanline < bottom; ++scanline) {
+	for (int scanline = top; scanline < bottom; ++scanline) {
 		float angle = std::asin((radius - (scanline - yPos)) / radius);
 		int width=std::cos(angle)*radius*2;
 		int left=xPos-width/2;
