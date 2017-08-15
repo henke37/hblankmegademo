@@ -25,19 +25,6 @@ DemoRunner::~DemoRunner() {
 	stop();
 }
 
-void DemoRunner::hBlankHandler() {
-	runner.runCurrentLineFromBatch();
-	if(!(REG_DISPSTAT & DISP_IN_HBLANK)) {
-		fprintf(stderr, "HBlank handler overshot for line %d!", REG_VCOUNT);
-	}
-}
-
-void DemoRunner::runCurrentLineFromBatch() {
-	int nextLine=REG_VCOUNT+1;
-	if(nextLine>=SCREEN_HEIGHT) return;
-	batchers[currentlyRunningBatcher].ApplyPokesForLine(nextLine);
-}
-
 void DemoRunner::tick() {
 	//get an extra refrence to avoid pulling the rug from underneath
 	//the current demo when switching demo
