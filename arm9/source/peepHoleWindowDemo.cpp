@@ -25,13 +25,13 @@ void PeepHoleWindowDemo::AcceptInput() {
 		radius += 0.1;
 	}
 
-	if(keys & KEY_LEFT && xPos > 0) {
+	if(keys & KEY_LEFT && xPos > -radius) {
 		xPos--;
 	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH) {
 		xPos++;
 	}
 
-	if(keys & KEY_UP && yPos > 0) {
+	if(keys & KEY_UP && yPos > -radius) {
 		yPos--;
 	} else if(keys& KEY_DOWN && yPos < SCREEN_HEIGHT) {
 		yPos++;
@@ -41,13 +41,17 @@ void PeepHoleWindowDemo::AcceptInput() {
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int height = radius * 2;
 	int bottom = yPos + height;
+	int top = yPos;
 	if(bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
+
+	if(xPos - radius < 0) {
+	}
 
 	batcher.AddPoke(0, yPos, &WIN0_Y0);
 	batcher.AddPoke(0, bottom, &WIN0_Y1);
 
-	//jump to the top of the hole
-	 int scanline = yPos;
+	//jump to the top of the hole, or top of the screen if the hole starts above the screen
+	int scanline = ((yPos>=0)?yPos:0);
 
 	//start generating the hole
 	for (; scanline < bottom; ++scanline) {
