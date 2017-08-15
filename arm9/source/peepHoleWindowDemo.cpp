@@ -43,8 +43,8 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int bottom = yPos + height;
 	if(bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
 
-	WIN0_Y0 = yPos;
-	WIN0_Y1 = bottom;
+	batcher.AddPoke(0, yPos, &WIN0_Y0);
+	batcher.AddPoke(0, bottom, &WIN0_Y1);
 
 	//jump to the top of the hole
 	 int scanline = yPos;
