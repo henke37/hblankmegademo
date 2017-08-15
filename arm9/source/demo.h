@@ -9,7 +9,7 @@ public:
 	virtual ~Demo();
 	virtual void Load()=0;
 	virtual void Unload()=0;
-	void tick();
+	void tick(VramBatcher &);
 protected:
 	void setupDefaultBG();
 	void setupTilemapBG(const char *paletteFile, const char * tileSetFile, const char * tileMapFile);

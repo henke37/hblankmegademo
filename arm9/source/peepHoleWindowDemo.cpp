@@ -25,13 +25,13 @@ void PeepHoleWindowDemo::AcceptInput() {
 		radius += 0.1;
 	}
 
-	if(keys & KEY_LEFT && xPos > 0) {
+	if(keys & KEY_LEFT && xPos > -radius) {
 		xPos--;
-	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH) {
+	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH+radius) {
 		xPos++;
 	}
 
-	if(keys & KEY_UP && yPos > 0) {
+	if(keys & KEY_UP && yPos > -radius) {
 		yPos--;
 	} else if(keys& KEY_DOWN && yPos < SCREEN_HEIGHT) {
 		yPos++;
@@ -40,17 +40,35 @@ void PeepHoleWindowDemo::AcceptInput() {
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int height = radius * 2;
-	int bottom = yPos + height;
+
+	int bottom;
+	int top;
+
+	//cap top and bottom to visible part if mostly off the left side of the screen
+	if(xPos < 0) {
+		int halfVisibleHeight = std::sqrt(radius*radius - xPos*xPos);
+		top = yPos + radius - halfVisibleHeight;
+		bottom = top + 2 * halfVisibleHeight;
+	} else if(xPos > SCREEN_WIDTH) {
+		int circleIntersectionX = xPos - SCREEN_WIDTH;
+		int halfVisibleHeight = std::sqrt(radius*radius - circleIntersectionX*circleIntersectionX);
+		top = yPos + radius - halfVisibleHeight;
+		bottom = top + 2 * halfVisibleHeight;
+	} else {
+		//basic top and bottom
+		bottom = yPos + height;
+		top = yPos;
+	}
+
+	//cap top and bottom to the screen area
+	if(top < 0) top = 0;
 	if(bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
 
-	WIN0_Y0 = yPos;
-	WIN0_Y1 = bottom;
-
-	//jump to the top of the hole
-	 int scanline = yPos;
+	batcher.AddPoke(0, top, &WIN0_Y0);
+	batcher.AddPoke(0, bottom, &WIN0_Y1);
 
 	//start generating the hole
-	for (; scanline < bottom; ++scanline) {
+	for (int scanline = top; scanline < bottom; ++scanline) {
 		float angle = std::asin((radius - (scanline - yPos)) / radius);
 		int width=std::cos(angle)*radius*2;
 		int left=xPos-width/2;

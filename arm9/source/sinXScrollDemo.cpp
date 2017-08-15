@@ -42,7 +42,7 @@ void SinXScrollDemo::Load() {
 void SinXScrollDemo::Unload() {}
 void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 	offset += speed;
-	if(offset > M_PI*2) offset -= M_PI*2;
+	if(offset >= M_PI*2) offset -= M_PI*2;
 
 	float lineOffset = offset;
 	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
@@ -50,6 +50,6 @@ void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 		batcher.AddPoke(scanline, xscroll, &REG_BG0HOFS);
 
 		lineOffset += lineSpeed;
-		if(lineOffset > M_PI * 2) lineOffset -= M_PI * 2;
+		//if(lineOffset >= M_PI * 2) lineOffset -= M_PI * 2;
 	}
 }

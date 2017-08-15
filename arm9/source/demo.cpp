@@ -9,9 +9,9 @@ static size_t fileSize(FILE *fp);
 Demo::Demo() {}
 Demo::~Demo() {}
 
-void Demo::tick() {
+void Demo::tick(VramBatcher &batcher) {
 	AcceptInput();
-	PrepareFrame(runner.batcher);
+	PrepareFrame(batcher);
 }
 
 void Demo::setupDefaultBG() {

@@ -6,6 +6,8 @@
 
 class Demo;
 
+#define NUM_BATCHERS 2
+
 class DemoRunner {
 public:
 	DemoRunner();
@@ -19,10 +21,11 @@ public:
 	
 	void tick();
 
-	VramBatcher batcher;
 private:
 	std::shared_ptr<Demo> demoPtr;
+
 	int currentlyRunningBatcher;
+	VramBatcher batchers[NUM_BATCHERS];
 	
 	static void hBlankHandler();
 	void runCurrentLineFromBatch();

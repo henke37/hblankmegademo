@@ -9,7 +9,7 @@
 
 DemoRunner runner;
 
-DemoRunner::DemoRunner() {
+DemoRunner::DemoRunner() : currentlyRunningBatcher(0) {
 }
 void DemoRunner::start() {
 	irqSet(IRQ_HBLANK, hBlankHandler);
@@ -25,32 +25,23 @@ DemoRunner::~DemoRunner() {
 	stop();
 }
 
-void DemoRunner::hBlankHandler() {
-	runner.runCurrentLineFromBatch();
-	if(!(REG_DISPSTAT & DISP_IN_HBLANK)) {
-		fprintf(stderr, "HBlank handler overshot for line %d!", REG_VCOUNT);
-	}
-}
-
-void DemoRunner::runCurrentLineFromBatch() {
-	int nextLine=REG_VCOUNT+1;
-	if(nextLine>=SCREEN_HEIGHT) return;
-	batcher.ApplyPokesForLine(nextLine);
-}
-
 void DemoRunner::tick() {
 	//get an extra refrence to avoid pulling the rug from underneath
 	//the current demo when switching demo
 	auto demoToRun = demoPtr;
 
+	auto &backBatcher = batchers[currentlyRunningBatcher];
+	currentlyRunningBatcher = (currentlyRunningBatcher + 1) % NUM_BATCHERS;
+	auto &frontBatcher = batchers[currentlyRunningBatcher];
+
+	frontBatcher.ApplyPokesForLine(0);
+
 	auto keys = keysDown();
-	batcher.Clear();
+	backBatcher.Clear();
 	if(keys & KEY_SELECT) {
 		RunDemo(std::make_shared<MenuDemo>());
 	}
-	demoToRun->tick();
-
-	batcher.ApplyPokesForLine(0);
+	demoToRun->tick(backBatcher);
 }
 
 void DemoRunner::operator=(std::shared_ptr<Demo> d) {
