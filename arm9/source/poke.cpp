@@ -1,15 +1,5 @@
 #include "poke.h"
-#include "registerOverride.h"
-#include <nds/dma.h>
-#include <nds/arm9/video.h>
 #include <cassert>
-
-#define VRAM_F_SIZE (16*1024)
-#define VRAM_G_SIZE (16*1024)
-#define VRAM_H_SIZE (32*1024)
-#define VRAM_I_SIZE (16*1024)
-
-static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
 
 Poke::Poke() : size(0), mode(PM_NOOP) {}
 Poke::Poke(uint8_t val, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_INT), addr(addr_), value8(val) {
@@ -89,74 +79,8 @@ Poke::~Poke() {
 	}
 }
 
-void Poke::Perform() {
-	registerOverride<uint8_t> oldVRamMode;
-
-	if (pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
-		oldVRamMode.set(&VRAM_F_CR,VRAM_F_LCD);
-	} else if (pointerInRange(addr, VRAM_G, VRAM_G_SIZE)) {
-		oldVRamMode.set(&VRAM_G_CR, VRAM_G_LCD);
-	} else if (pointerInRange(addr, VRAM_H, VRAM_H_SIZE)) {
-		oldVRamMode.set(&VRAM_H_CR, VRAM_H_LCD);
-	} else if (pointerInRange(addr, VRAM_I, VRAM_I_SIZE)) {
-		oldVRamMode.set(&VRAM_I_CR, VRAM_I_LCD);
-	}
-
-	switch(mode) {
-		case PM_NOOP:
-		break;
-		case PM_INT:
-			switch(size) {
-				case sizeof(uint8_t):
-					*((volatile uint8_t*)addr)=value8;
-				break;
-				case sizeof(uint16_t):
-					*((volatile uint16_t*)addr)=value16;
-				break;
-				case sizeof(uint32_t):
-					*((volatile uint32_t*)addr)=value32;
-				break;
-				default:
-					assert(0);
-			}
-		break;
-		case PM_BITFIELD:
-			switch (size) {
-			case sizeof(uint8_t) :
-				bitField8.Poke((volatile uint8_t*)addr);
-				break;
-			case sizeof(uint16_t) :
-				bitField16.Poke((volatile uint16_t*)addr);
-				break;
-			case sizeof(uint32_t) :
-				bitField32.Poke((volatile uint32_t*)addr);
-				break;
-			default:
-				assert(0);
-			}
-		break;
-		case PM_DMA_16:
-			dmaCopyHalfWords(3, valuePtr.get(), (void*)addr, size);
-		break;
-		case PM_DMA_32:
-			dmaCopyWords(3, valuePtr.get(), (void*)addr, size);
-			break;
-		case PM_MEMCPY: {
-			volatile uint8_t *dst=valuePtr.get();
-			std::copy(dst,dst+size,(uint8_t *)addr);
-		} break;
-	}
-}
-
 PokeChainLink::PokeChainLink() {}
 PokeChainLink::PokeChainLink(PokeChainLink &&pch2) : next(std::move(pch2.next)), poke(std::move(pch2.poke)) {}
 PokeChainLink::PokeChainLink(Poke &&p) : next(nullptr), poke(std::move(p)) {}
 PokeChainLink::PokeChainLink(Poke &&p, std::unique_ptr<PokeChainLink> &&next_) : next(std::move(next_)), poke(std::move(p)) {}
 PokeChainLink::~PokeChainLink() {}
-
-static bool pointerInRange(uintptr_t needle, uintptr_t base, size_t size) {
-	return needle >= base && needle < (base + size);
-}
-static bool pointerInRange(volatile void *needle, volatile void *base, size_t size) {
-	return pointerInRange((uintptr_t)needle, (uintptr_t)base, size);
-}

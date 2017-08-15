@@ -101,15 +101,18 @@ make</NMakeReBuildCommandLine>
   <ItemGroup>
     <ClCompile Include="..\source\demo.cpp" />
     <ClCompile Include="..\source\demoRunner.cpp" />
+    <ClCompile Include="..\source\demoRunner.itcm.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\menuDemo.cpp" />
     <ClCompile Include="..\source\particleDemo.cpp" />
     <ClCompile Include="..\source\peepHoleWindowDemo.cpp" />
     <ClCompile Include="..\source\poke.cpp" />
+    <ClCompile Include="..\source\poke.itcm.cpp" />
     <ClCompile Include="..\source\sinXScrollDemo.cpp" />
     <ClCompile Include="..\source\spotlightDemo.cpp" />
     <ClCompile Include="..\source\superParallaxDemo.cpp" />
     <ClCompile Include="..\source\vrambatcher.cpp" />
+    <ClCompile Include="..\source\vrambatcher.itcm.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
