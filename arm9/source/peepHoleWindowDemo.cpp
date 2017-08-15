@@ -27,7 +27,7 @@ void PeepHoleWindowDemo::AcceptInput() {
 
 	if(keys & KEY_LEFT && xPos > -radius) {
 		xPos--;
-	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH) {
+	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH+radius) {
 		xPos++;
 	}
 
@@ -41,15 +41,23 @@ void PeepHoleWindowDemo::AcceptInput() {
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int height = radius * 2;
 
-	//basic top and bottom
-	int bottom = yPos + height;
-	int top = yPos;
+	int bottom;
+	int top;
 
 	//cap top and bottom to visible part if mostly off the left side of the screen
 	if(xPos < 0) {
 		int halfVisibleHeight = std::sqrt(radius*radius - xPos*xPos);
-		top = yPos+ radius - halfVisibleHeight;
+		top = yPos + radius - halfVisibleHeight;
 		bottom = top + 2 * halfVisibleHeight;
+	} else if(xPos > SCREEN_WIDTH) {
+		int circleIntersectionX = xPos - SCREEN_WIDTH;
+		int halfVisibleHeight = std::sqrt(radius*radius - circleIntersectionX*circleIntersectionX);
+		top = yPos + radius - halfVisibleHeight;
+		bottom = top + 2 * halfVisibleHeight;
+	} else {
+		//basic top and bottom
+		bottom = yPos + height;
+		top = yPos;
 	}
 
 	//cap top and bottom to the screen area
