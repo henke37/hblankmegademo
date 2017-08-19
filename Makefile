@@ -10,6 +10,10 @@ include $(DEVKITARM)/ds_rules
 export TARGET		:=	$(shell basename $(CURDIR))
 export TOPDIR		:=	$(CURDIR)
 
+GAME_TITLE := HBlank megademo
+GAME_SUBTITLE1 := henke37
+GAME_SUBTITLE2 := prealpha
+GAME_ICON := icon.bmp
 
 .PHONY: checkarm7 checkarm9  FileSystem all clean
 
@@ -30,8 +34,8 @@ FileSystem:
 	$(MAKE) -C FileSystem
 
 #---------------------------------------------------------------------------------
-$(TARGET).nds	:	arm7/$(TARGET).elf arm9/$(TARGET).elf FileSystem
-	ndstool	-c $(TARGET).nds -7 arm7/$(TARGET).elf -9 arm9/$(TARGET).elf -d FileSystem/build
+$(TARGET).nds	:	arm7/$(TARGET).elf arm9/$(TARGET).elf FileSystem $(GAME_ICON)
+	ndstool	-c $(TARGET).nds -7 arm7/$(TARGET).elf -9 arm9/$(TARGET).elf -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" -d FileSystem/build
 
 #---------------------------------------------------------------------------------
 arm7/$(TARGET).elf:
