@@ -8,7 +8,18 @@ Poke::Poke(uint16_t val, volatile uint16_t *addr_) : size(sizeof(uint16_t)), mod
 }
 Poke::Poke(uint32_t val, volatile uint32_t *addr_) : size(sizeof(uint32_t)), mode(PM_INT), addr(addr_), value32(val) {
 }
-Poke::Poke(std::unique_ptr<uint8_t[]> &&dataPtr, size_t dataSize, hwPtr addr_) : size(dataSize), mode(PM_MEMCPY), addr(addr_), valuePtr(std::move(dataPtr)) {
+Poke::Poke(std::unique_ptr<uint8_t[]> &&dataPtr, size_t dataSize, hwPtr addr_, PokeMode mode_) : size(dataSize), mode(mode_), addr(addr_), valuePtr(std::move(dataPtr)) {
+	switch(mode_) {
+		case PM_DMA_16:
+		case PM_DMA_32:
+		case PM_MEMCPY_8:
+		case PM_MEMCPY_16:
+		case PM_MEMCPY_32:
+		break;
+		
+		default:
+			assert(0);
+	}
 }
 
 Poke::Poke(uint8_t val, uint8_t mask, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_BITFIELD), addr(addr_), bitField8(val, mask) {
@@ -57,7 +68,9 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 		
 		case PM_DMA_16:
 		case PM_DMA_32:
-		case PM_MEMCPY:
+		case PM_MEMCPY_8:
+		case PM_MEMCPY_16:
+		case PM_MEMCPY_32:
 			valuePtr=std::move(p2.valuePtr);
 		break;
 	}
@@ -70,7 +83,9 @@ Poke::~Poke() {
 	switch(mode) {
 		case PM_DMA_16:
 		case PM_DMA_32:
-		case PM_MEMCPY:
+		case PM_MEMCPY_8:
+		case PM_MEMCPY_16:
+		case PM_MEMCPY_32:
 			valuePtr.~unique_ptr();
 		break;
 		case PM_BITFIELD://no destructor to call
