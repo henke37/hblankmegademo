@@ -11,9 +11,11 @@ enum PokeMode {
 	PM_NOOP    = 0,
 	PM_INT     = 1,
 	PM_BITFIELD= 2,
-	PM_MEMCPY  = 3,
-	PM_DMA_16  = 4,
-	PM_DMA_32  = 5
+	PM_MEMCPY_8  = 3,
+	PM_MEMCPY_16  = 4,
+	PM_MEMCPY_32  = 5,
+	PM_DMA_16  = 6,
+	PM_DMA_32  = 7
 };
 
 class Poke {
@@ -38,7 +40,7 @@ class Poke {
 	Poke(uint8_t val, volatile uint8_t *addr);
 	Poke(uint16_t val, volatile uint16_t *addr);
 	Poke(uint32_t val, volatile uint32_t *addr);
-	Poke(std::unique_ptr<uint8_t[]> &&, size_t dataSize, hwPtr addr);
+	Poke(std::unique_ptr<uint8_t[]> &&, size_t dataSize, hwPtr addr, PokeMode mode);
 	Poke(uint8_t val, uint8_t mask, volatile uint8_t *addr);
 	Poke(uint16_t val, uint16_t mask, volatile uint16_t *addr);
 	Poke(uint32_t val, uint32_t mask, volatile uint32_t *addr);

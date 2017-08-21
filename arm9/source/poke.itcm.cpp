@@ -63,9 +63,17 @@ ITCM_CODE void Poke::Perform() {
 	case PM_DMA_32:
 		dmaCopyWords(3, valuePtr.get(), (void*)addr, size);
 		break;
-	case PM_MEMCPY: {
-		volatile uint8_t *dst = valuePtr.get();
-		std::copy(dst, dst + size, (uint8_t *)addr);
+	case PM_MEMCPY_8: {
+		volatile uint8_t *src = valuePtr.get();
+		std::copy(src, src + size, (uint8_t *)addr);
+	} break;
+	case PM_MEMCPY_16: {
+		volatile uint16_t *src = (volatile uint16_t *)valuePtr.get();
+		std::copy(src, src + size/2, (uint16_t *)addr);
+	} break;
+	case PM_MEMCPY_32: {
+		volatile uint32_t *src = (volatile uint32_t *)valuePtr.get();
+		std::copy(src, src + size/4, (uint32_t *)addr);
 	} break;
 	}
 }
