@@ -58,10 +58,10 @@ ITCM_CODE void Poke::Perform() {
 		}
 		break;
 	case PM_DMA_16:
-		dmaCopyHalfWords(3, valuePtr.get(), (void*)addr, size);
+		dmaCopyHalfWords(0, valuePtr.get(), (void*)addr, size);
 		break;
 	case PM_DMA_32:
-		dmaCopyWords(3, valuePtr.get(), (void*)addr, size);
+		dmaCopyWords(0, valuePtr.get(), (void*)addr, size);
 		break;
 	case PM_MEMCPY_8: {
 		volatile uint8_t *src = valuePtr.get();
