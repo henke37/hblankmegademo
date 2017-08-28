@@ -4,6 +4,7 @@
 #include "spotlightDemo.h"
 #include "demoRunner.h"
 #include "scanInDemo.h"
+#include "rasterbarDemo.h"
 
 #include <cassert>
 #include <nds/arm9/input.h>
@@ -42,6 +43,8 @@ std::shared_ptr<Demo> MenuDemo::makeDemo() {
 		return std::make_shared<PeepHoleWindowDemo>();
 	case 3:
 		return std::make_shared<ScanInDemo>();
+	case 4:
+		return std::make_shared<RasterBarDemo>();
 	}
 	assert(0);
 }
