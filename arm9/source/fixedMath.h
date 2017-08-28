@@ -38,6 +38,18 @@ public:
 	bool operator !=(const FixedPoint<Base> &f2) const { return raw != f2.raw; }
 	bool operator ==(const FixedPoint<Base> &f2) const { return raw == f2.raw; }
 
+
+	bool operator <(const int x) const { return raw < x << Base; }
+	bool operator <=(const int x) const { return raw <= x << Base; }
+	bool operator >(const int x) const { return raw > x << Base; }
+	bool operator >=(const int x) const { return raw >= x << Base; }
+	bool operator !=(const int x) const { return raw != x << Base; }
+	bool operator ==(const int x) const { return raw == x << Base; }
+
+	FixedPoint<Base> &operator +=(const int x) { raw += x << Base; return *this; }
+	FixedPoint<Base> &operator -=(const int x) { raw -= x << Base; return *this; }
+	FixedPoint<Base> &operator *=(const int x) { raw *= x << Base; return *this; }
+
 	int32_t raw;
 
 };
