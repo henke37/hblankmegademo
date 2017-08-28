@@ -51,6 +51,9 @@
     <ClInclude Include="..\source\particleDemo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\scanInDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\demo.cpp">
@@ -93,6 +96,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\poke.itcm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\scanInDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

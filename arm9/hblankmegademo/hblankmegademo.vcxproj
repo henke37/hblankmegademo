@@ -93,6 +93,7 @@ make</NMakeReBuildCommandLine>
     <ClInclude Include="..\source\peepHoleWindowDemo.h" />
     <ClInclude Include="..\source\poke.h" />
     <ClInclude Include="..\source\registerOverride.h" />
+    <ClInclude Include="..\source\scanInDemo.h" />
     <ClInclude Include="..\source\sinXScrollDemo.h" />
     <ClInclude Include="..\source\spotlightDemo.h" />
     <ClInclude Include="..\source\superParallaxDemo.h" />
@@ -108,6 +109,7 @@ make</NMakeReBuildCommandLine>
     <ClCompile Include="..\source\peepHoleWindowDemo.cpp" />
     <ClCompile Include="..\source\poke.cpp" />
     <ClCompile Include="..\source\poke.itcm.cpp" />
+    <ClCompile Include="..\source\scanInDemo.cpp" />
     <ClCompile Include="..\source\sinXScrollDemo.cpp" />
     <ClCompile Include="..\source\spotlightDemo.cpp" />
     <ClCompile Include="..\source\superParallaxDemo.cpp" />
