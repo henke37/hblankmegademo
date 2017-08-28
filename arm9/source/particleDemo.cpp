@@ -73,5 +73,5 @@ SpriteSize spriteSizeToEnum(int width, int height) {
 		if(height == 32) return SpriteSize_64x32;
 		if(height == 64) return SpriteSize_64x64;
 	}
-	assert(0);
+	sassert(0,"Bad object size found");
 }

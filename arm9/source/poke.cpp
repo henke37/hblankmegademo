@@ -1,5 +1,5 @@
 #include "poke.h"
-#include <cassert>
+#include <nds/arm9/sassert.h>
 
 Poke::Poke() : size(0), mode(PM_NOOP) {}
 Poke::Poke(uint8_t val, volatile uint8_t *addr_) : size(sizeof(uint8_t)), mode(PM_INT), addr(addr_), value8(val) {
@@ -18,7 +18,7 @@ Poke::Poke(std::unique_ptr<uint8_t[]> &&dataPtr, size_t dataSize, hwPtr addr_, P
 		break;
 		
 		default:
-			assert(0);
+			sassert(0,"Invalid pokemode selected for memory copy poke");
 	}
 }
 
@@ -46,7 +46,7 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 					value32=p2.value32;
 				break;
 				default:
-					assert(0);
+					sassert(0,"Invalid size for plain poke found");
 			}
 		break;
 		
@@ -62,7 +62,7 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 					bitField32 = std::move(p2.bitField32);
 					break;
 				default:
-					assert(0);
+					sassert(0,"Invalid size found for bitfield poke");
 			}
 		break;
 		
