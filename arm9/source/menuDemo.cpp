@@ -46,5 +46,7 @@ std::shared_ptr<Demo> MenuDemo::makeDemo() {
 	case 4:
 		return std::make_shared<RasterBarDemo>();
 	}
+	sassert(0,"Bad menu selection instatiated");
+
 	assert(0);
 }

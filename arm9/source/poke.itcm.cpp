@@ -2,7 +2,7 @@
 #include "registerOverride.h"
 #include <nds/dma.h>
 #include <nds/arm9/video.h>
-#include <cassert>
+#include <nds/arm9/sassert.h>
 
 #define VRAM_F_SIZE (16*1024)
 #define VRAM_G_SIZE (16*1024)
@@ -39,7 +39,7 @@ ITCM_CODE void Poke::Perform() {
 			*((volatile uint32_t*)addr) = value32;
 			break;
 		default:
-			assert(0);
+			sassert(0,"Invalid size found for plain poke");
 		}
 		break;
 	case PM_BITFIELD:
@@ -54,7 +54,7 @@ ITCM_CODE void Poke::Perform() {
 			bitField32.Poke((volatile uint32_t*)addr);
 			break;
 		default:
-			assert(0);
+			sassert(0,"Invalid size found for bitfield poke");
 		}
 		break;
 	case PM_DMA_16:
