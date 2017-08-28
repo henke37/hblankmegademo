@@ -19,6 +19,10 @@ void Demo::setupDefaultBG() {
 }
 
 void Demo::setupTilemapBG(const char *paletteFile, const char *tileSetFile, const char *tileMapFile) {
+	u32 vMode = MODE_0_2D;
+	vMode |= DISPLAY_BG0_ACTIVE;
+	REG_DISPCNT = vMode;
+
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
 	int bgid = bgInit(0, BgType_Text4bpp, BgSize_T_256x256, 12, 0);
 
@@ -26,9 +30,6 @@ void Demo::setupTilemapBG(const char *paletteFile, const char *tileSetFile, cons
 	compressedFile2Vram(tileSetFile, bgGetGfxPtr(bgid));
 	compressedFile2Vram(tileMapFile, bgGetMapPtr(bgid));
 
-	u32 vMode = MODE_0_2D;
-	vMode |= DISPLAY_BG0_ACTIVE;
-	REG_DISPCNT = vMode;
 }
 
 void Demo::compressedFile2Vram(const char *filename, void *dst) {
