@@ -63,17 +63,25 @@ inline fp12 operator / (const fp12 &x, const fp12 &y) {
 	return fp12(divf32(x.raw, y.raw), 12);
 }
 
-/*
-static fp12 operator % (const fp12 x, const fp12 y) {
+inline fp12 operator % (const fp12 x, const fp12 y) {
 	if (y.raw == 0) return 0;
-	return fp12(modf32(x.raw, y.raw), 12);
-}*/
+	return fp12(mod32(x.raw, y.raw), 12);
+}
 
 inline fp12 &operator /=(fp12 &x, const fp12 &y) {
 	if (y.raw == 0) {
 		x.raw = 0;
 	} else {
 		x.raw = divf32(x.raw, y.raw);
+	}
+	return x;
+}
+
+inline fp12 &operator %=(fp12 &x, const fp12 &y) {
+	if (y.raw == 0) {
+		x.raw = 0;
+	} else {
+		x.raw = mod32(x.raw, y.raw);
 	}
 	return x;
 }
