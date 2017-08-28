@@ -16,7 +16,7 @@ protected:
 private:
 	int selection;
 
-	static const int demoCount = 4;
+	static const int demoCount = 5;
 	std::shared_ptr<Demo> makeDemo();
 };
 
