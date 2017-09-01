@@ -65,7 +65,7 @@ inline fp12 operator / (const fp12 &x, const fp12 &y) {
 
 inline fp12 operator % (const fp12 x, const fp12 y) {
 	if (y.raw == 0) return 0;
-	return fp12(mod32(x.raw, y.raw), 12);
+	return fp12(mod64(((int64)x.raw) << 12, y.raw), 12);
 }
 
 inline fp12 &operator /=(fp12 &x, const fp12 &y) {
@@ -81,7 +81,7 @@ inline fp12 &operator %=(fp12 &x, const fp12 &y) {
 	if (y.raw == 0) {
 		x.raw = 0;
 	} else {
-		x.raw = mod32(x.raw, y.raw);
+		x.raw = mod64(((int64)x.raw) << 12, y.raw);
 	}
 	return x;
 }
