@@ -61,6 +61,9 @@ public:
 typedef FixedPoint<8> fp8;
 typedef FixedPoint<12> fp12;
 
+fp8 operator "" _fp8(unsigned long long x) { return fp8(x); }
+fp12 operator "" _fp12(unsigned long long x) { return fp12(x); }
+
 inline fp12 sqrt(const fp12 &x) { return fp12(sqrtf32(x.raw), 12); }
 inline fp12 operator / (const fp12 &x, const fp12 &y) { 
 	if (y.raw == 0) return 0;
