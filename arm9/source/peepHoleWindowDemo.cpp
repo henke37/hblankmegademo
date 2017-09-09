@@ -44,12 +44,13 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 	int bottom;
 	int top;
 
-	//cap top and bottom to visible part if mostly off the left side of the screen
 	if(xPos < 0) {
+		//cap top and bottom to visible part if mostly off the left side of the screen
 		int halfVisibleHeight = std::sqrt(radius*radius - xPos*xPos);
 		top = yPos + radius - halfVisibleHeight;
 		bottom = top + 2 * halfVisibleHeight;
 	} else if(xPos > SCREEN_WIDTH) {
+		//ditto for the right side of the screen
 		int circleIntersectionX = xPos - SCREEN_WIDTH;
 		int halfVisibleHeight = std::sqrt(radius*radius - circleIntersectionX*circleIntersectionX);
 		top = yPos + radius - halfVisibleHeight;
