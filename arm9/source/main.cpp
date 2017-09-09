@@ -5,7 +5,9 @@
 #include "demo.h"
 #include "demoRunner.h"
 #include "menuDemo.h"
-#include "spotlightDemo.h"
+#include "rasterbarDemo.h"
+
+void testFixed();
 
 int main(void) {
 
@@ -16,9 +18,13 @@ int main(void) {
 
 	consoleDemoInit();
 
+
 	runner=std::make_shared<MenuDemo>();
 
 	irqEnable(IRQ_VBLANK);
+
+
+	testFixed();
 
 	for(;;) {
 		swiWaitForVBlank();
