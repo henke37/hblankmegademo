@@ -17,4 +17,7 @@ void testFixed() {
 	assert(sqrt(q) == 2);
 	assert((q / t) == 2);
 	assert((fp12)(p << 2) == 10);
+	assert((q / q) == 1);
+	assert((p / p) == 1);
+	assert(42_fp12 / 21_fp12 == 2_fp12);
 }
