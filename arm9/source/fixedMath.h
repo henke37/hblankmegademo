@@ -20,11 +20,15 @@ public:
 	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2; return *this; }
 	FixedPoint<Base> &operator +=(const FixedPoint<Base> &f2) { raw += f2.raw; return *this; }
 	FixedPoint<Base> &operator -=(const FixedPoint<Base> &f2) { raw -= f2.raw; return *this; }
-	FixedPoint<Base> &operator *=(const FixedPoint<Base> &f2) { raw *= f2.raw; return *this; }
+	FixedPoint<Base> &operator *=(const FixedPoint<Base> &f2) { raw = (raw * f2.raw) >> Base; return *this; }
+	FixedPoint<Base> &operator &=(const FixedPoint<Base> &f2) { raw &= f2.raw; return *this; }
+	FixedPoint<Base> &operator |=(const FixedPoint<Base> &f2) { raw |= f2.raw; return *this; }
 
 	FixedPoint<Base> operator +(const FixedPoint<Base> &f2) const { return FixedPoint(raw + f2.raw, Base); }
 	FixedPoint<Base> operator -(const FixedPoint<Base> &f2) const { return FixedPoint(raw - f2.raw, Base); }
-	FixedPoint<Base> operator *(const FixedPoint<Base> &f2) const { return FixedPoint(raw * f2.raw, Base); }
+	FixedPoint<Base> operator *(const FixedPoint<Base> &f2) const { return FixedPoint((raw * f2.raw)>>Base, Base); }
+	FixedPoint<Base> operator &(const FixedPoint<Base> &f2) const { return FixedPoint(raw & f2.raw, Base); }
+	FixedPoint<Base> operator |(const FixedPoint<Base> &f2) const { return FixedPoint(raw | f2.raw, Base); }
 
 	FixedPoint<Base> &operator <<=(const unsigned sh) { raw <<= sh; return *this; }
 	FixedPoint<Base> &operator >>=(const unsigned sh) { raw >>= sh; return *this; }
