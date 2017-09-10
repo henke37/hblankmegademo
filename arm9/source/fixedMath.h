@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <nds/arm9/math.h>
+#include <nds/arm9/trig_lut.h>
 
 template <int Base> class FixedPoint;
 
@@ -15,7 +16,7 @@ public:
 
 	operator int() const { return raw >> Base; }
 	operator bool() const { return (bool)raw; }
-	operator float() const { return ((float)raw) / (1 >> Base); }
+	operator float() const { return ((float)raw) / ((float)(1 << Base)); }
 
 	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2; return *this; }
 	FixedPoint<Base> &operator +=(const FixedPoint<Base> &f2) { raw += f2.raw; return *this; }
@@ -92,5 +93,41 @@ inline fp12 &operator %=(fp12 &x, const fp12 &y) {
 	}
 	return x;
 }
+
+
+fp12 operator "" _fp12Angle(unsigned long long x) {
+	return fp12(degreesToAngle(x));
+}
+
+inline fp12 sin(const fp12 x) {
+	return fp12(
+		sinLerp(x.raw), 12
+	);
+}
+
+inline fp12 cos(const fp12 x) {
+	return fp12(
+		cosLerp(x.raw), 12
+	);
+}
+
+inline fp12 tan(const fp12 x) {
+	return fp12(
+		tanLerp(x.raw), 12
+	);
+}
+
+inline fp12 asin(const fp12 x) {
+	return fp12(
+		asinLerp(x.raw), 12
+	);
+}
+
+inline fp12 acos(const fp12 x) {
+	return fp12(
+		acosLerp(x.raw), 12
+	);
+}
+
 
 #endif
