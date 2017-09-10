@@ -7,10 +7,12 @@
 
 template <int Base> class FixedPoint;
 
+#define intFromBaseToBase(raw, Base, oldBase) Base>oldBase ? (raw >> (Base - oldBase)) : (raw << (oldBase - Base))
+
 template <int Base> class FixedPoint {
 public:
-	FixedPoint(const int32_t raw, const int oldBase) : raw(Base>oldBase ? (raw >> (Base - oldBase)) : (raw << (oldBase - Base))) {}
-	template <int Base2> FixedPoint(const FixedPoint<Base2> &f2) : raw(Base>Base2?(f2.raw>>(Base-Base2)):(f2.raw<<(Base2-Base))) {}
+	FixedPoint(const int32_t _raw, const int oldBase) : raw(intFromBaseToBase(_raw, Base, oldBase)) {}
+	template <int Base2> FixedPoint(const FixedPoint<Base2> &f2) : raw(intFromBaseToBase(f2.raw, Base, Base2)) {}
 	FixedPoint(const int in) : raw(in<<Base) {}
 	FixedPoint() : raw(0) {}
 
