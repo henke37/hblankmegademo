@@ -136,11 +136,11 @@ class FixedAngle {
 
 FixedAngle operator "" _fixedAngle(unsigned long long x);
 
-inline fp12 sin(const FixedAngle &x);
-inline fp12 cos(const FixedAngle &x);
-inline fp12 tan(const FixedAngle &x);
-inline FixedAngle asin(const fp12 x);
-inline FixedAngle acos(const fp12 x);
+fp12 sin(const FixedAngle &x);
+fp12 cos(const FixedAngle &x);
+fp12 tan(const FixedAngle &x);
+FixedAngle asin(const fp12 x);
+FixedAngle acos(const fp12 x);
 
 
 #endif
