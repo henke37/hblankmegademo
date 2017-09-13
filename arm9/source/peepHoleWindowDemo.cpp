@@ -25,36 +25,36 @@ void PeepHoleWindowDemo::AcceptInput() {
 		radius += 0.1;
 	}
 
-	if(keys & KEY_LEFT && xPos > -radius) {
-		xPos--;
-	} else if(keys & KEY_RIGHT && xPos < SCREEN_WIDTH+radius) {
-		xPos++;
+	if(keys & KEY_LEFT && xPos > (-radius)) {
+		--xPos;
+	} else if(keys & KEY_RIGHT && xPos < fp12(SCREEN_WIDTH)+radius) {
+		++xPos;
 	}
 
-	if(keys & KEY_UP && yPos > -radius) {
-		yPos--;
+	if(keys & KEY_UP && yPos > (-radius)) {
+		--yPos;
 	} else if(keys& KEY_DOWN && yPos < SCREEN_HEIGHT) {
-		yPos++;
+		++yPos;
 	}
 }
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
-	int height = radius * 2;
+	fp12 height = radius * 2_fp12;
 
-	int bottom;
-	int top;
+	fp12 bottom;
+	fp12 top;
 
 	if(xPos < 0) {
 		//cap top and bottom to visible part if mostly off the left side of the screen
-		int halfVisibleHeight = std::sqrt(radius*radius - xPos*xPos);
+		fp12 halfVisibleHeight = sqrt(radius*radius - xPos*xPos);
 		top = yPos + radius - halfVisibleHeight;
-		bottom = top + 2 * halfVisibleHeight;
+		bottom = top + 2_fp12 * halfVisibleHeight;
 	} else if(xPos > SCREEN_WIDTH) {
 		//ditto for the right side of the screen
-		int circleIntersectionX = xPos - SCREEN_WIDTH;
-		int halfVisibleHeight = std::sqrt(radius*radius - circleIntersectionX*circleIntersectionX);
+		fp12 circleIntersectionX = xPos - SCREEN_WIDTH;
+		fp12 halfVisibleHeight = sqrt(radius*radius - circleIntersectionX*circleIntersectionX);
 		top = yPos + radius - halfVisibleHeight;
-		bottom = top + 2 * halfVisibleHeight;
+		bottom = top + 2_fp12 * halfVisibleHeight;
 	} else {
 		//basic top and bottom
 		bottom = yPos + height;
@@ -70,10 +70,10 @@ void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
 
 	//start generating the hole
 	for (int scanline = top; scanline < bottom; ++scanline) {
-		float angle = std::asin((radius - (scanline - yPos)) / radius);
-		int width=std::cos(angle)*radius*2;
-		int left=xPos-width/2;
-		int right=left+width;
+		FixedAngle angle = asin((radius - (scanline - yPos)) / radius);
+		fp12 width=cos(angle)*(radius*2_fp12);
+		fp12 left=xPos-width/2_fp12;
+		fp12 right=left+width;
 
 		if(left < 0) left = 0;
 		if(right > SCREEN_WIDTH) right = SCREEN_WIDTH;
