@@ -5,6 +5,7 @@
 void testFixed() {
 	fp8 a=5,b=4,c=3,d=1,e=2;
 	fp12 p=5,q=4,r=3,s=1,t=2,x;
+	FixedAngle h,j,i;
 
 	//basic operators
 	assert(((int)d) == 1);
@@ -24,17 +25,14 @@ void testFixed() {
 	assert(42_fp12 / 21_fp12 == 2_fp12);
 
 	//trig luts
-	fprintf(stderr, "%i", sin(45_fp12Angle).raw);
-	return;
-
-	assert(sin(0_fp12) == 0);
-	assert(cos(0_fp12) == 1);
-	assert(asin(90_fp12Angle) == 1);
-	assert(acos(90_fp12) == 0);
-
-	return;
-	assert(sin(90_fp12Angle) == 1_fp12);
-	assert(cos(90_fp12Angle) == 0_fp12);
+	//fprintf(stderr, "%i\n", (90_fixedAngle).raw);
+	//h=asin(1_fp12/2_fp12);
+	//fprintf(stderr, "%i\n%f", h.raw, (float)h);
+	
+	assert(sin(0_fixedAngle) == 0);
+	assert(cos(0_fixedAngle) == 1);
+	assert(sin(90_fixedAngle) == 1_fp12);
+	assert(cos(90_fixedAngle) == 0_fp12);
 
 	//failing tests
 	//assert(5_fp12 % 4_fp12 == 1_fp12);

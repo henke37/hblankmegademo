@@ -14,7 +14,7 @@ public:
 	FixedPoint(const int32_t _raw, const int oldBase) : raw(intFromBaseToBase(_raw, Base, oldBase)) {}
 	template <int Base2> FixedPoint(const FixedPoint<Base2> &f2) : raw(intFromBaseToBase(f2.raw, Base, Base2)) {}
 	FixedPoint(const int in) : raw(in<<Base) {}
-	FixedPoint() : raw(0) {}
+	FixedPoint() {}
 
 	operator int() const { return raw >> Base; }
 	operator bool() const { return (bool)raw; }
@@ -60,9 +60,9 @@ public:
 	int32_t raw;
 
 };
-
 typedef FixedPoint<8> fp8;
 typedef FixedPoint<12> fp12;
+
 
 fp8 operator "" _fp8(unsigned long long x) { return fp8(x); }
 fp12 operator "" _fp12(unsigned long long x) { return fp12(x); }
@@ -97,38 +97,46 @@ inline fp12 &operator %=(fp12 &x, const fp12 &y) {
 }
 
 
-fp12 operator "" _fp12Angle(unsigned long long x) {
-	return fp12(degreesToAngle(x),12);
+
+class FixedAngle {
+	public:
+	FixedAngle() {}
+	FixedAngle(s16 rawAngle) : raw(rawAngle) {}
+	operator float() const {
+		return angleToDegrees((float)(raw));
+	};
+	
+	s16 raw;
+};
+
+FixedAngle operator "" _fixedAngle(unsigned long long x) {
+	return FixedAngle(degreesToAngle(x));
 }
 
-inline fp12 sin(const fp12 x) {
+inline fp12 sin(const FixedAngle &x) {
 	return fp12(
 		sinLerp(x.raw), 12
 	);
 }
 
-inline fp12 cos(const fp12 x) {
+inline fp12 cos(const FixedAngle &x) {
 	return fp12(
 		cosLerp(x.raw), 12
 	);
 }
 
-inline fp12 tan(const fp12 x) {
+inline fp12 tan(const FixedAngle &x) {
 	return fp12(
 		tanLerp(x.raw), 12
 	);
 }
 
-inline fp12 asin(const fp12 x) {
-	return fp12(
-		asinLerp(x.raw), 12
-	);
+inline FixedAngle asin(const fp12 x) {
+	return asinLerp(x.raw);
 }
 
-inline fp12 acos(const fp12 x) {
-	return fp12(
-		acosLerp(x.raw), 12
-	);
+inline FixedAngle acos(const fp12 x) {
+	return acosLerp(x.raw);
 }
 
 
