@@ -126,69 +126,47 @@ inline fp12 &operator %=(fp12 &x, const fp12 &y) {
 
 class FixedAngle {
 	public:
-	FixedAngle() {}
-	FixedAngle(s16 rawAngle) : raw(rawAngle) {}
+	FixedAngle();
+	FixedAngle(s16 rawAngle);
 	
-	operator bool() const { return (bool)raw; }
-	operator float() const {
-		return angleToDegrees((float)(raw));
-	};
+	operator bool() const;
+	operator float() const;
 	
-	FixedAngle &operator =(const FixedAngle &f2) { raw = f2.raw; return *this; }
-	FixedAngle &operator +=(const FixedAngle &f2) { raw += f2.raw; return *this; }
-	FixedAngle &operator -=(const FixedAngle &f2) { raw -= f2.raw; return *this; }
-	FixedAngle &operator *=(const FixedAngle &f2) { raw = raw * f2.raw; return *this; }
-	FixedAngle &operator &=(const FixedAngle &f2) { raw &= f2.raw; return *this; }
-	FixedAngle &operator |=(const FixedAngle &f2) { raw |= f2.raw; return *this; }
+	FixedAngle &operator =(const FixedAngle &f2);
+	FixedAngle &operator +=(const FixedAngle &f2);
+	FixedAngle &operator -=(const FixedAngle &f2);
+	FixedAngle &operator *=(const FixedAngle &f2);
+	FixedAngle &operator &=(const FixedAngle &f2);
+	FixedAngle &operator |=(const FixedAngle &f2);
 
-	FixedAngle operator +(const FixedAngle &f2) const { return FixedAngle(raw + f2.raw); }
-	FixedAngle operator -(const FixedAngle &f2) const { return FixedAngle(raw - f2.raw); }
-	FixedAngle operator *(const FixedAngle &f2) const { return FixedAngle(raw * f2.raw); }
-	FixedAngle operator &(const FixedAngle &f2) const { return FixedAngle(raw & f2.raw); }
-	FixedAngle operator |(const FixedAngle &f2) const { return FixedAngle(raw | f2.raw); }
+	FixedAngle operator +(const FixedAngle &f2) const;
+	FixedAngle operator -(const FixedAngle &f2) const;
+	FixedAngle operator *(const FixedAngle &f2) const;
+	FixedAngle operator &(const FixedAngle &f2) const;
+	FixedAngle operator |(const FixedAngle &f2) const;
 
-	FixedAngle &operator <<=(const unsigned sh) { raw <<= sh; return *this; }
-	FixedAngle &operator >>=(const unsigned sh) { raw >>= sh; return *this; }
-	FixedAngle operator <<(const unsigned sh) const { return FixedAngle(raw << sh); }
-	FixedAngle operator >>(const unsigned sh) const { return FixedAngle(raw >> sh); }
+	FixedAngle &operator <<=(const unsigned sh);
+	FixedAngle &operator >>=(const unsigned sh);
+	FixedAngle operator <<(const unsigned sh) const;
+	FixedAngle operator >>(const unsigned sh) const;
 
-	bool operator <(const FixedAngle &f2) const { return raw < f2.raw; }
-	bool operator <=(const FixedAngle &f2) const { return raw <= f2.raw; }
-	bool operator >(const FixedAngle &f2) const { return raw > f2.raw; }
-	bool operator >=(const FixedAngle &f2) const { return raw >= f2.raw; }
-	bool operator !=(const FixedAngle &f2) const { return raw != f2.raw; }
-	bool operator ==(const FixedAngle &f2) const { return raw == f2.raw; }
+	bool operator <(const FixedAngle &f2) const;
+	bool operator <=(const FixedAngle &f2) const;
+	bool operator >(const FixedAngle &f2) const;
+	bool operator >=(const FixedAngle &f2) const;
+	bool operator !=(const FixedAngle &f2) const;
+	bool operator ==(const FixedAngle &f2) const;
 	
 	s16 raw;
 };
 
 FixedAngle operator "" _fixedAngle(unsigned long long x);
 
-inline fp12 sin(const FixedAngle &x) {
-	return fp12(
-		sinLerp(x.raw), 12
-	);
-}
-
-inline fp12 cos(const FixedAngle &x) {
-	return fp12(
-		cosLerp(x.raw), 12
-	);
-}
-
-inline fp12 tan(const FixedAngle &x) {
-	return fp12(
-		tanLerp(x.raw), 12
-	);
-}
-
-inline FixedAngle asin(const fp12 x) {
-	return asinLerp(x.raw);
-}
-
-inline FixedAngle acos(const fp12 x) {
-	return acosLerp(x.raw);
-}
+inline fp12 sin(const FixedAngle &x);
+inline fp12 cos(const FixedAngle &x);
+inline fp12 tan(const FixedAngle &x);
+inline FixedAngle asin(const fp12 x);
+inline FixedAngle acos(const fp12 x);
 
 
 #endif
