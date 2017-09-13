@@ -20,7 +20,7 @@ public:
 	operator bool() const { return (bool)raw; }
 	operator float() const { return ((float)raw) / ((float)(1 << Base)); }
 
-	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2; return *this; }
+	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2.raw; return *this; }
 	FixedPoint<Base> &operator +=(const FixedPoint<Base> &f2) { raw += f2.raw; return *this; }
 	FixedPoint<Base> &operator -=(const FixedPoint<Base> &f2) { raw -= f2.raw; return *this; }
 	FixedPoint<Base> &operator *=(const FixedPoint<Base> &f2) { raw = (raw * f2.raw) >> Base; return *this; }
@@ -98,7 +98,7 @@ inline fp12 &operator %=(fp12 &x, const fp12 &y) {
 
 
 fp12 operator "" _fp12Angle(unsigned long long x) {
-	return fp12(degreesToAngle(x));
+	return fp12(degreesToAngle(x),12);
 }
 
 inline fp12 sin(const fp12 x) {
