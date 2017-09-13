@@ -106,6 +106,31 @@ class FixedAngle {
 		return angleToDegrees((float)(raw));
 	};
 	
+	FixedAngle &operator =(const FixedAngle &f2) { raw = f2.raw; return *this; }
+	FixedAngle &operator +=(const FixedAngle &f2) { raw += f2.raw; return *this; }
+	FixedAngle &operator -=(const FixedAngle &f2) { raw -= f2.raw; return *this; }
+	FixedAngle &operator *=(const FixedAngle &f2) { raw = raw * f2.raw; return *this; }
+	FixedAngle &operator &=(const FixedAngle &f2) { raw &= f2.raw; return *this; }
+	FixedAngle &operator |=(const FixedAngle &f2) { raw |= f2.raw; return *this; }
+
+	FixedAngle operator +(const FixedAngle &f2) const { return FixedAngle(raw + f2.raw); }
+	FixedAngle operator -(const FixedAngle &f2) const { return FixedAngle(raw - f2.raw); }
+	FixedAngle operator *(const FixedAngle &f2) const { return FixedAngle(raw * f2.raw); }
+	FixedAngle operator &(const FixedAngle &f2) const { return FixedAngle(raw & f2.raw); }
+	FixedAngle operator |(const FixedAngle &f2) const { return FixedAngle(raw | f2.raw); }
+
+	FixedAngle &operator <<=(const unsigned sh) { raw <<= sh; return *this; }
+	FixedAngle &operator >>=(const unsigned sh) { raw >>= sh; return *this; }
+	FixedAngle operator <<(const unsigned sh) const { return FixedAngle(raw << sh); }
+	FixedAngle operator >>(const unsigned sh) const { return FixedAngle(raw >> sh); }
+
+	bool operator <(const FixedAngle &f2) const { return raw < f2.raw; }
+	bool operator <=(const FixedAngle &f2) const { return raw <= f2.raw; }
+	bool operator >(const FixedAngle &f2) const { return raw > f2.raw; }
+	bool operator >=(const FixedAngle &f2) const { return raw >= f2.raw; }
+	bool operator !=(const FixedAngle &f2) const { return raw != f2.raw; }
+	bool operator ==(const FixedAngle &f2) const { return raw == f2.raw; }
+	
 	s16 raw;
 };
 
