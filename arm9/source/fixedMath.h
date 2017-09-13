@@ -17,8 +17,14 @@ public:
 	FixedPoint() {}
 
 	operator int() const { return raw >> Base; }
+	operator uint8_t() const { return raw >> Base; }
 	operator bool() const { return (bool)raw; }
 	operator float() const { return ((float)raw) / ((float)(1 << Base)); }
+	
+	FixedPoint<Base> &operator -() { raw = -raw; return *this; }
+	
+	FixedPoint<Base> &operator --() { raw -= Base; return *this; }
+	FixedPoint<Base> &operator ++() { raw += Base; return *this; }
 
 	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2.raw; return *this; }
 	FixedPoint<Base> &operator +=(const FixedPoint<Base> &f2) { raw += f2.raw; return *this; }
@@ -32,6 +38,12 @@ public:
 	FixedPoint<Base> operator *(const FixedPoint<Base> &f2) const { return FixedPoint((raw * f2.raw)>>Base, Base); }
 	FixedPoint<Base> operator &(const FixedPoint<Base> &f2) const { return FixedPoint(raw & f2.raw, Base); }
 	FixedPoint<Base> operator |(const FixedPoint<Base> &f2) const { return FixedPoint(raw | f2.raw, Base); }
+	
+	FixedPoint<Base> operator +(const int x) const { return FixedPoint(raw + (x<<Base), Base); }
+	FixedPoint<Base> operator -(const int x) const { return FixedPoint(raw - (x<<Base), Base); }
+	FixedPoint<Base> operator *(const int x) const { return FixedPoint((raw * (x<<Base))>>Base, Base); }
+	FixedPoint<Base> operator &(const int x) const { return FixedPoint(raw & (x<<Base), Base); }
+	FixedPoint<Base> operator |(const int x) const { return FixedPoint(raw | (x<<Base), Base); }
 
 	FixedPoint<Base> &operator <<=(const unsigned sh) { raw <<= sh; return *this; }
 	FixedPoint<Base> &operator >>=(const unsigned sh) { raw >>= sh; return *this; }
@@ -60,12 +72,26 @@ public:
 	int32_t raw;
 
 };
+
+template<int Base> bool operator < (const int x, const FixedPoint<Base> &f) { return (x<<Base) < f.raw; }
+template<int Base> bool operator <=(const int x, const FixedPoint<Base> &f) { return (x<<Base) <= f.raw; }
+template<int Base> bool operator > (const int x, const FixedPoint<Base> &f) { return (x<<Base) > f.raw; }
+template<int Base> bool operator >=(const int x, const FixedPoint<Base> &f) { return (x<<Base) >= f.raw; }
+template<int Base> bool operator ==(const int x, const FixedPoint<Base> &f) { return (x<<Base) == f.raw; }
+template<int Base> bool operator !=(const int x, const FixedPoint<Base> &f) { return (x<<Base) != f.raw; }
+
+template<int Base> FixedPoint<Base> operator +(const int x, const FixedPoint<Base> &f) { return FixedPoint<Base>((x<<Base) + f.raw, Base); }
+template<int Base> FixedPoint<Base> operator -(const int x, const FixedPoint<Base> &f) { return FixedPoint<Base>((x<<Base) - f.raw, Base); }
+template<int Base> FixedPoint<Base> operator *(const int x, const FixedPoint<Base> &f) { return FixedPoint<Base>(((x<<Base) * f.raw)>>Base, Base); }
+template<int Base> FixedPoint<Base> operator &(const int x, const FixedPoint<Base> &f) { return FixedPoint<Base>((x<<Base) & f.raw, Base); }
+template<int Base> FixedPoint<Base> operator |(const int x, const FixedPoint<Base> &f) { return FixedPoint<Base>((x<<Base) | f.raw, Base); }
+
 typedef FixedPoint<8> fp8;
 typedef FixedPoint<12> fp12;
 
 
-fp8 operator "" _fp8(unsigned long long x) { return fp8(x); }
-fp12 operator "" _fp12(unsigned long long x) { return fp12(x); }
+fp8 operator "" _fp8(unsigned long long x);
+fp12 operator "" _fp12(unsigned long long x);
 
 inline fp12 sqrt(const fp12 &x) { return fp12(sqrtf32(x.raw), 12); }
 inline fp12 operator / (const fp12 &x, const fp12 &y) { 
@@ -136,9 +162,7 @@ class FixedAngle {
 	s16 raw;
 };
 
-FixedAngle operator "" _fixedAngle(unsigned long long x) {
-	return FixedAngle(degreesToAngle(x));
-}
+FixedAngle operator "" _fixedAngle(unsigned long long x);
 
 inline fp12 sin(const FixedAngle &x) {
 	return fp12(

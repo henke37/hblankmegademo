@@ -16,6 +16,14 @@ void testFixed() {
 	assert(a - c == e);
 	assert(a > b);
 	assert(b < a);
+	
+	//modifying operators
+	assert(c - 2==1_fp8);
+	assert(c==3_fp8);
+	c+=12_fp8;//3+12=15
+	assert(c==15);
+	c-=10;
+	assert(c==5);
 
 	//hw accelerated operators
 	assert(sqrt(q) == 2);
