@@ -102,6 +102,8 @@ class FixedAngle {
 	public:
 	FixedAngle() {}
 	FixedAngle(s16 rawAngle) : raw(rawAngle) {}
+	
+	operator bool() const { return (bool)raw; }
 	operator float() const {
 		return angleToDegrees((float)(raw));
 	};
