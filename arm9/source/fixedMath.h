@@ -21,8 +21,8 @@ public:
 	
 	FixedPoint<Base> &operator -() { raw = -raw; return *this; }
 	
-	FixedPoint<Base> &operator --() { raw -= Base; return *this; }
-	FixedPoint<Base> &operator ++() { raw += Base; return *this; }
+	FixedPoint<Base> &operator --() { raw -= (1 << Base); return *this; }
+	FixedPoint<Base> &operator ++() { raw += (1 << Base); return *this; }
 
 	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2.raw; return *this; }
 	FixedPoint<Base> &operator +=(const FixedPoint<Base> &f2) { raw += f2.raw; return *this; }
