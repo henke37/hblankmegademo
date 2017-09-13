@@ -2,8 +2,6 @@
 #define FIXEDMATH_H
 
 #include <cstdint>
-#include <nds/arm9/math.h>
-#include <nds/arm9/trig_lut.h>
 
 template <int Base> class FixedPoint;
 
@@ -93,41 +91,17 @@ typedef FixedPoint<12> fp12;
 fp8 operator "" _fp8(unsigned long long x);
 fp12 operator "" _fp12(unsigned long long x);
 
-inline fp12 sqrt(const fp12 &x) { return fp12(sqrtf32(x.raw), 12); }
-inline fp12 operator / (const fp12 &x, const fp12 &y) { 
-	if (y.raw == 0) return 0;
-	return fp12(divf32(x.raw, y.raw), 12);
-}
-
-inline fp12 operator % (const fp12 x, const fp12 y) {
-	if (y.raw == 0) return 0;
-	return fp12(mod64(((int64)x.raw) << 12, y.raw), 12);
-}
-
-inline fp12 &operator /=(fp12 &x, const fp12 &y) {
-	if (y.raw == 0) {
-		x.raw = 0;
-	} else {
-		x.raw = divf32(x.raw, y.raw);
-	}
-	return x;
-}
-
-inline fp12 &operator %=(fp12 &x, const fp12 &y) {
-	if (y.raw == 0) {
-		x.raw = 0;
-	} else {
-		x.raw = mod64(((int64)x.raw) << 12, y.raw);
-	}
-	return x;
-}
-
+fp12 sqrt(const fp12 &x);
+fp12 operator / (const fp12 &x, const fp12 &y);
+fp12 operator % (const fp12 x, const fp12 y);
+fp12 &operator /=(fp12 &x, const fp12 &y);
+fp12 &operator %=(fp12 &x, const fp12 &y);
 
 
 class FixedAngle {
 	public:
 	FixedAngle();
-	FixedAngle(s16 rawAngle);
+	FixedAngle(int16_t rawAngle);
 	
 	operator bool() const;
 	operator float() const;
@@ -157,7 +131,7 @@ class FixedAngle {
 	bool operator !=(const FixedAngle &f2) const;
 	bool operator ==(const FixedAngle &f2) const;
 	
-	s16 raw;
+	int16_t raw;
 };
 
 FixedAngle operator "" _fixedAngle(unsigned long long x);
