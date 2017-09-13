@@ -3,6 +3,8 @@
 
 #include "demo.h"
 
+#include "fixedMath.h"
+
 #define MIN_HOLE_SIZE 5
 #define MAX_HOLE_SIZE 200
 
@@ -18,11 +20,11 @@ protected:
 
 private:
 	/** leftmost edge of the hole */
-	int xPos;
+	fp12 xPos;
 	/** top of the hole */
-	int yPos;
+	fp12 yPos;
 	/** radius of the hole*/
-	float radius;
+	fp12 radius;
 };
 
 #endif
