@@ -2,6 +2,11 @@
 #include <nds/arm9/video.h>
 #include <nds/system.h>
 
+#ifdef __INTELLISENSE__
+#undef ITCM_CODE
+#define ITCM_CODE
+#endif
+
 #include <cstdio>
 
 ITCM_CODE void DemoRunner::hBlankHandler() {
