@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 void testFixed() {
-	fp8 a=5,b=4,c=3,d=1,e=2;
+	fp8 a=5,b=4,c=3,d=1,e=2,f=-2;
 	fp12 p=5,q=4,r=3,s=1,t=2,x;
 	FixedAngle h,j,i;
 
@@ -16,6 +16,7 @@ void testFixed() {
 	assert(a - c == e);
 	assert(a > b);
 	assert(b < a);
+	assert(f*f > 0);
 	
 	//modifying operators
 	assert(c - 2==1_fp8);
