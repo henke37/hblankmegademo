@@ -34,7 +34,7 @@
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
@@ -82,6 +82,15 @@ make</NMakeReBuildCommandLine>
     <NMakeReBuildCommandLine>make clean%3b make</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\devkitPro\libnds\include;$(IncludePath)</IncludePath>
+    <NMakePreprocessorDefinitions>ARM9</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeBuildCommandLine>cd ..\..
+make</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>cd ..\..
+make clean</NMakeCleanCommandLine>
+  </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -105,6 +114,7 @@ make</NMakeReBuildCommandLine>
     <ClCompile Include="..\source\demo.cpp" />
     <ClCompile Include="..\source\demoRunner.cpp" />
     <ClCompile Include="..\source\demoRunner.itcm.cpp" />
+    <ClCompile Include="..\source\fixedMath.cpp" />
     <ClCompile Include="..\source\fixedTest.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\menuDemo.cpp" />
