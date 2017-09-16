@@ -9,6 +9,11 @@
 #define VRAM_H_SIZE (32*1024)
 #define VRAM_I_SIZE (16*1024)
 
+#ifdef __INTELLISENSE__
+#undef ITCM_CODE
+#define ITCM_CODE
+#endif
+
 ITCM_CODE static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
 
 ITCM_CODE void Poke::Perform() {
