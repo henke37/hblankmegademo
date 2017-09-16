@@ -5,7 +5,7 @@
 
 template <int Base> class FixedPoint;
 
-#define intFromBaseToBase(raw, Base, oldBase) Base>oldBase ? (raw >> (Base - oldBase)) : (raw << (oldBase - Base))
+#define intFromBaseToBase(raw, Base, oldBase) (Base>oldBase) ? (raw >> (Base - oldBase)) : (raw << (oldBase - Base))
 
 template <int Base> class FixedPoint {
 public:
@@ -19,8 +19,8 @@ public:
 	operator bool() const { return (bool)raw; }
 	operator float() const { return ((float)raw) / ((float)(1 << Base)); }
 	
-	FixedPoint<Base> &operator -() { raw = -raw; return *this; }
-	FixedPoint<Base> &operator !() { return !raw; }
+	FixedPoint<Base> operator -() const { return FixedPoint(-raw, Base); }
+	FixedPoint<Base> &operator !() const { return !raw; }
 	
 	FixedPoint<Base> &operator --() { raw -= (1 << Base); return *this; }
 	FixedPoint<Base> &operator ++() { raw += (1 << Base); return *this; }
@@ -64,6 +64,8 @@ public:
 	bool operator !=(const int x) const { return raw != (x << Base); }
 	bool operator ==(const int x) const { return raw == (x << Base); }
 
+
+	FixedPoint<Base> &operator =(const int x) { raw = (x << Base); return *this; }
 	FixedPoint<Base> &operator +=(const int x) { raw += (x << Base); return *this; }
 	FixedPoint<Base> &operator -=(const int x) { raw -= (x << Base); return *this; }
 	FixedPoint<Base> &operator *=(const int x) { raw *= (x << Base); return *this; }
