@@ -28,19 +28,19 @@ public:
 	FixedPoint<Base> &operator =(const FixedPoint<Base> &f2) { raw = f2.raw; return *this; }
 	FixedPoint<Base> &operator +=(const FixedPoint<Base> &f2) { raw += f2.raw; return *this; }
 	FixedPoint<Base> &operator -=(const FixedPoint<Base> &f2) { raw -= f2.raw; return *this; }
-	FixedPoint<Base> &operator *=(const FixedPoint<Base> &f2) { raw = (raw * f2.raw) >> Base; return *this; }
+	FixedPoint<Base> &operator *=(const FixedPoint<Base> &f2) { raw = fixedMul(raw,f2.raw); return *this; }
 	FixedPoint<Base> &operator &=(const FixedPoint<Base> &f2) { raw &= f2.raw; return *this; }
 	FixedPoint<Base> &operator |=(const FixedPoint<Base> &f2) { raw |= f2.raw; return *this; }
 
 	FixedPoint<Base> operator +(const FixedPoint<Base> &f2) const { return FixedPoint(raw + f2.raw, Base); }
 	FixedPoint<Base> operator -(const FixedPoint<Base> &f2) const { return FixedPoint(raw - f2.raw, Base); }
-	FixedPoint<Base> operator *(const FixedPoint<Base> &f2) const { return FixedPoint((raw * f2.raw)>>Base, Base); }
+	FixedPoint<Base> operator *(const FixedPoint<Base> &f2) const { return FixedPoint(fixedMul(raw,f2.raw), Base); }
 	FixedPoint<Base> operator &(const FixedPoint<Base> &f2) const { return FixedPoint(raw & f2.raw, Base); }
 	FixedPoint<Base> operator |(const FixedPoint<Base> &f2) const { return FixedPoint(raw | f2.raw, Base); }
 	
 	FixedPoint<Base> operator +(const int x) const { return FixedPoint(raw + (x<<Base), Base); }
 	FixedPoint<Base> operator -(const int x) const { return FixedPoint(raw - (x<<Base), Base); }
-	FixedPoint<Base> operator *(const int x) const { return FixedPoint((raw * (x<<Base))>>Base, Base); }
+	FixedPoint<Base> operator *(const int x) const { return FixedPoint(fixedMul(raw,x<<Base), Base); }
 	FixedPoint<Base> operator &(const int x) const { return FixedPoint(raw & (x<<Base), Base); }
 	FixedPoint<Base> operator |(const int x) const { return FixedPoint(raw | (x<<Base), Base); }
 
@@ -71,6 +71,11 @@ public:
 	FixedPoint<Base> &operator *=(const int x) { raw *= (x << Base); return *this; }
 
 	int32_t raw;
+
+private:
+	int32_t static fixedMul(int32_t a, int32_t b) {
+		return int32_t((int64_t(a) * int64_t(b)) >> Base);
+	}
 
 };
 
