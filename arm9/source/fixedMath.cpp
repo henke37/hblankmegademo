@@ -1,12 +1,18 @@
 #include "fixedMath.h"
 #include <nds/arm9/math.h>
 #include <nds/arm9/trig_lut.h>
+#include <stdio.h>
 
 fp8 operator "" _fp8(unsigned long long x) { return fp8(x); }
 fp12 operator "" _fp12(unsigned long long x) { return fp12(x); }
 
 
-fp12 sqrt(const fp12 &x) { return fp12(sqrtf32(x.raw), 12); }
+fp12 sqrt(const fp12 &x) { 
+	if (x < 0) {
+		fprintf(stderr, "Trying to sqrt a negative value!\n%li %f\n",x.raw,(float)x);
+	}
+	return fp12(sqrtf32(x.raw), 12);
+}
 fp12 operator / (const fp12 &x, const fp12 &y) { 
 	if (y.raw == 0) return 0;
 	return fp12(divf32(x.raw, y.raw), 12);
