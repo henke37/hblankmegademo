@@ -46,3 +46,4 @@ arm9/build/*
 *.til
 
 FileSystem/build
+*.user
