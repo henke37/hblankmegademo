@@ -2,7 +2,7 @@
 #define SINXSCROLLDEMO_H
 
 #include "demo.h"
-#include <nds/arm9/background.h>
+#include "fixedMath.h"
 
 class SinXScrollDemo : public Demo {
 public:
@@ -16,13 +16,13 @@ protected:
 
 private:
 	/** Current scroll base*/
-	float offset;
+	FixedAngle offset;
 	/** speed of scroll base*/
-	float speed;
+	FixedAngle speed;
 	/** strength of modulation*/
-	float amplitude;
+	fp12 amplitude;
 	/** modulation offset per line*/
-	float lineSpeed;
+	FixedAngle lineSpeed;
 };
 
 #endif
