@@ -2,6 +2,7 @@
 #include "vrambatcher.h"
 #include <nds/arm9/window.h>
 #include <cmath>
+#include <nds/arm9/input.h>
 
 #define M_PI       3.14159265358979323846
 
@@ -35,31 +36,36 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 		//return;
 	}
 
-	WIN0_Y0=0;
-	WIN0_Y1=SCREEN_HEIGHT-1;
+	int top = lightY;
+	if (top < 0) top = 0;
+	int bottom = SCREEN_HEIGHT;
 
-	float sinLeft = std::sin(leftAngle);
-	float sinRight = std::sin(rightAngle);
+	WIN0_Y0=top;
+	WIN0_Y1=bottom-1;
 
-	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
+	float tanLeft = std::tan(leftAngle);
+	float tanRight = std::tan(rightAngle);
+
+	//printf("%f %f\n", cosLeft, cosRight);
+
+	for (int scanline = top; scanline < bottom; ++scanline) {
 
 		float yLen = scanline - lightY;
 
-		float leftD = scanline / sinLeft;
-		float leftXLen = std::sqrt(leftD*leftD - yLen*yLen);
-		leftXLen = 20;
+		float leftXLen = yLen*tanLeft;
+		//leftXLen = 20;
 		float leftXF = leftXLen + lightX;
 
 		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : leftXF));
 
-		float rightD = scanline / sinRight;
-		float rightXLen = std::sqrt(rightD*rightD - yLen*yLen);
-		rightXLen = 20;
+		float rightXLen = yLen*tanRight;
+		//rightXLen = 20;
 		float rightXF = rightXLen + lightX;
 
 		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : rightXF));
 
-		if (leftAngle <= 0 && rightAngle >= 0) {
+
+		if (leftAngle >= 0 && rightAngle <= 0) {
 			//left up, right down (right)
 			//left is above, right is bellow
 			//right side of the window is the right screen border
@@ -71,7 +77,7 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 				batcher.AddPoke(scanline, lightX, &WIN0_X0);
 			}
 			batcher.AddPoke(scanline, SCREEN_WIDTH-1, &WIN0_X1);
-		} else if (leftAngle >=0 && rightAngle <=0) {
+		} else if (leftAngle <= 0 && rightAngle >= 0) {
 			//left down, right up (left)
 			//left is bellow, right is above
 			//left side of the window is the left screen border
@@ -98,4 +104,29 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 }
 
 void SpotLightDemo::AcceptInput() {
+	auto keys = keysCurrent();
+
+	if (keys & KEY_L) {
+		angle -= 0.02;
+	} else if (keys & KEY_R) {
+		angle += 0.02;
+	}
+
+	if (keys & KEY_X) {
+		spread += 0.02;
+	} else if (keys & KEY_Y) {
+		spread -= 0.02;
+	}
+
+	if (keys & KEY_UP) {
+		--lightY;
+	} else if (keys & KEY_DOWN) {
+		++lightY;
+	}
+
+	if (keys & KEY_LEFT) {
+		--lightX;
+	} else if (keys & KEY_RIGHT) {
+		++lightX;
+	}
 }
