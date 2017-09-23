@@ -18,9 +18,9 @@ private:
 	int lightX;
 	/** The y position of the light */
 	int lightY;
-	/** The angle of the light, in radians */
+	/** The direction of the light, in radians */
 	float angle;
-	/** The spread of the light, in radians */
+	/** The spread angle of the light, in radians */
 	float spread;
 };
 
