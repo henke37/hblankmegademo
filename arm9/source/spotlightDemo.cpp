@@ -29,17 +29,25 @@ void SpotLightDemo::Unload() {
 	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
 }
 
+float yPosForAngleAndSide(float angle, int side) {
+	return side / std::tan(angle);
+}
+
 void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
-	float leftAngle = angle - spread;
+	float leftAngle  = angle - spread;
 	float rightAngle = angle + spread;
-	if (leftAngle > FULL_ROTATION) leftAngle -= FULL_ROTATION;
-	if (rightAngle > FULL_ROTATION) rightAngle -= FULL_ROTATION;
-	if (leftAngle < -FULL_ROTATION) leftAngle += FULL_ROTATION;
-	if (rightAngle < -FULL_ROTATION) rightAngle += FULL_ROTATION;
+	if (leftAngle  >  FULL_ROTATION/2) leftAngle  -= FULL_ROTATION;
+	if (rightAngle >  FULL_ROTATION/2) rightAngle -= FULL_ROTATION;
+	if (leftAngle  < -FULL_ROTATION/2) leftAngle  += FULL_ROTATION;
+	if (rightAngle < -FULL_ROTATION/2) rightAngle += FULL_ROTATION;
 
 
-	float tanLeft = std::tan(leftAngle);
-	float tanRight = std::tan(rightAngle);
+	float tanLeft  = std::tan(-leftAngle);
+	float tanRight = std::tan(-rightAngle);
+	float cosLeft  = std::cos(leftAngle);
+	float cosRight = std::cos(rightAngle);
+	float normLeft  = 1 / tanLeft;
+	float normRight = 1 / tanRight;
 
 	int top;
 	int bottom;
@@ -47,12 +55,12 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 	bool pointsLeft=false, pointsRight=false, pointsUp=false, pointsDown=false;
 
 	if (angle < D45 && angle > MD45) {
-		pointsLeft = true;
-		puts("left");
-		int height = lightX*tanRight;
-		printf("%i\n", height);
-		top = lightY - height;
-		bottom = lightY + height;
+		pointsRight = true;
+		puts("right");
+		top    = lightY + yPosForAngleAndSide(leftAngle,  SCREEN_WIDTH - lightX);
+		bottom = lightY + yPosForAngleAndSide(rightAngle, SCREEN_WIDTH - lightX);
+		if (top > lightY) top = lightY;
+		if (bottom < lightY) bottom = lightY;
 	} else if (angle > MD135 && angle < MD45) {
 		pointsUp = true;
 		puts("up");
@@ -64,12 +72,12 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 		top = lightY;
 		bottom = SCREEN_HEIGHT;
 	} else {
-		pointsRight = true;
-		puts("right");
-		int height = lightX*tanLeft;
-		printf("H: %i\n", height);
-		top = lightY - height;
-		bottom = lightY + height;
+		pointsLeft = true;
+		puts("left");
+		top    = lightY + yPosForAngleAndSide(rightAngle, lightX);
+		bottom = lightY + yPosForAngleAndSide(leftAngle,  lightX);
+		if (top > lightY) top = lightY;
+		if (bottom < lightY) bottom = lightY;
 	}
 
 	if (top < 0) top = 0;
@@ -86,22 +94,23 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 
 	for (int scanline = top; scanline < bottom; ++scanline) {
 
-		float yLen = scanline - lightY;
+		float yLen = lightY - scanline;
 
-		float xLenLeft = yLen*tanLeft;
+		float xLenLeft  = yLen*tanLeft;
 		float xLenRight = yLen*tanRight;
 
-		float leftXF = lightX+xLenLeft;
+		float leftXF  = lightX+xLenLeft;
 		float rightXF = lightX+xLenRight;
 
-		int leftX = (leftXF < 0 ? 0 : (leftXF > SCREEN_WIDTH - 1 ? SCREEN_WIDTH - 1 : leftXF));
-		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH-1 ? SCREEN_WIDTH-1 : rightXF));
+		int leftX  = (leftXF  < 0 ? 0 : (leftXF  > SCREEN_WIDTH - 1 ? SCREEN_WIDTH - 1 : leftXF ));
+		int rightX = (rightXF < 0 ? 0 : (rightXF > SCREEN_WIDTH - 1 ? SCREEN_WIDTH  -1 : rightXF));
 
+		if (scanline == 100) {
+			printf("%i %i\n", leftX, rightX);
+		}
 
 		if (pointsRight) {
-			if (scanline == 100) {
-				printf("%i %i\n", leftX, rightX);
-			}
+			
 			//left up, right down (right)
 			//left is above, right is bellow
 			//right side of the window is the right screen border
@@ -144,16 +153,20 @@ void SpotLightDemo::AcceptInput() {
 
 	if (keys & KEY_L) {
 		angle -= 0.02;
-		if (angle <= -FULL_ROTATION) angle += FULL_ROTATION;
+		if (angle <= -FULL_ROTATION/2) angle += FULL_ROTATION;
+		printf("Angle: %f\n", angle);
 	} else if (keys & KEY_R) {
 		angle += 0.02;
-		if (angle >= FULL_ROTATION) angle -= FULL_ROTATION;
+		if (angle >= FULL_ROTATION/2) angle -= FULL_ROTATION;
+		printf("Angle: %f\n", angle);
 	}
 
 	if (keys & KEY_X && spread < MAX_SPREAD) {
 		spread += 0.02;
+		printf("Spread: %f\n", spread);
 	} else if (keys & KEY_Y && spread > MIN_SPREAD) {
 		spread -= 0.02;
+		printf("Spread: %f\n", spread);
 	}
 
 	if (keys & KEY_UP) {
