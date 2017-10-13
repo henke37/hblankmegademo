@@ -34,7 +34,14 @@ private:
 	bool isSub;
 	unsigned int dmaChannel;
 
-	std::vector<SpriteEntry> shadowObjects;
+	int lastUsedObjSlots;
+
+	struct ShadowEntry {
+		SpriteEntry obj;
+		unsigned int endY;
+	};
+
+	std::vector<ShadowEntry> shadowObjects;
 
 	SpriteEntry objBuff[SPRITE_COUNT];
 
@@ -42,7 +49,7 @@ private:
 	friend void objHdmaSubHandler();
 
 	void hdmaCompleteHandler();
-	void updateObjsForScanline(int scanline);
+	void updateObjsForScanline(unsigned int scanline);
 	void setHDMA(std::size_t transferSize);
 };
 
