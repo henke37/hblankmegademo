@@ -99,6 +99,7 @@ make clean</NMakeCleanCommandLine>
     <ClInclude Include="..\source\demoRunner.h" />
     <ClInclude Include="..\source\fixedMath.h" />
     <ClInclude Include="..\source\menuDemo.h" />
+    <ClInclude Include="..\source\objectManager.h" />
     <ClInclude Include="..\source\particleDemo.h" />
     <ClInclude Include="..\source\peepHoleWindowDemo.h" />
     <ClInclude Include="..\source\poke.h" />
@@ -118,6 +119,8 @@ make clean</NMakeCleanCommandLine>
     <ClCompile Include="..\source\fixedTest.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\menuDemo.cpp" />
+    <ClCompile Include="..\source\objectManager.cpp" />
+    <ClCompile Include="..\source\objectManager.itcm.cpp" />
     <ClCompile Include="..\source\particleDemo.cpp" />
     <ClCompile Include="..\source\peepHoleWindowDemo.cpp" />
     <ClCompile Include="..\source\poke.cpp" />
