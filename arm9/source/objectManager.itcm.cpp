@@ -5,14 +5,12 @@
 #include <cassert>
 #include <cstdint>
 
-unsigned int objHeight(const SpriteEntry &obj);
-
 void ObjectManager::hdmaCompleteHandler() {
 	if(REG_VCOUNT >= SCREEN_HEIGHT) return;
 	updateObjsForScanline(REG_VCOUNT + 1);
 
 	if(!(REG_DISPSTAT & (DISP_IN_VBLANK | DISP_IN_HBLANK))) {
-		puts("ObjMan: update missed deadline. \n");
+		//puts("ObjMan: update missed deadline. \n");
 	}
 }
 
@@ -21,18 +19,20 @@ void objHdmaMainHandler() { mainObjManager.hdmaCompleteHandler(); }
 void objHdmaSubHandler() { subObjManager.hdmaCompleteHandler(); }
 
 
-void ObjectManager::updateObjsForScanline(int scanline) {
+void ObjectManager::updateObjsForScanline(unsigned int scanline) {
 	int slotIndex = 0;
 
-	for(SpriteEntry candidateObj : shadowObjects) {
-		int height = objHeight(candidateObj);
-		if(candidateObj.y > scanline) continue;
-		if(candidateObj.y + height < scanline) continue;
+	for(ShadowEntry candidate : shadowObjects) {
+		if(candidate.obj.y > scanline) continue;
+		if(candidate.endY < scanline) continue;
 
-		objBuff[slotIndex++] = candidateObj;
+		objBuff[slotIndex++] = candidate.obj;
 	}
 
-	for(; slotIndex < SPRITE_COUNT; ++slotIndex) {
+	int prevLastUsedObjSlots = lastUsedObjSlots;
+	lastUsedObjSlots = slotIndex;
+
+	for(; slotIndex < prevLastUsedObjSlots; ++slotIndex) {
 		objBuff[slotIndex].isHidden = 1;
 		objBuff[slotIndex].isRotateScale = 0;
 	}
@@ -52,51 +52,4 @@ void ObjectManager::setHDMA(std::size_t transferSize) {
 	}
 
 	DMA_CR(dmaChannel) |= DMA_COPY_WORDS | (transferSize >> 2);
-}
-
-
-unsigned int objHeight(const SpriteEntry &obj) {
-	switch(obj.shape) {
-	case 0:
-		//square
-		switch(obj.size) {
-		case 0:
-			return 8;
-		case 1:
-			return 16;
-		case 2:
-			return 32;
-		case 3:
-			return 64;
-		}
-		assert(0);
-	case 1:
-		//tall
-		switch(obj.size) {
-		case 0:
-			return 16;
-		case 1:
-			return 16;
-		case 2:
-			return 32;
-		case 3:
-			return 64;
-		}
-		assert(0);
-	case 2:
-		//wide
-		switch(obj.size) {
-		case 0:
-			return 8;
-		case 1:
-			return 8;
-		case 2:
-			return 16;
-		case 3:
-			return 32;
-		}
-		assert(0);
-	default:
-		assert(0);
-	}
 }
