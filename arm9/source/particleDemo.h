@@ -13,19 +13,19 @@ public:
 	virtual void Load();
 	virtual void Unload();
 protected:
-	virtual void PrepareFrame(VramBatcher &);
+	virtual void PrepareFrame(VramBatcher &)=0;
 
 	struct Particle {
 		int x, y;
 		int width, height;
 		Particle();
 		Particle(int x, int y);
+		Particle(int x, int y, int width, int height);
 	};
 
 private:
 
 	std::vector<Particle> particles;
-	void PrepareLine(int scanline);
 };
 
 #endif

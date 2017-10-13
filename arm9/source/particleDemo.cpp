@@ -1,5 +1,7 @@
 #include "particleDemo.h"
 #include "vrambatcher.h"
+#include "objectManager.h"
+
 #include <nds/arm9/video.h>
 #include <nds/arm9/sprite.h>
 #include <cassert>
@@ -9,42 +11,17 @@ static SpriteSize spriteSizeToEnum(int width, int height);
 BaseParticleDemo::BaseParticleDemo() {}
 BaseParticleDemo::~BaseParticleDemo() {}
 void BaseParticleDemo::Load() {
-	REG_DISPCNT = DISPLAY_SPR_ACTIVE | DISPLAY_SPR_HBLANK;
+	REG_DISPCNT = DISPLAY_SPR_ACTIVE;
+	mainObjManager.activate();
 }
 
-void BaseParticleDemo::Unload() {}
-
-void BaseParticleDemo::PrepareFrame(VramBatcher &batcher) {
-	for(int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
-		
-	}
-}
-
-void BaseParticleDemo::PrepareLine(int scanline) {
-	int oamSlot = 0;
-	for(auto &particle : particles) {
-		if(particle.y > scanline) continue;
-		if(particle.y + particle.height < scanline) continue;
-
-		//TODO: move the updates to hblank
-		auto &slot = oamMain.oamMemory[oamSlot];
-
-		slot.x = particle.x;
-		slot.y = particle.y;
-		slot.isHidden = 0;
-		slot.isRotateScale = 0;
-	}
-
-	for(; oamSlot < SPRITE_COUNT; ++oamSlot) {
-		//TODO: move to hblank
-		auto &slot = oamMain.oamMemory[oamSlot];
-		slot.isHidden = 0;
-		slot.isRotateScale = 0;
-	}
+void BaseParticleDemo::Unload() {
+	mainObjManager.deactivate();
 }
 
 BaseParticleDemo::Particle::Particle() {}
-BaseParticleDemo::Particle::Particle(int _x, int _y) : x(_x), y(_y), width(1), height(1) {}
+BaseParticleDemo::Particle::Particle(int x_, int y_) : x(x_), y(y_), width(1), height(1) {}
+BaseParticleDemo::Particle::Particle(int x_, int y_, int w, int h) : x(x_), y(y_), width(w), height(h) {}
 
 SpriteSize spriteSizeToEnum(int width, int height) {
 	//round the width and height upwards to a multipiel of 8
