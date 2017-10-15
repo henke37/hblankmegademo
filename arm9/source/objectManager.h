@@ -6,7 +6,9 @@
 
 #ifdef __INTELLISENSE__
 #undef ITCM_CODE
+#undef DTCM_DATA
 #define ITCM_CODE
+#define DTCM_DATA
 #endif
 
 ITCM_CODE void objHdmaMainHandler();
@@ -29,17 +31,18 @@ public:
 
 	void tick();
 
+
+	struct ShadowEntry {
+		SpriteEntry obj;
+		unsigned int endY;
+	};
+
 private:
 	bool enabled;
 	bool isSub;
 	unsigned int dmaChannel;
 
 	int lastUsedObjSlots;
-
-	struct ShadowEntry {
-		SpriteEntry obj;
-		unsigned int endY;
-	};
 
 	std::vector<ShadowEntry> shadowObjects;
 
@@ -48,10 +51,12 @@ private:
 	friend void objHdmaMainHandler();
 	friend void objHdmaSubHandler();
 
-	void hdmaCompleteHandler();
-	void updateObjsForScanline(unsigned int scanline);
-	void setHDMA(std::size_t transferSize);
+	ITCM_CODE void hdmaCompleteHandler();
+	ITCM_CODE void updateObjsForScanline(unsigned int scanline);
+	ITCM_CODE void setHDMA(std::size_t transferSize);
 };
+
+extern template class std::vector<ObjectManager::ShadowEntry>;
 
 extern ObjectManager mainObjManager, subObjManager;
 #endif

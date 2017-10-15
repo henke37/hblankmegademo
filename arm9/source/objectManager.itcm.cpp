@@ -5,6 +5,8 @@
 #include <cassert>
 #include <cstdint>
 
+template class std::vector<ObjectManager::ShadowEntry>;
+
 void ObjectManager::hdmaCompleteHandler() {
 	if(REG_VCOUNT >= SCREEN_HEIGHT) return;
 	updateObjsForScanline(REG_VCOUNT + 1);
