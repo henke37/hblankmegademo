@@ -29,6 +29,7 @@ void ObjectManager::updateObjsForScanline(unsigned int scanline) {
 		if(candidate.endY < scanline) continue;
 
 		objBuff[slotIndex++] = candidate.obj;
+		if(slotIndex>=SPRITE_COUNT) break;
 	}
 
 	int prevLastUsedObjSlots = lastUsedObjSlots;
