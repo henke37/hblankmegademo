@@ -15,12 +15,16 @@ public:
 protected:
 	virtual void PrepareFrame(VramBatcher &)=0;
 
+	void buildObjectsFromParticles();
+
 	struct Particle {
 		int x, y;
 		int width, height;
+		int baseTile;
+		int palette;
 		Particle();
-		Particle(int x, int y);
-		Particle(int x, int y, int width, int height);
+		Particle(int x, int y, int baseTile, int palette = 0);
+		Particle(int x, int y, int width, int height, int baseTile, int palette=0);
 	};
 
 private:

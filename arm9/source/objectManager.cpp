@@ -58,6 +58,7 @@ void ObjectManager::deactivate() {
 }
 
 void ObjectManager::tick() {
+	if(!enabled) return;
 
 	shadowObjects.reserve(objects.capacity());
 	for(unsigned int i = 0; i < objects.size(); ++i) {
