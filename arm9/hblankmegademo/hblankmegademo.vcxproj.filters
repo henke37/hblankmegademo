@@ -63,6 +63,9 @@
     <ClInclude Include="..\source\objectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\flutterDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\demo.cpp">
@@ -123,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\objectManager.itcm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\flutterDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

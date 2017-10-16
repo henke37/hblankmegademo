@@ -27,9 +27,10 @@ protected:
 		Particle(int x, int y, int width, int height, int baseTile, int palette=0);
 	};
 
+	std::vector<Particle> particles;
+
 private:
 
-	std::vector<Particle> particles;
 };
 
 #endif

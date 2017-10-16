@@ -98,6 +98,7 @@ make clean</NMakeCleanCommandLine>
     <ClInclude Include="..\source\demo.h" />
     <ClInclude Include="..\source\demoRunner.h" />
     <ClInclude Include="..\source\fixedMath.h" />
+    <ClInclude Include="..\source\flutterDemo.h" />
     <ClInclude Include="..\source\menuDemo.h" />
     <ClInclude Include="..\source\objectManager.h" />
     <ClInclude Include="..\source\particleDemo.h" />
@@ -117,6 +118,7 @@ make clean</NMakeCleanCommandLine>
     <ClCompile Include="..\source\demoRunner.itcm.cpp" />
     <ClCompile Include="..\source\fixedMath.cpp" />
     <ClCompile Include="..\source\fixedTest.cpp" />
+    <ClCompile Include="..\source\flutterDemo.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\menuDemo.cpp" />
     <ClCompile Include="..\source\objectManager.cpp" />
