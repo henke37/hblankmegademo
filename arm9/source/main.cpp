@@ -6,6 +6,7 @@
 #include "demoRunner.h"
 #include "menuDemo.h"
 #include "rasterbarDemo.h"
+#include "objectManager.h"
 
 void testFixed();
 
@@ -30,5 +31,6 @@ int main(void) {
 		swiWaitForVBlank();
 		scanKeys();
 		runner.tick();
+		mainObjManager.tick();
 	}
 }
