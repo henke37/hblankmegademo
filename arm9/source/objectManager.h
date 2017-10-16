@@ -31,12 +31,6 @@ public:
 
 	void tick();
 
-
-	struct ShadowEntry {
-		SpriteEntry obj;
-		unsigned int endY;
-	};
-
 private:
 	bool enabled;
 	bool isSub;
@@ -44,7 +38,7 @@ private:
 
 	int lastUsedObjSlots;
 
-	std::vector<ShadowEntry> shadowObjects;
+	std::vector<SpriteEntry> shadowObjects;
 
 	SpriteEntry objBuff[SPRITE_COUNT];
 
@@ -56,7 +50,7 @@ private:
 	ITCM_CODE void setHDMA(std::size_t transferSize);
 };
 
-extern template class std::vector<ObjectManager::ShadowEntry>;
+extern template class std::vector<SpriteEntry>;
 
 extern ObjectManager mainObjManager, subObjManager;
 #endif

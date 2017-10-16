@@ -5,7 +5,7 @@
 #include <cassert>
 #include <cstdint>
 
-template class std::vector<ObjectManager::ShadowEntry>;
+template class std::vector<SpriteEntry>;
 
 void ObjectManager::hdmaCompleteHandler() {
 	if(REG_VCOUNT >= SCREEN_HEIGHT) return;
@@ -24,9 +24,9 @@ void objHdmaSubHandler() { subObjManager.hdmaCompleteHandler(); }
 void ObjectManager::updateObjsForScanline(unsigned int scanline) {
 	int slotIndex = 0;
 
-	for(ShadowEntry candidate : shadowObjects) {
+	for(SpriteEntry candidate : shadowObjects) {
 		if(candidate.obj.y > scanline) continue;
-		if(candidate.endY < scanline) continue;
+		if(candidate.attribute3 < scanline) continue;
 
 		objBuff[slotIndex++] = candidate.obj;
 		if(slotIndex>=SPRITE_COUNT) break;

@@ -62,7 +62,8 @@ void ObjectManager::tick() {
 	shadowObjects.reserve(objects.capacity());
 	for(unsigned int i = 0; i < objects.size(); ++i) {
 		const SpriteEntry &obj = objects[i];
-		shadowObjects[i] = {obj, objHeight(obj)+obj.y};
+		shadowObjects[i] = obj;
+		shadowObjects[i].attribute3=objHeight(obj)+obj.y;
 	}
 	shadowObjects.resize(objects.size());
 
