@@ -26,6 +26,7 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::activate() {
 	if(enabled) return;
+	enabled = true;
 
 	while(dmaBusy(dmaChannel));
 
@@ -43,6 +44,7 @@ void ObjectManager::activate() {
 
 void ObjectManager::deactivate() {
 	if(!enabled) return;
+	enabled = false;
 
 	if(isSub) {
 		REG_DISPCNT_SUB &= ~DISPLAY_SPR_HBLANK;
