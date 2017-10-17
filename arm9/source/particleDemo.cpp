@@ -11,7 +11,7 @@ static SpriteSize spriteSizeToEnum(int width, int height);
 BaseParticleDemo::BaseParticleDemo() {}
 BaseParticleDemo::~BaseParticleDemo() {}
 void BaseParticleDemo::Load() {
-	REG_DISPCNT = DISPLAY_SPR_ACTIVE;
+	REG_DISPCNT = DISPLAY_SPR_ACTIVE | DISPLAY_SPR_HBLANK | DISPLAY_SPR_1D | MODE_0_2D;
 	mainObjManager.activate();
 }
 
