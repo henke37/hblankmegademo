@@ -28,7 +28,7 @@ void objHdmaSubHandler() { subObjManager.hdmaCompleteHandler(); }
 void ObjectManager::updateObjsForScanline(unsigned int scanline) {
 	int slotIndex = 0;
 
-	for(SpriteEntry candidate : shadowObjects) {
+	for(SpriteEntry &candidate : shadowObjects) {
 		if(candidate.y > scanline) continue;
 		if(candidate.attribute3 < scanline) continue;
 
