@@ -54,5 +54,6 @@ void ObjectManager::setHDMA(std::size_t transferSize) {
 		DMA_DEST(dmaChannel) = 0x07000000;
 	}
 
-	DMA_CR(dmaChannel) |= DMA_COPY_WORDS | (transferSize >> 2);
+	DMA_CR(dmaChannel) = DMA_COPY_WORDS | (transferSize >> 2) | DMA_START_HBL | 
+		DMA_SRC_INC | DMA_DST_INC | DMA_IRQ_REQ;
 }
