@@ -44,7 +44,7 @@ void ObjectManager::updateObjsForScanline(unsigned int scanline) {
 		objBuff[slotIndex].isRotateScale = 0;
 	}
 
-	setHDMA(slotIndex - 1 * sizeof(SpriteEntry));
+	setHDMA((slotIndex - 1) * sizeof(SpriteEntry));
 
 }
 
