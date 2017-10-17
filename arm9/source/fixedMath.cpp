@@ -51,7 +51,7 @@ FixedAngle operator "" _fixedAngle(unsigned long long x) {
 }
 
 FixedAngle::FixedAngle() {}
-FixedAngle::FixedAngle(s16 rawAngle) : raw(rawAngle) {}
+FixedAngle::FixedAngle(int16_t rawAngle) : raw(rawAngle) {}
 
 FixedAngle::operator bool() const { return (bool)raw; }
 FixedAngle::operator float() const {
