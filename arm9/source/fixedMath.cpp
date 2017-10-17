@@ -3,8 +3,12 @@
 #include <nds/arm9/trig_lut.h>
 #include <stdio.h>
 
-fp8 operator "" _fp8(unsigned long long x) { return fp8(x); }
-fp12 operator "" _fp12(unsigned long long x) { return fp12(x); }
+fp8 operator "" _fp8(unsigned long long x) { return fp8((int)x); }
+fp12 operator "" _fp12(unsigned long long x) { return fp12((int)x); }
+
+fp12 operator""_fp12(long double x) {
+	return fp12((double)x);
+}
 
 
 fp12 sqrt(const fp12 &x) { 

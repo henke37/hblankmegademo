@@ -20,9 +20,9 @@ void PeepHoleWindowDemo::Unload() {
 void PeepHoleWindowDemo::AcceptInput() {
 	auto keys = keysCurrent();
 	if(keys & KEY_X && this->radius > MIN_HOLE_SIZE) {
-		radius -= 0.1;
+		radius -= 0.3_fp12;
 	} else if(keys & KEY_Y && radius < MAX_HOLE_SIZE) {
-		radius += 0.1;
+		radius += 0.3_fp12;
 	}
 
 	if(keys & KEY_LEFT && xPos > (-radius)) {

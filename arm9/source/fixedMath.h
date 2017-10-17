@@ -12,6 +12,7 @@ public:
 	FixedPoint(const int32_t _raw, const int oldBase) : raw(intFromBaseToBase(_raw, Base, oldBase)) {}
 	template <int Base2> FixedPoint(const FixedPoint<Base2> &f2) : raw(intFromBaseToBase(f2.raw, Base, Base2)) {}
 	FixedPoint(const int in) : raw(in<<Base) {}
+	FixedPoint(const double in) : raw(in * (1<< Base)) {}
 	FixedPoint() {}
 
 	operator int() const { return raw >> Base; }
@@ -98,6 +99,7 @@ typedef FixedPoint<12> fp12;
 
 fp8 operator "" _fp8(unsigned long long x);
 fp12 operator "" _fp12(unsigned long long x);
+fp12 operator "" _fp12(long double x);
 
 fp12 sqrt(const fp12 &x);
 fp12 operator / (const fp12 &x, const fp12 &y);
