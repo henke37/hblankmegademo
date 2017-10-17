@@ -25,10 +25,10 @@ void ObjectManager::updateObjsForScanline(unsigned int scanline) {
 	int slotIndex = 0;
 
 	for(SpriteEntry candidate : shadowObjects) {
-		if(candidate.obj.y > scanline) continue;
+		if(candidate.y > scanline) continue;
 		if(candidate.attribute3 < scanline) continue;
 
-		objBuff[slotIndex++] = candidate.obj;
+		objBuff[slotIndex++] = candidate;
 		if(slotIndex>=SPRITE_COUNT) break;
 	}
 
