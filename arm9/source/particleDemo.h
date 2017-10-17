@@ -5,7 +5,7 @@
 
 #include <vector>
 
-class BaseParticleDemo : Demo {
+class BaseParticleDemo : public Demo {
 
 public:
 	BaseParticleDemo();

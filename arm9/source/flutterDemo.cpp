@@ -7,6 +7,7 @@ extern uint16_t objTileData[8 * 8 / 4];
 extern _palette bgPalette;
 extern _palette objPalette;
 
+FlutterDemo::FlutterDemo() {}
 FlutterDemo::~FlutterDemo() {}
 
 void FlutterDemo::Load() {
@@ -23,6 +24,8 @@ void FlutterDemo::Unload() {
 void FlutterDemo::PrepareFrame(VramBatcher &) {
 	buildObjectsFromParticles();
 }
+
+void FlutterDemo::AcceptInput() {}
 
 void FlutterDemo::setupParticles() {
 	for(int y = 0; y < SCREEN_HEIGHT; y += 10) {

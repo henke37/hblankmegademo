@@ -5,6 +5,7 @@
 #include "demoRunner.h"
 #include "scanInDemo.h"
 #include "rasterbarDemo.h"
+#include "flutterDemo.h"
 
 #include <cassert>
 #include <nds/arm9/input.h>
@@ -45,6 +46,8 @@ std::shared_ptr<Demo> MenuDemo::makeDemo() {
 		return std::make_shared<ScanInDemo>();
 	case 4:
 		return std::make_shared<RasterBarDemo>();
+	case 5:
+		return std::make_shared<FlutterDemo>();
 	}
 	sassert(0,"Bad menu selection instatiated");
 
