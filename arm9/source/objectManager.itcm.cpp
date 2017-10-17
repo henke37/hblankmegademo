@@ -4,15 +4,19 @@
 #include <nds/dma.h>
 #include <cassert>
 #include <cstdint>
+#include <stdio.h>
 
 template class std::vector<SpriteEntry>;
 
 void ObjectManager::hdmaCompleteHandler() {
-	if(REG_VCOUNT >= SCREEN_HEIGHT) return;
-	updateObjsForScanline(REG_VCOUNT + 1);
+	int targetLine = REG_VCOUNT + 1;
+	if(targetLine > SCREEN_HEIGHT) return;
 
-	if(!(REG_DISPSTAT & (DISP_IN_VBLANK | DISP_IN_HBLANK))) {
-		//puts("ObjMan: update missed deadline. \n");
+	updateObjsForScanline(targetLine);
+
+
+	if(REG_VCOUNT > targetLine || (REG_VCOUNT== targetLine && (REG_DISPSTAT & DISP_IN_HBLANK))) {
+		printf("ObjMan: update missed deadline. %i\n",targetLine);
 	}
 }
 
