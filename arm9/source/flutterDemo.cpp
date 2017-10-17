@@ -53,7 +53,7 @@ uint16_t objTileData[8 * 8 / 4] = {
 	1,0
 };
 
-_palette bgPalette = {RGB8(0,0,0)};
+_palette bgPalette = {RGB8(0x70,0x70,0x70)};
 _palette objPalette = {
 	RGB8(255,0,255),RGB8(0,0,0),
 	RGB8(0,0,0),RGB8(0,0,0),RGB8(0,0,0),RGB8(0,0,0),RGB8(0,0,0),
