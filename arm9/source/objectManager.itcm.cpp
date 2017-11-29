@@ -12,8 +12,8 @@ void ObjectManager::hdmaCompleteHandler() {
 	int targetLine = REG_VCOUNT + 1;
 	if(targetLine > SCREEN_HEIGHT) return;
 
-	updateObjsForScanline(targetLine);
-
+	auto &update = updates[targetLine];
+	update.registerForHDMA(dmaChannel, isSub);
 
 	if(REG_VCOUNT > targetLine || (REG_VCOUNT== targetLine && (REG_DISPSTAT & DISP_IN_HBLANK))) {
 		printf("ObjMan: update missed deadline. %i\n",targetLine);
@@ -24,34 +24,11 @@ void ObjectManager::hdmaCompleteHandler() {
 void objHdmaMainHandler() { mainObjManager.hdmaCompleteHandler(); }
 void objHdmaSubHandler() { subObjManager.hdmaCompleteHandler(); }
 
+void ObjectManager::OAMUpdate::registerForHDMA(unsigned int dmaChannel,bool isSub) {
+	size_t transferSize = sizeof(SpriteEntry) * updateSize;
+	DC_FlushRange(objBuffer, transferSize);
 
-void ObjectManager::updateObjsForScanline(unsigned int scanline) {
-	int slotIndex = 0;
-
-	for(SpriteEntry &candidate : shadowObjects) {
-		if(candidate.y > scanline) continue;
-		if(candidate.attribute3 < scanline) continue;
-
-		objBuff[slotIndex++] = candidate;
-		if(slotIndex>=SPRITE_COUNT) break;
-	}
-
-	int prevLastUsedObjSlots = lastUsedObjSlots;
-	lastUsedObjSlots = slotIndex;
-
-	for(; slotIndex < prevLastUsedObjSlots; ++slotIndex) {
-		objBuff[slotIndex].isHidden = 1;
-		objBuff[slotIndex].isRotateScale = 0;
-	}
-
-	setHDMA((slotIndex - 1) * sizeof(SpriteEntry));
-
-}
-
-void ObjectManager::setHDMA(std::size_t transferSize) {
-	DC_FlushRange(objBuff, transferSize);
-
-	DMA_SRC(dmaChannel) = (uintptr_t) objBuff;
+	DMA_SRC(dmaChannel) = (uintptr_t) objBuffer;
 	if(isSub) {
 		DMA_DEST(dmaChannel) = 0x07000400;
 	} else {
