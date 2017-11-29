@@ -40,17 +40,23 @@ private:
 
 	std::vector<SpriteEntry> shadowObjects;
 
-	SpriteEntry objBuff[SPRITE_COUNT];
+	struct OAMUpdate {
+		SpriteEntry objBuffer[SPRITE_COUNT];
+		unsigned int updateSize;//in objects
+		ITCM_CODE void registerForHDMA(unsigned int dmaChannel, bool isSub);
+		void DMANow(unsigned int dmaChannel, bool isSub);
+	};
+
+	OAMUpdate updates[SCREEN_HEIGHT];
+
+	void buildUpdateForScanlines(unsigned int start, unsigned int chunkSize);
 
 	friend void objHdmaMainHandler();
 	friend void objHdmaSubHandler();
 
 	ITCM_CODE void hdmaCompleteHandler();
-	ITCM_CODE void updateObjsForScanline(unsigned int scanline);
-	ITCM_CODE void setHDMA(std::size_t transferSize);
-};
 
-extern template class std::vector<SpriteEntry>;
+};
 
 extern ObjectManager mainObjManager, subObjManager;
 #endif

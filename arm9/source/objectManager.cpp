@@ -2,7 +2,7 @@
 #include <cassert>
 #include <nds/dma.h>
 #include <nds/interrupts.h>
-
+#include <nds/arm9/cache.h>
 
 unsigned int objHeight(const SpriteEntry &obj);
 
@@ -14,8 +14,7 @@ ObjectManager subObjManager(1, true);
 ObjectManager::ObjectManager(unsigned int dmaChannel_, bool isSub_) : 
 	enabled(false), 
 	isSub(isSub_), 
-	dmaChannel(dmaChannel_),
-	lastUsedObjSlots(SPRITE_COUNT)
+	dmaChannel(dmaChannel_)
 {
 	assert(dmaChannel_ <= 3);
 }
@@ -27,6 +26,8 @@ ObjectManager::~ObjectManager() {
 void ObjectManager::activate() {
 	if(enabled) return;
 	enabled = true;
+
+	lastUsedObjSlots = SPRITE_COUNT;
 
 	while(dmaBusy(dmaChannel));
 
@@ -70,7 +71,58 @@ void ObjectManager::tick() {
 	}
 	shadowObjects.resize(objects.size());
 
-	updateObjsForScanline(0);
+	const unsigned int chunkSize = 32;
+
+	for(unsigned int scanline = 0; scanline < SCREEN_HEIGHT; scanline+=chunkSize) {
+		buildUpdateForScanlines(scanline,chunkSize);
+	}
+
+	updates[0].DMANow(dmaChannel, isSub);
+}
+
+void ObjectManager::buildUpdateForScanlines(unsigned int start, unsigned int chunkSize) {
+	int slotIndex = 0;
+	auto &update = updates[start];
+	auto &objBuff = update.objBuffer;
+
+	for(SpriteEntry &candidate : shadowObjects) {
+		//check if upper bound is before region start
+		if(candidate.y < start) continue;
+
+		//check if lower bound is before the region start
+		if(candidate.attribute3 > start+chunkSize-1) continue;
+
+		auto &oamSlot = objBuff[slotIndex++];
+		
+		oamSlot= candidate;
+		oamSlot.attribute3 = 0;
+		if(slotIndex >= SPRITE_COUNT) break;
+	}
+
+	int prevLastUsedObjSlots = lastUsedObjSlots;
+	lastUsedObjSlots = slotIndex;
+	
+	for(; slotIndex < prevLastUsedObjSlots; ++slotIndex) {
+		objBuff[slotIndex].isHidden = 1;
+		objBuff[slotIndex].isRotateScale = 0;
+	}
+	update.updateSize = slotIndex - 1;
+
+}
+
+void ObjectManager::OAMUpdate::DMANow(unsigned int dmaChannel, bool isSub) {
+	size_t transferSize = sizeof(SpriteEntry) * updateSize;
+	DC_FlushRange(objBuffer, transferSize);
+
+	DMA_SRC(dmaChannel) = (uintptr_t) objBuffer;
+	if(isSub) {
+		DMA_DEST(dmaChannel) = 0x07000400;
+	} else {
+		DMA_DEST(dmaChannel) = 0x07000000;
+	}
+
+	DMA_CR(dmaChannel) = DMA_COPY_WORDS | (transferSize >> 2) | DMA_START_NOW |
+		DMA_SRC_INC | DMA_DST_INC | DMA_IRQ_REQ;
 }
 
 
