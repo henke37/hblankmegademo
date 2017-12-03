@@ -11,8 +11,7 @@
 #define DTCM_DATA
 #endif
 
-ITCM_CODE void objHdmaMainHandler();
-ITCM_CODE void objHdmaSubHandler();
+class DemoRunner;
 
 class ObjectManager {
 public:
@@ -43,6 +42,9 @@ private:
 	struct OAMUpdate {
 		SpriteEntry objBuffer[SPRITE_COUNT];
 		unsigned int updateSize;//in objects
+
+		OAMUpdate();
+
 		ITCM_CODE void registerForHDMA(unsigned int dmaChannel, bool isSub);
 		void DMANow(unsigned int dmaChannel, bool isSub);
 	};
@@ -51,10 +53,9 @@ private:
 
 	void buildUpdateForScanlines(unsigned int start, unsigned int chunkSize);
 
-	friend void objHdmaMainHandler();
-	friend void objHdmaSubHandler();
+	friend class DemoRunner;
 
-	ITCM_CODE void hdmaCompleteHandler();
+	ITCM_CODE void setupNextHDMA();
 
 };
 
