@@ -39,12 +39,12 @@ void BaseParticleDemo::buildObjectsFromParticles() {
 		obj.colorMode = OBJCOLOR_16;
 		obj.blendMode = OBJMODE_NORMAL;
 
-		obj.priority = OBJPRIORITY_3;
+		obj.priority = OBJPRIORITY_1;
 
 		obj.x = particle.x;
 		obj.y = particle.y;
 
-		obj.size = (ObjSize)SPRITE_SIZE_SIZE(size);
+		obj.size  = (ObjSize)  SPRITE_SIZE_SIZE(size);
 		obj.shape = (ObjShape) SPRITE_SIZE_SHAPE(size);
 
 		mainObjManager.objects.push_back(std::move(

@@ -8,7 +8,8 @@
 
 template class std::vector<SpriteEntry>;
 
-void ObjectManager::hdmaCompleteHandler() {
+void ObjectManager::setupNextHDMA() {
+	if(!enabled) return;
 	int targetLine = REG_VCOUNT + 1;
 	if(targetLine > SCREEN_HEIGHT) return;
 
@@ -20,11 +21,8 @@ void ObjectManager::hdmaCompleteHandler() {
 	}
 }
 
-
-void objHdmaMainHandler() { mainObjManager.hdmaCompleteHandler(); }
-void objHdmaSubHandler() { subObjManager.hdmaCompleteHandler(); }
-
 void ObjectManager::OAMUpdate::registerForHDMA(unsigned int dmaChannel,bool isSub) {
+	if(updateSize == 0) return;
 	size_t transferSize = sizeof(SpriteEntry) * updateSize;
 	DC_FlushRange(objBuffer, transferSize);
 
@@ -36,5 +34,5 @@ void ObjectManager::OAMUpdate::registerForHDMA(unsigned int dmaChannel,bool isSu
 	}
 
 	DMA_CR(dmaChannel) = DMA_COPY_WORDS | (transferSize >> 2) | DMA_START_HBL | 
-		DMA_SRC_INC | DMA_DST_INC | DMA_IRQ_REQ;
+		DMA_SRC_INC | DMA_DST_INC;
 }

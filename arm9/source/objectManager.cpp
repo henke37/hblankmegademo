@@ -3,6 +3,7 @@
 #include <nds/dma.h>
 #include <nds/interrupts.h>
 #include <nds/arm9/cache.h>
+#include <stdio.h>
 
 unsigned int objHeight(const SpriteEntry &obj);
 
@@ -37,10 +38,7 @@ void ObjectManager::activate() {
 		REG_DISPCNT |= DISPLAY_SPR_HBLANK;
 	}
 
-	irqSet(irqForDmaChannel[dmaChannel], isSub ? objHdmaSubHandler : objHdmaMainHandler);
-	irqEnable(irqForDmaChannel[dmaChannel]);
-
-	DMA_CR(dmaChannel) = DMA_START_HBL | DMA_SRC_FIX | DMA_DST_FIX | DMA_IRQ_REQ;
+	DMA_CR(dmaChannel) = DMA_START_HBL | DMA_SRC_FIX | DMA_DST_FIX;
 }
 
 void ObjectManager::deactivate() {
@@ -52,8 +50,6 @@ void ObjectManager::deactivate() {
 	} else {
 		REG_DISPCNT &= ~DISPLAY_SPR_HBLANK;
 	}
-
-	irqDisable(irqForDmaChannel[dmaChannel]);
 
 	DMA_CR(dmaChannel) &= ~DMA_ENABLE;
 
@@ -71,7 +67,7 @@ void ObjectManager::tick() {
 	}
 	shadowObjects.resize(objects.size());
 
-	const unsigned int chunkSize = 32;
+	const unsigned int chunkSize = 4;
 
 	for(unsigned int scanline = 0; scanline < SCREEN_HEIGHT; scanline+=chunkSize) {
 		buildUpdateForScanlines(scanline,chunkSize);
@@ -85,12 +81,16 @@ void ObjectManager::buildUpdateForScanlines(unsigned int start, unsigned int chu
 	auto &update = updates[start];
 	auto &objBuff = update.objBuffer;
 
+	unsigned int regionEnd = start + chunkSize - 1;
+	if(regionEnd > SCREEN_HEIGHT) regionEnd = SCREEN_HEIGHT;
+
 	for(SpriteEntry &candidate : shadowObjects) {
+		auto bottom = candidate.attribute3;
 		//check if upper bound is before region start
-		if(candidate.y < start) continue;
+		if(bottom < start) continue;
 
 		//check if lower bound is before the region start
-		if(candidate.attribute3 > start+chunkSize-1) continue;
+		if(candidate.y > regionEnd) continue;
 
 		auto &oamSlot = objBuff[slotIndex++];
 		
@@ -110,7 +110,10 @@ void ObjectManager::buildUpdateForScanlines(unsigned int start, unsigned int chu
 
 }
 
+ObjectManager::OAMUpdate::OAMUpdate() : updateSize(0) {}
+
 void ObjectManager::OAMUpdate::DMANow(unsigned int dmaChannel, bool isSub) {
+	if(updateSize == 0) return;
 	size_t transferSize = sizeof(SpriteEntry) * updateSize;
 	DC_FlushRange(objBuffer, transferSize);
 
@@ -122,7 +125,7 @@ void ObjectManager::OAMUpdate::DMANow(unsigned int dmaChannel, bool isSub) {
 	}
 
 	DMA_CR(dmaChannel) = DMA_COPY_WORDS | (transferSize >> 2) | DMA_START_NOW |
-		DMA_SRC_INC | DMA_DST_INC | DMA_IRQ_REQ;
+		DMA_SRC_INC | DMA_DST_INC;
 }
 
 
