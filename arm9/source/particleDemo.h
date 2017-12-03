@@ -13,8 +13,9 @@ public:
 	virtual void Load();
 	virtual void Unload();
 protected:
-	virtual void PrepareFrame(VramBatcher &)=0;
+	virtual void PrepareFrame(VramBatcher &);
 
+	virtual void updateParticles()=0;
 	void buildObjectsFromParticles();
 
 	struct Particle {

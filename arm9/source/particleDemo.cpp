@@ -19,6 +19,11 @@ void BaseParticleDemo::Unload() {
 	mainObjManager.deactivate();
 }
 
+void BaseParticleDemo::PrepareFrame(VramBatcher &) {
+	updateParticles();
+	buildObjectsFromParticles();
+}
+
 void BaseParticleDemo::buildObjectsFromParticles() {
 
 	mainObjManager.objects.clear();
