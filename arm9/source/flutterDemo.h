@@ -10,7 +10,7 @@ public:
 	virtual void Load();
 	virtual void Unload();
 protected:
-	virtual void PrepareFrame(VramBatcher &);
+	virtual void updateParticles();
 	virtual void AcceptInput();
 private:
 	void setupParticles();
