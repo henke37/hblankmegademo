@@ -13,7 +13,7 @@ void ScanInDemo::Load() {
 	keysSetRepeat(5, 2);
 }
 void ScanInDemo::Unload() {
-
+	REG_BG0VOFS = 0;
 }
 
 void ScanInDemo::AcceptInput() {

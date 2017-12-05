@@ -39,7 +39,9 @@ void SinXScrollDemo::Load() {
 	setupDefaultBG();
 	keysSetRepeat(15, 5);
 }
-void SinXScrollDemo::Unload() {}
+void SinXScrollDemo::Unload() {
+	REG_BG0HOFS = 0;
+}
 void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 	offset += speed;
 
