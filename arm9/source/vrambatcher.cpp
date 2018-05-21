@@ -18,8 +18,15 @@ void VramBatcher::AddPoke(int line, std::unique_ptr<uint8_t[]> &&data, size_t da
 	AddPoke(line,Poke(std::move(data),dataSize,addr,mode));
 }
 void VramBatcher::AddPoke(int line, Poke&& p) {
-	PokeChainLink *l=new PokeChainLink(std::move(p),std::move(lineEntries[line]));
-	lineEntries[line]=std::unique_ptr<PokeChainLink>(l);
+	auto &lineEntry = lineEntries[line];
+	for (int pokeIndex = 0; pokeIndex<ARRAY_POKES_PER_LINE; ++pokeIndex) {
+		auto &&pokeEntry = lineEntry[pokeIndex];
+		if (pokeEntry) continue;
+		pokeEntry = std::move(p);
+		return;
+	}
+
+	fprintf(stderr, "Poke buffer for line %d!", line);
 }
 void VramBatcher::AddPoke(int line, uint8_t val, uint8_t mask, volatile uint8_t *addr) {
 	AddPoke(line, Poke(val, mask, addr));
@@ -33,6 +40,10 @@ void VramBatcher::AddPoke(int line, uint32_t val, uint32_t mask, volatile uint32
 
 void VramBatcher::Clear() {
 	for(int line=0;line<SCREEN_HEIGHT;++line) {
-		lineEntries[line].reset();
+		auto &lineEntry = lineEntries[line];
+		for (int pokeIndex = 0; pokeIndex<ARRAY_POKES_PER_LINE; ++pokeIndex) {
+			auto &pokeEntry = lineEntry[pokeIndex];
+			pokeEntry.Clear();
+		}
 	}
 }

@@ -7,6 +7,8 @@
 
 #include "poke.h"
 
+#define ARRAY_POKES_PER_LINE 4
+
 class VramBatcher {
 	public:
 		VramBatcher();
@@ -25,7 +27,8 @@ class VramBatcher {
 		void Clear();
 		void ApplyPokesForLine(int line);
 	private:
-		std::unique_ptr<PokeChainLink> lineEntries[SCREEN_HEIGHT];
+
+		Poke lineEntries[SCREEN_HEIGHT][ARRAY_POKES_PER_LINE];
 		void AddPoke(int line, Poke&& p);
 };
 
