@@ -44,6 +44,12 @@ class Poke {
 	Poke(uint8_t val, uint8_t mask, volatile uint8_t *addr);
 	Poke(uint16_t val, uint16_t mask, volatile uint16_t *addr);
 	Poke(uint32_t val, uint32_t mask, volatile uint32_t *addr);
+
+	void operator =(std::nullptr_t);
+	void operator =(Poke &&);
+	operator bool();
+
+	void Clear();
 	
 	~Poke();
 	

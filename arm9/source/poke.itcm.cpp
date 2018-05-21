@@ -17,6 +17,7 @@
 ITCM_CODE static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
 
 ITCM_CODE void Poke::Perform() {
+	if (mode == PM_NOOP) return;
 	registerOverride<uint8_t> oldVRamMode;
 
 	if(pointerInRange(addr, VRAM_F, VRAM_F_SIZE)) {
