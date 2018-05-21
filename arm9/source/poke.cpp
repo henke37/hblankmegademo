@@ -82,7 +82,7 @@ void Poke::operator=(std::nullptr_t) {
 	Clear();
 }
 
-Poke::operator bool() {
+Poke::operator bool() const {
 	return mode != PM_NOOP;
 }
 
