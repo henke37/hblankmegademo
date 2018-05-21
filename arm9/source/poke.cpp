@@ -78,20 +78,87 @@ Poke::Poke(Poke &&p2) : size(p2.size), mode(p2.mode), addr(p2.addr) {
 	p2.size=0;
 }
 
+void Poke::operator=(std::nullptr_t) {
+	Clear();
+}
 
-Poke::~Poke() {
-	switch(mode) {
+Poke::operator bool() {
+	return mode != PM_NOOP;
+}
+
+void Poke::operator=(Poke &&p2) {
+	Clear();
+
+	size = p2.size;
+	mode = p2.mode;
+	addr = p2.addr;
+
+	switch (p2.mode) {
+		case PM_NOOP:
+			break;
+		case PM_INT:
+			switch (p2.size) {
+				case sizeof(uint8_t) :
+					value8 = p2.value8;
+					break;
+				case sizeof(uint16_t) :
+					value16 = p2.value16;
+					break;
+				case sizeof(uint32_t) :
+					value32 = p2.value32;
+					break;
+				default:
+					sassert(0, "Invalid size for plain poke found");
+			}
+			break;
+
+		case PM_BITFIELD:
+			switch (p2.size) {
+				case sizeof(uint8_t) :
+					bitField8 = std::move(p2.bitField8);
+					break;
+				case sizeof(uint16_t) :
+					bitField16 = std::move(p2.bitField16);
+					break;
+				case sizeof(uint32_t) :
+					bitField32 = std::move(p2.bitField32);
+					break;
+				default:
+					sassert(0, "Invalid size found for bitfield poke");
+			}
+			break;
+
+		case PM_DMA_16:
+		case PM_DMA_32:
+		case PM_MEMCPY_8:
+		case PM_MEMCPY_16:
+		case PM_MEMCPY_32:
+			valuePtr = std::move(p2.valuePtr);
+			break;
+	}
+	p2.mode = PM_NOOP;
+	p2.size = 0;
+}
+
+void Poke::Clear() {
+	switch (mode) {
 		case PM_DMA_16:
 		case PM_DMA_32:
 		case PM_MEMCPY_8:
 		case PM_MEMCPY_16:
 		case PM_MEMCPY_32:
 			valuePtr.~unique_ptr();
-		break;
+			break;
 		case PM_BITFIELD://no destructor to call
 		default:
-		break;
+			break;
 	}
+	mode = PM_NOOP;
+}
+
+
+Poke::~Poke() {
+	Clear();
 }
 
 PokeChainLink::PokeChainLink() {}

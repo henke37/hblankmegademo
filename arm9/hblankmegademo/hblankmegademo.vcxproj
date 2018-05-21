@@ -83,13 +83,14 @@ make</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\devkitPro\libnds\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\devkitPro\devkitARM\arm-none-eabi\include;C:\devkitPro\devkitARM\include;C:\devkitPro\libnds\include;$(IncludePath)</IncludePath>
     <NMakePreprocessorDefinitions>ARM9</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>C:\devkitPro\libnds\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <NMakeBuildCommandLine>cd ..\..
 make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>cd ..\..
 make clean</NMakeCleanCommandLine>
+    <ExecutablePath>C:\devkitPro\msys2\usr\bin;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
