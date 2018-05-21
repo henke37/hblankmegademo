@@ -6,7 +6,9 @@
 #endif
 
 ITCM_CODE void VramBatcher::ApplyPokesForLine(int line) {
-	for(PokeChainLink *pPtr = lineEntries[line].get(); pPtr != nullptr; pPtr = pPtr->next.get()) {
-		pPtr->poke.Perform();
+	auto &lineEntry = lineEntries[line];
+	for (int pokeIndex = 0; pokeIndex<ARRAY_POKES_PER_LINE; ++pokeIndex) {
+		auto &pokeEntry = lineEntry[pokeIndex];
+		pokeEntry.Perform();
 	}
 }
