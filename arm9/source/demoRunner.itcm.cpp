@@ -8,6 +8,8 @@
 #define ITCM_CODE
 #endif
 
+VramBatcher batchers[NUM_BATCHERS];
+
 ITCM_CODE void DemoRunner::hBlankHandler() {
 	runner.runCurrentLineFromBatch();
 

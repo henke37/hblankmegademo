@@ -25,10 +25,10 @@ private:
 	std::shared_ptr<Demo> demoPtr;
 
 	int currentlyRunningBatcher;
-	VramBatcher batchers[NUM_BATCHERS];
 	
 	static void hBlankHandler();
 	void runCurrentLineFromBatch();
 };
 extern DemoRunner runner;
+extern VramBatcher batchers[NUM_BATCHERS];
 #endif
