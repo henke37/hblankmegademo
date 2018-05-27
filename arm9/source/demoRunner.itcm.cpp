@@ -10,6 +10,8 @@
 
 #include <cstdio>
 
+VramBatcher batchers[NUM_BATCHERS];
+
 ITCM_CODE void DemoRunner::hBlankHandler() {
 	runner.runCurrentLineFromBatch();
 

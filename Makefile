@@ -35,7 +35,7 @@ FileSystem:
 
 #---------------------------------------------------------------------------------
 $(TARGET).nds	:	arm7/$(TARGET).elf arm9/$(TARGET).elf FileSystem $(GAME_ICON)
-	ndstool	-c $(TARGET).nds -7 arm7/$(TARGET).elf -9 arm9/$(TARGET).elf -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" -d FileSystem/build
+	ndstool	-c $(TARGET).nds -7 arm7/$(TARGET).elf -9 arm9/$(TARGET).elf -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" -d FileSystem/build -g HBLK ?? "HBlank Demo"
 
 #---------------------------------------------------------------------------------
 arm7/$(TARGET).elf:
