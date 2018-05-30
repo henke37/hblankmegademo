@@ -7,6 +7,7 @@ PeepHoleWindowDemo::PeepHoleWindowDemo() : xPos(128), yPos(64-25), radius(50) {}
 PeepHoleWindowDemo::~PeepHoleWindowDemo() {}
 
 void PeepHoleWindowDemo::AcceptInput() {
+	WindowingDemo::AcceptInput();
 	auto keys = keysCurrent();
 	if(keys & KEY_X && this->radius > MIN_HOLE_SIZE) {
 		radius -= 0.3_fp12;
@@ -28,6 +29,7 @@ void PeepHoleWindowDemo::AcceptInput() {
 }
 
 void PeepHoleWindowDemo::PrepareFrame(VramBatcher &batcher) {
+	WindowingDemo::PrepareFrame(batcher);
 	fp12 height = radius * 2_fp12;
 
 	fp12 bottom;

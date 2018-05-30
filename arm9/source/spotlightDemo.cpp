@@ -21,6 +21,7 @@ float yPosForAngleAndSide(float angle, int side) {
 }
 
 void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
+	WindowingDemo::PrepareFrame(batcher);
 	float leftAngle  = angle - spread;
 	float rightAngle = angle + spread;
 	if (leftAngle  >  FULL_ROTATION/2) leftAngle  -= FULL_ROTATION;
@@ -136,6 +137,7 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 }
 
 void SpotLightDemo::AcceptInput() {
+	WindowingDemo::AcceptInput();
 	auto keys = keysCurrent();
 
 	if (keys & KEY_L) {
