@@ -1,19 +1,17 @@
 #ifndef PEEPHOLEWINDOWDEMO_H
 #define PEEPHOLEWINDOWDEMO_H
 
-#include "demo.h"
+#include "windowingDemo.h"
 
 #include "fixedMath.h"
 
 #define MIN_HOLE_SIZE 5
 #define MAX_HOLE_SIZE 200
 
-class PeepHoleWindowDemo : public Demo {
+class PeepHoleWindowDemo : public WindowingDemo {
 public:
 	PeepHoleWindowDemo();
 	virtual ~PeepHoleWindowDemo();
-	virtual void Load();
-	virtual void Unload();
 protected:
 	virtual void PrepareFrame(VramBatcher &);
 	void AcceptInput();

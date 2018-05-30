@@ -1,14 +1,12 @@
 #ifndef SPOTLIGHTDEMO_H
 #define SPOTLIGHTDEMO_H
 
-#include "demo.h"
+#include "windowingDemo.h"
 
-class SpotLightDemo : public Demo {
+class SpotLightDemo : public WindowingDemo {
 public:
 	SpotLightDemo();
 	virtual ~SpotLightDemo();
-	virtual void Load();
-	virtual void Unload();
 protected:
 	virtual void PrepareFrame(VramBatcher &);
 	virtual void AcceptInput();
