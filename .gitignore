@@ -47,3 +47,5 @@ arm9/build/*
 
 FileSystem/build
 *.user
+arm9/hblankmegademo/x64/Debug/*
+arm9/hblankmegademo/x64/Release/*

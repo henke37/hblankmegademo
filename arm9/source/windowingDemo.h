@@ -5,6 +5,7 @@
 
 class WindowingDemo : public HBlankDemo {
 public:
+	WindowingDemo();
 	virtual ~WindowingDemo();
 
 	virtual void PrepareFrame(VramBatcher &);
@@ -14,7 +15,7 @@ public:
 	virtual void Unload();
 
 protected:
-
+	int darkness;
 };
 
 #endif
