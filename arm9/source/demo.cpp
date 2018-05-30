@@ -64,3 +64,5 @@ size_t fileSize(FILE *fp) {
 
 	return size;
 }
+
+HBlankDemo::~HBlankDemo() {}

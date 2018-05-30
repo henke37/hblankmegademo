@@ -16,17 +16,6 @@
 SpotLightDemo::SpotLightDemo() : lightX(128), lightY(96), angle(M_PI/2), spread(M_PI/8) {}
 SpotLightDemo::~SpotLightDemo() {}
 
-void SpotLightDemo::Load() {
-	setupDefaultBG();
-	REG_DISPCNT |= DISPLAY_WIN0_ON;
-
-	WIN_IN = BIT(0);
-	WIN_OUT = 0;
-}
-void SpotLightDemo::Unload() {
-	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
-}
-
 float yPosForAngleAndSide(float angle, int side) {
 	return side / std::tan(angle);
 }

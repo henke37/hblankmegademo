@@ -6,17 +6,6 @@
 PeepHoleWindowDemo::PeepHoleWindowDemo() : xPos(128), yPos(64-25), radius(50) {}
 PeepHoleWindowDemo::~PeepHoleWindowDemo() {}
 
-void PeepHoleWindowDemo::Load() {
-	setupDefaultBG();
-	WIN_IN = BIT(0);
-	WIN_OUT = 0;
-
-	REG_DISPCNT |= DISPLAY_WIN0_ON | DISPLAY_BG0_ACTIVE;
-}
-void PeepHoleWindowDemo::Unload() {
-	REG_DISPCNT &= ~DISPLAY_WIN0_ON;
-}
-
 void PeepHoleWindowDemo::AcceptInput() {
 	auto keys = keysCurrent();
 	if(keys & KEY_X && this->radius > MIN_HOLE_SIZE) {

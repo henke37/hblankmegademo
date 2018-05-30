@@ -112,6 +112,7 @@ make clean</NMakeCleanCommandLine>
     <ClInclude Include="..\source\spotlightDemo.h" />
     <ClInclude Include="..\source\superParallaxDemo.h" />
     <ClInclude Include="..\source\vrambatcher.h" />
+    <ClInclude Include="..\source\windowingDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\demo.cpp" />
@@ -135,6 +136,7 @@ make clean</NMakeCleanCommandLine>
     <ClCompile Include="..\source\superParallaxDemo.cpp" />
     <ClCompile Include="..\source\vrambatcher.cpp" />
     <ClCompile Include="..\source\vrambatcher.itcm.cpp" />
+    <ClCompile Include="..\source\windowingDemo.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
