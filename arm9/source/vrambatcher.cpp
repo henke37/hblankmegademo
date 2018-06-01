@@ -14,6 +14,15 @@ void VramBatcher::AddPoke(int line, uint16_t val, volatile uint16_t *addr){
 void VramBatcher::AddPoke(int line, uint32_t val, volatile uint32_t *addr){
 	AddPoke(line,Poke(val,addr));
 }
+void VramBatcher::AddPoke(int line, uint8_t val, volatile uint8_t &ref) {
+	AddPoke(line, Poke(val, &ref));
+}
+void VramBatcher::AddPoke(int line, uint16_t val, volatile uint16_t &ref) {
+	AddPoke(line, Poke(val, &ref));
+}
+void VramBatcher::AddPoke(int line, uint32_t val, volatile uint32_t &ref) {
+	AddPoke(line, Poke(val, &ref));
+}
 void VramBatcher::AddPoke(int line, std::unique_ptr<uint8_t[]> &&data, size_t dataSize, hwPtr addr, PokeMode mode){
 	AddPoke(line,Poke(std::move(data),dataSize,addr,mode));
 }
