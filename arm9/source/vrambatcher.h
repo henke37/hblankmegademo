@@ -18,6 +18,10 @@ class VramBatcher {
 		void AddPoke(int line, uint16_t val, volatile uint16_t *addr);
 		void AddPoke(int line, uint32_t val, volatile uint32_t *addr);
 
+		void AddPoke(int line, uint8_t val, volatile uint8_t &ref);
+		void AddPoke(int line, uint16_t val, volatile uint16_t &ref);
+		void AddPoke(int line, uint32_t val, volatile uint32_t &ref);
+
 		void AddPoke(int line, uint8_t val, uint8_t mask, volatile uint8_t *addr);
 		void AddPoke(int line, uint16_t val, uint16_t mask, volatile uint16_t *addr);
 		void AddPoke(int line, uint32_t val, uint32_t mask, volatile uint32_t *addr);

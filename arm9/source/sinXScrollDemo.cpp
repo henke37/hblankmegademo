@@ -48,7 +48,7 @@ void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 	FixedAngle lineOffset = offset;
 	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
 		fp12 xscroll = sin(lineOffset)*amplitude;
-		batcher.AddPoke(scanline, (int16_t)(int)xscroll, &REG_BG0HOFS);
+		batcher.AddPoke(scanline, (int16_t)(int)xscroll, REG_BG0HOFS);
 
 		lineOffset += lineSpeed;
 	}
