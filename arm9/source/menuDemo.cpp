@@ -39,17 +39,18 @@ std::shared_ptr<Demo> MenuDemo::makeDemo() {
 	case 0:
 		return std::make_shared<SinXScrollDemo>();
 	case 1:
-		return std::make_shared<SpotLightDemo>();
-	case 2:
-		return std::make_shared<PeepHoleWindowDemo>();
-	case 3:
-		return std::make_shared<ScanInDemo>();
-	case 4:
-		return std::make_shared<RasterBarDemo>();
-	case 5:
-		return std::make_shared<FlutterDemo>();
-	case 6:
 		return std::make_shared<SinYScrollDemo>();
+	case 2:
+		return std::make_shared<ScanInDemo>();
+	case 3:
+		return std::make_shared<PeepHoleWindowDemo>();
+	case 4:
+		return std::make_shared<SpotLightDemo>();
+	case 5:
+		return std::make_shared<RasterBarDemo>();
+	case 6:
+		return std::make_shared<FlutterDemo>();
+		
 	}
 	sassert(0,"Bad menu selection instatiated");
 
