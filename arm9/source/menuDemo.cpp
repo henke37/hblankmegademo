@@ -1,5 +1,5 @@
 #include "menuDemo.h"
-#include "sinXScrollDemo.h"
+#include "sinScrollDemo.h"
 #include "peepHoleWindowDemo.h"
 #include "spotlightDemo.h"
 #include "demoRunner.h"
@@ -48,6 +48,8 @@ std::shared_ptr<Demo> MenuDemo::makeDemo() {
 		return std::make_shared<RasterBarDemo>();
 	case 5:
 		return std::make_shared<FlutterDemo>();
+	case 6:
+		return std::make_shared<SinYScrollDemo>();
 	}
 	sassert(0,"Bad menu selection instatiated");
 

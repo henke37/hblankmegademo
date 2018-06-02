@@ -1,4 +1,4 @@
-#include "sinXScrollDemo.h"
+#include "sinScrollDemo.h"
 #include "vrambatcher.h"
 #include <cmath>
 #include <nds/arm9/input.h>
@@ -11,10 +11,10 @@
 #define MAX_LINESPEED 50_fixedAngle
 #define MIN_LINESPEED 0_fixedAngle
 
-SinXScrollDemo::SinXScrollDemo() : offset(0), speed(200), amplitude(15), lineSpeed(60) {}
-SinXScrollDemo::~SinXScrollDemo() {}
+SinScrollDemo::SinScrollDemo() : offset(0), speed(200), amplitude(15), lineSpeed(60) {}
+SinScrollDemo::~SinScrollDemo() {}
 
-void SinXScrollDemo::AcceptInput() {
+void SinScrollDemo::AcceptInput() {
 	auto keys = keysDownRepeat();
 	if(keys & KEY_X && amplitude > MIN_AMPLITUDE) {
 		amplitude -= 1_fp12;
@@ -35,10 +35,11 @@ void SinXScrollDemo::AcceptInput() {
 	}
 }
 
-void SinXScrollDemo::Load() {
+void SinScrollDemo::Load() {
 	setupDefaultBG();
 	keysSetRepeat(15, 5);
 }
+
 void SinXScrollDemo::Unload() {
 	REG_BG0HOFS = 0;
 }
@@ -49,6 +50,21 @@ void SinXScrollDemo::PrepareFrame(VramBatcher &batcher) {
 	for (int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
 		fp12 xscroll = sin(lineOffset)*amplitude;
 		batcher.AddPoke(scanline, (int16_t)(int)xscroll, REG_BG0HOFS);
+
+		lineOffset += lineSpeed;
+	}
+}
+
+void SinYScrollDemo::Unload() {
+	REG_BG0VOFS = 0;
+}
+void SinYScrollDemo::PrepareFrame(VramBatcher &batcher) {
+	offset += speed;
+
+	FixedAngle lineOffset = offset;
+	for(int scanline = 0; scanline < SCREEN_HEIGHT; ++scanline) {
+		fp12 xscroll = sin(lineOffset)*amplitude;
+		batcher.AddPoke(scanline, (int16_t) (int) xscroll, REG_BG0VOFS);
 
 		lineOffset += lineSpeed;
 	}
