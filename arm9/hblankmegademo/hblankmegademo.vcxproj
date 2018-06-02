@@ -108,7 +108,7 @@ make clean</NMakeCleanCommandLine>
     <ClInclude Include="..\source\rasterbarDemo.h" />
     <ClInclude Include="..\source\registerOverride.h" />
     <ClInclude Include="..\source\scanInDemo.h" />
-    <ClInclude Include="..\source\sinXScrollDemo.h" />
+    <ClInclude Include="..\source\sinScrollDemo.h" />
     <ClInclude Include="..\source\spotlightDemo.h" />
     <ClInclude Include="..\source\superParallaxDemo.h" />
     <ClInclude Include="..\source\vrambatcher.h" />
@@ -131,7 +131,7 @@ make clean</NMakeCleanCommandLine>
     <ClCompile Include="..\source\poke.itcm.cpp" />
     <ClCompile Include="..\source\rasterbarDemo.cpp" />
     <ClCompile Include="..\source\scanInDemo.cpp" />
-    <ClCompile Include="..\source\sinXScrollDemo.cpp" />
+    <ClCompile Include="..\source\sinScrollDemo.cpp" />
     <ClCompile Include="..\source\spotlightDemo.cpp" />
     <ClCompile Include="..\source\superParallaxDemo.cpp" />
     <ClCompile Include="..\source\vrambatcher.cpp" />

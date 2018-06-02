@@ -33,9 +33,6 @@
     <ClInclude Include="..\source\poke.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\sinXScrollDemo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\spotlightDemo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,6 +66,9 @@
     <ClInclude Include="..\source\windowingDemo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\sinScrollDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\demo.cpp">
@@ -87,9 +87,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\poke.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\sinXScrollDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\spotlightDemo.cpp">
@@ -135,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\windowingDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\sinScrollDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

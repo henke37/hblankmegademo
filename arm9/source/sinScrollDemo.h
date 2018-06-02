@@ -4,17 +4,15 @@
 #include "demo.h"
 #include "fixedMath.h"
 
-class SinXScrollDemo : public Demo {
+class SinScrollDemo : public Demo {
 public:
-	SinXScrollDemo();
-	virtual ~SinXScrollDemo();
+	SinScrollDemo();
+	virtual ~SinScrollDemo();
 	virtual void Load();
-	virtual void Unload();
 protected:
 	void AcceptInput();
-	virtual void PrepareFrame(VramBatcher &);
 
-private:
+protected:
 	/** Current scroll base*/
 	FixedAngle offset;
 	/** speed of scroll base*/
@@ -24,5 +22,18 @@ private:
 	/** modulation offset per line*/
 	FixedAngle lineSpeed;
 };
+
+class SinXScrollDemo : public SinScrollDemo {
+public:
+	virtual void PrepareFrame(VramBatcher &);
+	virtual void Unload();
+};
+
+class SinYScrollDemo : public SinScrollDemo {
+public:
+	virtual void PrepareFrame(VramBatcher &);
+	virtual void Unload();
+};
+
 
 #endif
