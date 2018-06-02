@@ -7,6 +7,7 @@
 #include "rasterbarDemo.h"
 #include "flutterDemo.h"
 
+#include <nds/arm9/console.h>
 #include <cassert>
 #include <nds/arm9/input.h>
 
@@ -14,12 +15,11 @@ MenuDemo::MenuDemo() : selection(0) {}
 MenuDemo::~MenuDemo() {}
 void MenuDemo::Load() {
 	setupDefaultBG();
+	consoleClear();
 }
 void MenuDemo::Unload() {}
-void MenuDemo::PrepareFrame(VramBatcher &) {
+void MenuDemo::PrepareFrame(VramBatcher &) {}
 
-
-}
 void MenuDemo::AcceptInput() {
 	auto keys = keysDown();
 
