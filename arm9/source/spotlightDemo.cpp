@@ -34,8 +34,8 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 	float tanRight = std::tan(-rightAngle);
 	float cosLeft  = std::cos(leftAngle);
 	float cosRight = std::cos(rightAngle);
-	float normLeft  = 1 / tanLeft;
-	float normRight = 1 / tanRight;
+	float normLeft  = -1 / tanLeft;
+	float normRight = -1 / tanRight;
 
 	int top;
 	int bottom;
@@ -78,14 +78,18 @@ void SpotLightDemo::PrepareFrame(VramBatcher &batcher) {
 	WIN0_Y1=bottom-1;
 
 
+	bool pointsSideways = pointsLeft || pointsRight;
+
+
 	//printf("%f %f\n", cosLeft, cosRight);
 
 	for (int scanline = top; scanline < bottom; ++scanline) {
 
 		float yLen = lightY - scanline;
 
-		float xLenLeft  = yLen*tanLeft;
-		float xLenRight = yLen*tanRight;
+
+		float xLenLeft  = pointsSideways ? (yLen*normLeft) : (yLen*tanLeft);
+		float xLenRight = pointsSideways ? (yLen*normRight) : (yLen*tanRight);
 
 		float leftXF  = lightX+xLenLeft;
 		float rightXF = lightX+xLenRight;
