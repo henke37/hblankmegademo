@@ -14,7 +14,7 @@
 #define ITCM_CODE
 #endif
 
-ITCM_CODE static bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
+ITCM_CODE static constexpr bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
 
 ITCM_CODE void Poke::Perform() {
 	if (mode == PM_NOOP) return;
@@ -85,9 +85,9 @@ ITCM_CODE void Poke::Perform() {
 }
 
 
-static bool pointerInRange(uintptr_t needle, uintptr_t base, size_t size) {
+static constexpr bool pointerInRange(uintptr_t needle, uintptr_t base, size_t size) {
 	return needle >= base && needle < (base + size);
 }
-static bool pointerInRange(volatile void *needle, volatile void *base, size_t size) {
+static constexpr bool pointerInRange(volatile void *needle, volatile void *base, size_t size) {
 	return pointerInRange((uintptr_t)needle, (uintptr_t)base, size);
 }
