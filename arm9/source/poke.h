@@ -47,6 +47,7 @@ class Poke {
 
 	void operator =(std::nullptr_t);
 	void operator =(Poke &&);
+	void operator ()();
 	operator bool() const;
 
 	void Clear();

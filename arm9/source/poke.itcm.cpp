@@ -16,6 +16,10 @@
 
 ITCM_CODE static constexpr bool pointerInRange(volatile void *needle, volatile void *base, size_t size);
 
+ITCM_CODE void Poke::operator()() {
+	Perform();
+}
+
 ITCM_CODE void Poke::Perform() {
 	if (mode == PM_NOOP) return;
 	registerOverride<uint8_t> oldVRamMode;
