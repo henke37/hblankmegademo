@@ -53,9 +53,13 @@ class Poke {
 	void Clear();
 	
 	~Poke();
+
+	friend void swap(Poke &,Poke &);
 	
 	void Perform();
 };
+
+void swap(Poke &, Poke &);
 
 struct PokeChainLink;
 struct PokeChainLink {

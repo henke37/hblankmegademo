@@ -161,6 +161,12 @@ Poke::~Poke() {
 	Clear();
 }
 
+void swap(Poke &p1, Poke &p2) {
+	Poke swapTemp = std::move(p1);
+	p1 = std::move(p2);
+	p2 = std::move(swapTemp);	
+}
+
 PokeChainLink::PokeChainLink() {}
 PokeChainLink::PokeChainLink(PokeChainLink &&pch2) : next(std::move(pch2.next)), poke(std::move(pch2.poke)) {}
 PokeChainLink::PokeChainLink(Poke &&p) : next(nullptr), poke(std::move(p)) {}
