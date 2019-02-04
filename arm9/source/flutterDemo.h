@@ -1,7 +1,7 @@
 #ifndef FLUTTER_DEMO_H
 #define FLUTTER_DEMO_H
 
-#include "particledemo.h"
+#include "particleDemo.h"
 
 class FlutterDemo : public BaseParticleDemo {
 public:
