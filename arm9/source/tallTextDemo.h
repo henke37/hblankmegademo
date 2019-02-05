@@ -23,6 +23,9 @@ private:
 	int textRowCount;
 	const int textRowWidth = 24;
 	char *textRows;
+
+	int baseScroll = 0;
+	const int scrollMax = 42;
 };
 
 
