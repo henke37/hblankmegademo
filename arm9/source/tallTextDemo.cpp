@@ -36,8 +36,8 @@ void TallTextDemo::PrepareFrame(VramBatcher & batcher) {
 			tilemap[(baseRow  )*textRowWidth +col].index = charToTile(c,false);
 			tilemap[(baseRow+1)*textRowWidth +col].index = charToTile(c,true);
 
-			line = baseRow * rowHeight + rowHackPos;
-			totalAdvancement += (rowHeight - rowHackPos);//skip ahead, past the empty lines in the lower tile
+			line = baseRow * rowHeight;
+			totalAdvancement += (rowHeight - rowHeight);//skip ahead, past the empty lines in the upper tile
 			batcher.AddPoke(line, totalAdvancement, &REG_BG0VOFS);
 		}
 	}

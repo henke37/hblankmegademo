@@ -19,7 +19,6 @@ private:
 
 	const int rowCount = 24;
 	const int rowHeight = 12;
-	const int rowHackPos = 8;
 
 	int textRowCount;
 	const int textRowWidth = 24;
