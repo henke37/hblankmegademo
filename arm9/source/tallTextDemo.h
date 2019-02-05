@@ -21,7 +21,7 @@ private:
 	const int rowHeight = 12;
 
 	int textRowCount;
-	const int textRowWidth = 24;
+	const int textRowWidth = 256/8;
 	char *textRows;
 
 	int baseScroll = 0;
