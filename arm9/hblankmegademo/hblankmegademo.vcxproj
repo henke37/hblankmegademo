@@ -111,6 +111,7 @@ make clean</NMakeCleanCommandLine>
     <ClInclude Include="..\source\sinScrollDemo.h" />
     <ClInclude Include="..\source\spotlightDemo.h" />
     <ClInclude Include="..\source\superParallaxDemo.h" />
+    <ClInclude Include="..\source\tallTextDemo.h" />
     <ClInclude Include="..\source\vrambatcher.h" />
     <ClInclude Include="..\source\windowingDemo.h" />
   </ItemGroup>
@@ -134,6 +135,7 @@ make clean</NMakeCleanCommandLine>
     <ClCompile Include="..\source\sinScrollDemo.cpp" />
     <ClCompile Include="..\source\spotlightDemo.cpp" />
     <ClCompile Include="..\source\superParallaxDemo.cpp" />
+    <ClCompile Include="..\source\tallTextDemo.cpp" />
     <ClCompile Include="..\source\vrambatcher.cpp" />
     <ClCompile Include="..\source\vrambatcher.itcm.cpp" />
     <ClCompile Include="..\source\windowingDemo.cpp" />
