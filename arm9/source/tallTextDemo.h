@@ -24,7 +24,7 @@ private:
 	const int textRowWidth = 256/8;
 	char *textRows;
 
-	int baseScroll = 0;
+	unsigned int baseScroll = 0;
 	const int scrollMax = 42;
 };
 
