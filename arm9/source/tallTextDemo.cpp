@@ -23,9 +23,6 @@ void TallTextDemo::AcceptInput() {
 }
 
 void TallTextDemo::PrepareFrame(VramBatcher & batcher) {
-
-	buildTileMap();
-
 	//setup scroll advancements
 	unsigned int totalAdvancement = 0;
 	int line = 0;
