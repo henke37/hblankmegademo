@@ -20,11 +20,18 @@ void TallTextDemo::Unload() {
 }
 
 void TallTextDemo::AcceptInput() {
+	auto keys = keysCurrent();
+
+	if(keys & KEY_UP) {
+		if(baseScroll > 0) baseScroll--;
+	} else if(keys & KEY_DOWN) {
+		if(baseScroll < scrollMax) baseScroll++;
+	}
 }
 
 void TallTextDemo::PrepareFrame(VramBatcher & batcher) {
 	//setup scroll advancements
-	unsigned int totalAdvancement = 0;
+	unsigned int totalAdvancement = baseScroll;
 	int line = 0;
 	TileMapEntry16 *tilemap= (TileMapEntry16 *)bgGetMapPtr(0);
 
