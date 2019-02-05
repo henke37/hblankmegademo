@@ -29,14 +29,6 @@ void TallTextDemo::PrepareFrame(VramBatcher & batcher) {
 	//setup scroll advancements
 	unsigned int totalAdvancement = 0;
 	int line = 0;
-	for(int row = 0; row < rowCount; row += 2) {
-		line = row * rowHeight + rowHackPos;
-		totalAdvancement += (rowHeight-rowHackPos);//skip ahead, past the empty lines in the lower tile
-		batcher.AddPoke(line, totalAdvancement, &REG_BG0VOFS);
-	}
-}
-
-void TallTextDemo::buildTileMap() {
 	TileMapEntry16 *tilemap= (TileMapEntry16 *)bgGetMapPtr(0);
 
 	for(int textRowIndex = 0; textRowIndex < textRowCount; ++textRowIndex) {
@@ -46,6 +38,10 @@ void TallTextDemo::buildTileMap() {
 			char c = *textRowPtr;
 			tilemap[(baseRow  )*textRowWidth +col].index = charToTile(c,false);
 			tilemap[(baseRow+1)*textRowWidth +col].index = charToTile(c,true);
+
+			line = baseRow * rowHeight + rowHackPos;
+			totalAdvancement += (rowHeight - rowHackPos);//skip ahead, past the empty lines in the lower tile
+			batcher.AddPoke(line, totalAdvancement, &REG_BG0VOFS);
 		}
 	}
 }
