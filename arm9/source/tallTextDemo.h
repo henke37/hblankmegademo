@@ -15,7 +15,6 @@ protected:
 	void AcceptInput();
 	void PrepareFrame(VramBatcher &batcher);
 private:
-	void buildTileMap();
 	int charToTile(char,bool);
 
 	const int rowCount = 24;
