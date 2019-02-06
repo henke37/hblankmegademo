@@ -2,6 +2,8 @@
 #define TALL_TEXT_DEMO_H
 
 #include "demo.h"
+#include <vector>
+#include <string>
 
 class TallTextDemo : public HBlankDemo {
 public:
@@ -24,7 +26,7 @@ private:
 
 	int textRowCount;
 	const int textRowWidth = 256/8;
-	char *textRows;
+	std::vector<std::string>textRows;
 
 	unsigned int baseScroll = 0;
 	const int scrollMax = 42;
