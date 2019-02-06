@@ -16,6 +16,8 @@ protected:
 	void PrepareFrame(VramBatcher &batcher);
 private:
 	int charToTile(char,bool);
+	void LoadFont();
+	void LoadText();
 
 	const int rowCount = 24;
 	const int rowHeight = 12;
