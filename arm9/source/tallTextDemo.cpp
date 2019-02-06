@@ -42,10 +42,10 @@ void TallTextDemo::PrepareFrame(VramBatcher & batcher) {
 	TileMapEntry16 *tilemap= (TileMapEntry16 *)bgGetMapPtr(0);
 
 	for(int textRowIndex = 0; textRowIndex < textRowCount; ++textRowIndex) {
-		char *textRowPtr = textRows + textRowIndex * textRowWidth;
-		for(int col = 0; col < textRowWidth && *textRowPtr; ++col, ++textRowPtr) {
+		std::string &textRow = textRows[textRowIndex];
+		for(int col = 0; col < textRowWidth && textRow[col]; ++col) {
 			int baseRow = textRowIndex * 2;
-			char c = *textRowPtr;
+			char c = textRow[col];
 			tilemap[(baseRow  )*textRowWidth +col].index = charToTile(c,false);
 			tilemap[(baseRow+1)*textRowWidth +col].index = charToTile(c,true);
 
@@ -62,4 +62,6 @@ int TallTextDemo::charToTile(char, bool) {
 
 void TallTextDemo::LoadFont() {}
 
-void TallTextDemo::LoadText() {}
+void TallTextDemo::LoadText() {
+
+}
