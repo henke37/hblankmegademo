@@ -1,0 +1,6 @@
+Tall text is a nice stunt.
+But it's really just a normal tilemapped
+text display. Little special here.
+Just skipping ahead in the tilemap to
+avoid the blank lines at the top of 
+the tiles.
