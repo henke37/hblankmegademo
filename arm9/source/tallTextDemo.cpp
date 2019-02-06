@@ -13,6 +13,12 @@ TallTextDemo::~TallTextDemo() {
 }
 
 void TallTextDemo::Load() {
+	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
+	vramSetBankB(VRAM_B_MAIN_BG_0x06020000);
+	bgInit(0, BgType_Text4bpp, BgSize_T_256x256, 8, 0);
+
+	LoadFont();
+	LoadText();
 }
 
 void TallTextDemo::Unload() {
@@ -53,3 +59,7 @@ void TallTextDemo::PrepareFrame(VramBatcher & batcher) {
 int TallTextDemo::charToTile(char, bool) {
 	return 0;
 }
+
+void TallTextDemo::LoadFont() {}
+
+void TallTextDemo::LoadText() {}
