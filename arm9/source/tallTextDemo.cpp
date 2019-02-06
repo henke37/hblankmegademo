@@ -6,6 +6,8 @@
 #include <nds/arm9/video.h>
 #include <nds/arm9/background.h>
 
+#include <fstream>
+
 TallTextDemo::TallTextDemo() {
 }
 
@@ -63,5 +65,10 @@ int TallTextDemo::charToTile(char, bool) {
 void TallTextDemo::LoadFont() {}
 
 void TallTextDemo::LoadText() {
-
+	std::ifstream textFile("tallText.txt");
+	while(textFile) {
+		std::string line;
+		std::getline(textFile, line);
+		textRows.push_back(std::move(line));
+	}
 }
