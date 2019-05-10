@@ -15,6 +15,8 @@ TallTextDemo::~TallTextDemo() {
 }
 
 void TallTextDemo::Load() {
+	REG_DISPCNT = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
 	vramSetBankB(VRAM_B_MAIN_BG_0x06020000);
 	bgInit(0, BgType_Text4bpp, BgSize_T_256x256, 8, 0);
