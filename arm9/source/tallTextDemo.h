@@ -29,7 +29,7 @@ private:
 	std::vector<std::string>textRows;
 
 	unsigned int baseScroll = 0;
-	const int scrollMax = 42;
+	const unsigned int scrollMax = 42;
 };
 
 
