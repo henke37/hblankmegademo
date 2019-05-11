@@ -106,7 +106,8 @@ void ObjectManager::buildUpdateForScanlines(unsigned int start, unsigned int chu
 		objBuff[slotIndex].isHidden = 1;
 		objBuff[slotIndex].isRotateScale = 0;
 	}
-	update.updateSize = slotIndex - 1;
+
+	update.updateSize = slotIndex;
 
 }
 

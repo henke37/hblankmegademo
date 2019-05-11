@@ -3,6 +3,9 @@
 #include <nds/arm9/video.h>
 #include <nds/system.h>
 
+#include <cstdio>
+#include <cstdlib>
+
 #ifdef __INTELLISENSE__
 #undef ITCM_CODE
 #define ITCM_CODE

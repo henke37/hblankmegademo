@@ -1,5 +1,8 @@
 #include <algorithm>
 #include <cstring>
+#include <cstdio>
+#include <cstdlib>
+
 #include "vrambatcher.h"
 
 VramBatcher::VramBatcher() {}

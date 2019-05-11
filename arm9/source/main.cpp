@@ -2,6 +2,9 @@
 #include <filesystem.h>
 #include <nds/arm9/console.h>
 
+#include <cstdio>
+#include <cstdlib>
+
 #include "demo.h"
 #include "demoRunner.h"
 #include "menuDemo.h"

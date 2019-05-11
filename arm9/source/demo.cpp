@@ -1,6 +1,9 @@
 #include "demo.h"
 #include "demoRunner.h"
 
+#include <cstdio>
+#include <cstdlib>
+
 #include <nds/arm9/background.h>
 #include <nds/arm9/decompress.h>
 
