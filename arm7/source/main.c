@@ -53,8 +53,6 @@ int main() {
 	readUserSettings();
 
 	irqInit();
-	// Start the RTC tracking IRQ
-	initClockIRQ();
 	fifoInit();
 
 	SetYtrigger(80);
