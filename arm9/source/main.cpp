@@ -19,12 +19,15 @@ void onVBlank();
 volatile unsigned long int currentFrame = 0;
 
 int main(void) {
+	defaultExceptionHandler();
+	
 
 	char **basePath=nullptr;
 
-	nitroFSInit(basePath);
+	nitroFSInit(nullptr);
 
 
+	assert(0);
 	consoleDemoInit();
 
 
